@@ -1,0 +1,48 @@
+<tr:document onload="initDefaultCommand();">
+    <f:facet name="metaContainer">
+        <script src="jsLibs/smartDefaultCommand.js" type="text/javascript"></script>
+    </f:facet>
+
+    <tr:outputText value="subforms:"/>
+
+    <tr:form>
+        <tr:inputText label="input - form 1"/>
+
+        <tr:subform>
+            <tr:panelFormLayout id="first_subform_defaultCommandGroup">
+                <tr:inputText label="input - subform 1"/>
+                <tr:commandButton id="subform1submit_defaultCommand" text="submit subform 1" actionListener="#{pageBean.submitSubform1}"/>
+            </tr:panelFormLayout>
+        </tr:subform>
+        <tr:subform>
+            <div id="second_subform_defaultCommandGroup">
+                <tr:panelFormLayout>
+                    <tr:inputText label="input - subform 2"/>
+                    <tr:commandButton id="subform2submit_defaultCommand" text="submit subform 2" actionListener="#{pageBean.submitSubform2}"/>
+                </tr:panelFormLayout>
+            </div>
+        </tr:subform>
+
+        <tr:commandButton id="submit1_defaultCommand" text="submit form 1" actionListener="#{pageBean.submitForm1}"/>
+    </tr:form>
+
+    <tr:outputText value="groups:"/>
+
+    <tr:form>
+        <tr:inputText label="input - form 2"/>
+
+        <tr:panelFormLayout id="first_plain_defaultCommandGroup">
+            <tr:inputText label="input - group 1"/>
+            <tr:commandButton id="group1submit_defaultCommand" text="submit group 1" actionListener="#{pageBean.submitGroup1}"/>
+        </tr:panelFormLayout>
+
+        <div id="second_plain_defaultCommandGroup">
+            <tr:panelFormLayout>
+                <tr:inputText label="input - group 2"/>
+                <tr:commandButton id="group2submit_defaultCommand" text="submit group 2" actionListener="#{pageBean.submitGroup2}"/>
+            </tr:panelFormLayout>
+        </div>
+
+        <tr:commandButton id="submit2_defaultCommand" text="submit form 2" actionListener="#{pageBean.submitForm2}"/>
+    </tr:form>
+</tr:document>
