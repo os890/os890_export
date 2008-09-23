@@ -18,15 +18,21 @@
  */
 package at.gp.web.jsf.extval.validation.secure;
 
+import org.apache.myfaces.extensions.validator.MetaDataKeys;
 import org.apache.myfaces.extensions.validator.core.ExtValRendererWrapper;
+import org.apache.myfaces.extensions.validator.core.MetaDataExtractor;
+import org.apache.myfaces.extensions.validator.core.annotation.AnnotationEntry;
 import org.apache.myfaces.extensions.validator.core.annotation.extractor.AnnotationExtractor;
-import org.apache.myfaces.extensions.validator.util.ValidationUtils;
+import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
+import org.apache.myfaces.extensions.validator.util.FactoryUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * check the required submit of user input.
@@ -48,7 +54,7 @@ public class SecureExtValRendererWrapper extends ExtValRendererWrapper
 
         if (uiComponent instanceof EditableValueHolder)
         {
-            if (filterRequiredComponent(facesContext, uiComponent) && ((EditableValueHolder) uiComponent).getSubmittedValue() == null)
+            if (checkComponent(facesContext, uiComponent))
             {
                 facesContext.addMessage(uiComponent.getClientId(facesContext), new FacesMessage(FacesMessage.SEVERITY_ERROR, "input required", "security alert - input required"));
                 facesContext.renderResponse();
@@ -56,8 +62,47 @@ public class SecureExtValRendererWrapper extends ExtValRendererWrapper
         }
     }
 
-    private boolean filterRequiredComponent(FacesContext facesContext, UIComponent uiComponent)
+    private boolean checkComponent(FacesContext facesContext, UIComponent uiComponent)
     {
-        return ValidationUtils.isValueOfComponentRequired(facesContext, uiComponent) || ( (EditableValueHolder) uiComponent).isRequired(); //and e.g. a custom convention like uiComponent.getId().startsWith("sr")
+        return uiComponent instanceof EditableValueHolder &&
+            ((EditableValueHolder) uiComponent).getSubmittedValue() == null &&
+            (isValueOfComponentRequired(facesContext, uiComponent) || ((EditableValueHolder) uiComponent).isRequired());
+    }
+
+    //if you are using annotations
+    private boolean isValueOfComponentRequired(FacesContext facesContext, UIComponent uiComponent)
+    {
+        ValidationStrategy validationStrategy;
+
+        AnnotationExtractor annotationExtractor = FactoryUtils.getAnnotationExtractorFactory().create();
+
+        Map<String, Object> metaData;
+        for (AnnotationEntry entry : annotationExtractor.extractAnnotations(facesContext, uiComponent))
+        {
+            validationStrategy = FactoryUtils.getValidationStrategyFactory().create(entry.getAnnotation());
+
+            if (validationStrategy != null)
+            {
+                if (validationStrategy instanceof MetaDataExtractor)
+                {
+                    metaData = ((MetaDataExtractor) validationStrategy).extractMetaData(entry.getAnnotation());
+                }
+                else
+                {
+                    metaData = null;
+                }
+
+                if (metaData == null)
+                {
+                    metaData = new HashMap<String, Object>();
+                }
+
+                if (metaData.containsKey(MetaDataKeys.REQUIRED))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
