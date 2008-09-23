@@ -74,7 +74,7 @@ public class SecureExtValRendererWrapper extends ExtValRendererWrapper
     {
         ValidationStrategy validationStrategy;
 
-        AnnotationExtractor annotationExtractor = FactoryUtils.getAnnotationExtractorFactory().create();
+        AnnotationExtractor annotationExtractor = FactoryUtils.getComponentAnnotationExtractorFactory().create();
 
         Map<String, Object> metaData;
         for (AnnotationEntry entry : annotationExtractor.extractAnnotations(facesContext, uiComponent))
