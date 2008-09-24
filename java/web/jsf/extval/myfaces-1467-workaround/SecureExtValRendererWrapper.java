@@ -18,9 +18,9 @@
  */
 package at.gp.web.jsf.extval.validation.secure;
 
-import org.apache.myfaces.extensions.validator.MetaDataKeys;
+import org.apache.myfaces.extensions.validator.baseval.metadata.MetaDataKeys;
 import org.apache.myfaces.extensions.validator.core.ExtValRendererWrapper;
-import org.apache.myfaces.extensions.validator.core.MetaDataExtractor;
+import org.apache.myfaces.extensions.validator.core.metadata.extractor.MetaDataExtractor;
 import org.apache.myfaces.extensions.validator.core.annotation.AnnotationEntry;
 import org.apache.myfaces.extensions.validator.core.annotation.extractor.AnnotationExtractor;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
@@ -73,6 +73,7 @@ public class SecureExtValRendererWrapper extends ExtValRendererWrapper
     private boolean isValueOfComponentRequired(FacesContext facesContext, UIComponent uiComponent)
     {
         ValidationStrategy validationStrategy;
+        MetaDataExtractor metaDataExtractor;
 
         AnnotationExtractor annotationExtractor = FactoryUtils.getComponentAnnotationExtractorFactory().create();
 
@@ -83,9 +84,11 @@ public class SecureExtValRendererWrapper extends ExtValRendererWrapper
 
             if (validationStrategy != null)
             {
-                if (validationStrategy instanceof MetaDataExtractor)
+                metaDataExtractor = FactoryUtils.getMetaDataExtractorFactory().create(validationStrategy);
+
+                if(metaDataExtractor != null)
                 {
-                    metaData = ((MetaDataExtractor) validationStrategy).extractMetaData(entry.getAnnotation());
+                    metaData = metaDataExtractor.extractMetaData(entry.getAnnotation());
                 }
                 else
                 {
