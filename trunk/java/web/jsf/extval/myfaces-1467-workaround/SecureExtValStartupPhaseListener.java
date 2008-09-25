@@ -19,13 +19,8 @@
 package at.gp.web.jsf.extval.validation.secure;
 
 import org.apache.myfaces.extensions.validator.core.AbstractStartupConfigListener;
-import org.apache.myfaces.extensions.validator.core.ExtValValidationPhaseListener;
-
-import javax.faces.lifecycle.LifecycleFactory;
-import javax.faces.lifecycle.Lifecycle;
-import javax.faces.FactoryFinder;
-import javax.faces.event.PhaseListener;
-import java.util.Iterator;
+import org.apache.myfaces.extensions.validator.core.ExtValContext;
+import org.apache.myfaces.extensions.validator.core.ExtValValidationInterceptor;
 
 /**
  * deregister ExtValValidationPhaseListener
@@ -36,24 +31,8 @@ public class SecureExtValStartupPhaseListener extends AbstractStartupConfigListe
 {
     protected void init()
     {
-        LifecycleFactory lifecycleFactory = (LifecycleFactory) FactoryFinder
-            .getFactory(FactoryFinder.LIFECYCLE_FACTORY);
-
-        String currentId;
-        Lifecycle currentLifecycle;
-        Iterator lifecycleIds = lifecycleFactory.getLifecycleIds();
-
-        while (lifecycleIds.hasNext())
-        {
-            currentId = (String) lifecycleIds.next();
-            currentLifecycle = lifecycleFactory.getLifecycle(currentId);
-            for(PhaseListener currentPhaseListener : currentLifecycle.getPhaseListeners())
-            {
-                if(currentPhaseListener instanceof ExtValValidationPhaseListener)
-                {
-                    currentLifecycle.removePhaseListener(currentPhaseListener);
-                }
-            }
-        }
+        //to deactivate extval std. validation
+        //ExtValContext.getContext().denyRendererInterceptor(ExtValValidationInterceptor.class);
+        ExtValContext.getContext().registerRendererInterceptors(new SecureRendererInterceptor());
     }
 }
