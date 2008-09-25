@@ -33,6 +33,6 @@ public class SecureExtValStartupPhaseListener extends AbstractStartupConfigListe
     {
         //to deactivate extval std. validation
         //ExtValContext.getContext().denyRendererInterceptor(ExtValValidationInterceptor.class);
-        ExtValContext.getContext().registerRendererInterceptors(new SecureRendererInterceptor());
+        ExtValContext.getContext().registerRendererInterceptor(new SecureRendererInterceptor());
     }
 }
