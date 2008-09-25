@@ -23,8 +23,6 @@ import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.core.ExtValValidationInterceptor;
 
 /**
- * deregister ExtValValidationPhaseListener
- *
  * @author Gerhard Petracek
  */
 public class SecureExtValStartupPhaseListener extends AbstractStartupConfigListener
