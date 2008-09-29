@@ -18,14 +18,15 @@
  */
 package at.gp.web.jsf.extval.validation.secure;
 
-import org.apache.myfaces.extensions.validator.core.AbstractStartupConfigListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import org.apache.myfaces.extensions.validator.core.ExtValValidationInterceptor;
+import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 
 /**
+ * deregister ExtValValidationPhaseListener
+ *
  * @author Gerhard Petracek
  */
-public class SecureExtValStartupPhaseListener extends AbstractStartupConfigListener
+public class SecureExtValStartupPhaseListener extends AbstractStartupListener
 {
     protected void init()
     {

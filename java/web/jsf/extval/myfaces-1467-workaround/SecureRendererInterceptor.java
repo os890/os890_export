@@ -18,13 +18,16 @@
  */
 package at.gp.web.jsf.extval.validation.secure;
 
-import org.apache.myfaces.extensions.validator.core.AbstractRendererInterceptor;
+import org.apache.myfaces.extensions.validator.core.interceptor.AbstractRendererInterceptor;
 import org.apache.myfaces.extensions.validator.core.metadata.extractor.MetaDataExtractor;
-import org.apache.myfaces.extensions.validator.core.metadata.MetaDataKeys;
+import org.apache.myfaces.extensions.validator.core.metadata.CommonMetaDataKeys;
 import org.apache.myfaces.extensions.validator.core.annotation.AnnotationEntry;
 import org.apache.myfaces.extensions.validator.core.annotation.extractor.AnnotationExtractor;
+import org.apache.myfaces.extensions.validator.core.annotation.extractor.AnnotationExtractorFactory;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
-import org.apache.myfaces.extensions.validator.util.FactoryUtils;
+import org.apache.myfaces.extensions.validator.core.mapper.ClassMappingFactory;
+import org.apache.myfaces.extensions.validator.core.ExtValContext;
+import org.apache.myfaces.extensions.validator.core.factory.FactoryNames;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
@@ -33,6 +36,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.annotation.Annotation;
 
 /**
  * check the required submit of user input.
@@ -70,17 +74,24 @@ public class SecureRendererInterceptor extends AbstractRendererInterceptor
         ValidationStrategy validationStrategy;
         MetaDataExtractor metaDataExtractor;
 
-        AnnotationExtractor annotationExtractor = FactoryUtils.getComponentAnnotationExtractorFactory().create();
+        AnnotationExtractor annotationExtractor = ExtValContext.getContext().getFactoryFinder().getFactory(
+            FactoryNames.COMPONENT_ANNOTATION_EXTRACTOR_FACTORY, AnnotationExtractorFactory.class).create();
 
         Map<String, Object> metaData;
         for (AnnotationEntry entry : annotationExtractor.extractAnnotations(facesContext, uiComponent))
         {
-            validationStrategy = FactoryUtils.getValidationStrategyFactory().create(entry.getAnnotation());
+            validationStrategy = ((ClassMappingFactory<Annotation, ValidationStrategy>) ExtValContext.getContext()
+                .getFactoryFinder()
+                .getFactory(FactoryNames.VALIDATION_STRATEGY_FACTORY, ClassMappingFactory.class))
+                .create(entry.getAnnotation());
 
             if (validationStrategy != null)
             {
-                metaDataExtractor = FactoryUtils.getMetaDataExtractorFactory().create(validationStrategy);
-
+                metaDataExtractor = ((ClassMappingFactory<ValidationStrategy, MetaDataExtractor>) ExtValContext
+                    .getContext().getFactoryFinder()
+                    .getFactory(FactoryNames.META_DATA_EXTRACTOR_FACTORY, ClassMappingFactory.class))
+                    .create(validationStrategy);
+                
                 if(metaDataExtractor != null)
                 {
                     metaData = metaDataExtractor.extractMetaData(entry.getAnnotation());
@@ -95,7 +106,7 @@ public class SecureRendererInterceptor extends AbstractRendererInterceptor
                     metaData = new HashMap<String, Object>();
                 }
 
-                if (metaData.containsKey(MetaDataKeys.REQUIRED))
+                if (metaData.containsKey(CommonMetaDataKeys.REQUIRED))
                 {
                     return true;
                 }
