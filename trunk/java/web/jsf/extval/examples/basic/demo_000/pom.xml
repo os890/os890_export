@@ -12,7 +12,7 @@
     <url>http://www.myorganization.org</url>
 
     <build>
-        <finalName>demo001</finalName>
+        <finalName>demo_000</finalName>
         <plugins>
             <plugin>
                 <!--This plugin allows to run the example using mvn jetty:run -->
