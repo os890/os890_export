@@ -5,14 +5,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>at.gp.web.jsf.extval</groupId>
-    <artifactId>demo_003</artifactId>
+    <artifactId>demo_006</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>Base for MyFaces Extensions Validator Demos</name>
     <url>http://www.myorganization.org</url>
 
     <build>
-        <finalName>demo_003</finalName>
+        <finalName>demo_006</finalName>
         <plugins>
             <plugin>
                 <!--This plugin allows to run the example using mvn jetty:run -->
