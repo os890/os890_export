@@ -94,7 +94,7 @@ public class SecureRendererInterceptor extends AbstractRendererInterceptor
 
                 if(metaDataExtractor != null)
                 {
-                    metaData = metaDataExtractor.extractMetaData(entry.getAnnotation());
+                    metaData = metaDataExtractor.convertMetaData(entry.getAnnotation());
                 }
                 else
                 {
