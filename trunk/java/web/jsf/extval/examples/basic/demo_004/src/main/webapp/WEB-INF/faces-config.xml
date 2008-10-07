@@ -23,12 +23,6 @@
     </lifecycle-->
 
     <managed-bean>
-        <managed-bean-name>org_apache_myfaces_extensions_validator_custom_InformationProviderBean</managed-bean-name>
-        <managed-bean-class>at.gp.web.jsf.extval.CustomInformationProvider</managed-bean-class>
-        <managed-bean-scope>application</managed-bean-scope>
-    </managed-bean>
-
-    <managed-bean>
 		<managed-bean-name>personPage</managed-bean-name>
 		<managed-bean-class>at.gp.web.jsf.extval.PersonPage</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>

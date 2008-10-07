@@ -16,24 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval;
+package org.apache.myfaces.extensions.validator.custom;
 
-import org.apache.myfaces.extensions.validator.core.InformationProviderBean;
 import org.apache.myfaces.extensions.validator.core.CustomInfo;
 
 import java.util.Map;
 
 /**
+ * instead of using the convention for the information provider bean class you can use a managed bean with the name:
+ * org_apache_myfaces_extensions_validator_custom_InformationProviderBean
+ *
  * instead of using the java api you can also use the web.xml context-param instead
  * (param-name: org.apache.myfaces.extensions.validator.CUSTOM_MESSAGE_BUNDLE)
  *
  * @author Gerhard Petracek
  */
-public class CustomInformationProvider extends InformationProviderBean
+public class InformationProviderBean  extends org.apache.myfaces.extensions.validator.core.InformationProviderBean
 {
+    @Override
     protected void applyCustomValues(Map<CustomInfo, String> map)
     {
-        map.put(CustomInfo.BASE_PACKAGE, getClass().getPackage().getName() + ".");
+        map.put(CustomInfo.BASE_PACKAGE, "at.gp.web.jsf.extval.");
         map.put(CustomInfo.CONVENTION_FOR_CUSTOM_MESSAGE_BUNDLE, "bundle.messages");
     }
 }

@@ -11,7 +11,7 @@ import java.lang.annotation.Annotation;
  */
 public class CustomRequiredValidatorMetaDataTransformer implements MetaDataTransformer
 {
-    public Map<String, Object> extractMetaData(Annotation annotation)
+    public Map<String, Object> convertMetaData(Annotation annotation)
     {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("required", true);
