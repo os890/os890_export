@@ -30,5 +30,5 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface MetaDataTransformer
 {
-    Class[] validationStrategyClass();
+    Class<? extends org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy>[] validationStrategyClass();
 }

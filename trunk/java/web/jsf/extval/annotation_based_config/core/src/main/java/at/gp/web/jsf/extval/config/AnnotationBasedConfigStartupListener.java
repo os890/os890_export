@@ -26,6 +26,7 @@ import at.gp.web.jsf.extval.config.annotation.ProcessedInformationRecorder;
 import at.gp.web.jsf.extval.config.annotation.RendererInterceptor;
 import at.gp.web.jsf.extval.config.annotation.StartupListener;
 import at.gp.web.jsf.extval.config.annotation.ValidationStrategy;
+import at.gp.web.jsf.extval.config.annotation.MetaDataValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.CustomInfo;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.core.interceptor.AbstractRendererInterceptor;
@@ -71,6 +72,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
         addAdvancedValidationStrategies(annotationDB);
         addValidationStrategies(annotationDB);
+        addMetaDataValidationStrategies(annotationDB);
         addMessageResolvers(annotationDB);
         addMetaDataTransformers(annotationDB);
         addStartupListeners(annotationDB);
@@ -93,7 +95,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
     protected String getBasePackage()
     {
-        return ExtValContext.getContext().getInformationProviderBean().get(CustomInfo.BASE_PACKAGE);
+        return ExtValContext.getContext().getInformationProviderBean().get(CustomInfo.BASE_PACKAGE).replace(".", "/");
     }
 
     private void addAdvancedValidationStrategies(AnnotationDB annotationDB)
@@ -115,9 +117,12 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
                 {
                     currentAnnotation = (AdvancedValidationStrategy) annotation;
 
-                    config = new StaticInMemoryMappingConfig();
-                    config.addMapping(currentAnnotation.annotationClass().getName(), validationStrategyName);
-                    ExtValContext.getContext().addStaticMappingConfigLoader(StaticMappingConfigLoaderNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG_LOADER, config);
+                    for (Class targetAnnotation : currentAnnotation.value())
+                    {
+                        config = new StaticInMemoryMappingConfig();
+                        config.addMapping(targetAnnotation.getName(), validationStrategyName);
+                        ExtValContext.getContext().addStaticMappingConfigLoader(StaticMappingConfigLoaderNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG_LOADER, config);
+                    }
 
                     config = new StaticInMemoryMappingConfig();
                     config.addMapping(validationStrategyName, currentAnnotation.messageResolverClass().getName());
@@ -150,9 +155,42 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
                 {
                     currentAnnotation = (ValidationStrategy) annotation;
 
-                    config = new StaticInMemoryMappingConfig();
-                    config.addMapping(currentAnnotation.annotationClass().getName(), validationStrategyName);
-                    ExtValContext.getContext().addStaticMappingConfigLoader(StaticMappingConfigLoaderNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG_LOADER, config);
+                    for (Class targetAnnotation : currentAnnotation.value())
+                    {
+                        config = new StaticInMemoryMappingConfig();
+                        config.addMapping(targetAnnotation.getName(), validationStrategyName);
+                        ExtValContext.getContext().addStaticMappingConfigLoader(StaticMappingConfigLoaderNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG_LOADER, config);
+                    }
+                }
+            }
+        }
+    }
+
+    private void addMetaDataValidationStrategies(AnnotationDB annotationDB)
+    {
+        Set<String> result = annotationDB.getAnnotationIndex().get(MetaDataValidationStrategy.class.getName());
+
+        if(result == null)
+        {
+            return;
+        }
+
+        MetaDataValidationStrategy currentAnnotation;
+        StaticInMemoryMappingConfig config;
+        for (String validationStrategyName : result)
+        {
+            for (Annotation annotation : ClassUtils.tryToLoadClassForName(validationStrategyName).getDeclaredAnnotations())
+            {
+                if (annotation instanceof MetaDataValidationStrategy)
+                {
+                    currentAnnotation = (MetaDataValidationStrategy) annotation;
+
+                    for (String metaDataKey : currentAnnotation.value())
+                    {
+                        config = new StaticInMemoryMappingConfig();
+                        config.addMapping(metaDataKey, validationStrategyName);
+                        ExtValContext.getContext().addStaticMappingConfigLoader(StaticMappingConfigLoaderNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG_LOADER, config);
+                    }
                 }
             }
         }
