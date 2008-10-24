@@ -215,7 +215,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
                 {
                     currentAnnotation = (MessageResolver) annotation;
 
-                    for (Class validationStrategy : currentAnnotation.validationStrategyClass())
+                    for (Class validationStrategy : currentAnnotation.validationStrategyClasses())
                     {
                         config = new StaticInMemoryMappingConfig();
                         config.addMapping(validationStrategy.getName(), messageResolverName);
@@ -245,7 +245,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
                 {
                     currentAnnotation = (MetaDataTransformer) annotation;
 
-                    for (Class validationStrategy : currentAnnotation.validationStrategyClass())
+                    for (Class validationStrategy : currentAnnotation.validationStrategyClasses())
                     {
                         config = new StaticInMemoryMappingConfig();
                         config.addMapping(validationStrategy.getName(), metaDataTransformerName);

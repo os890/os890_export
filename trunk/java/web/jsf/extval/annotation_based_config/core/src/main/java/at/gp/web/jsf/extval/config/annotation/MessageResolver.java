@@ -32,5 +32,5 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface MessageResolver
 {
-    Class<? extends org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy>[] validationStrategyClass();
+    Class<? extends org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy>[] validationStrategyClasses();
 }
