@@ -28,8 +28,17 @@ import org.apache.myfaces.extensions.validator.core.validation.message.resolver.
 @MessageResolver(validationStrategyClasses = MyRequiredValidator.class)
 public class MyMsgResolver extends DefaultValidationErrorMessageResolver
 {
-    protected String getCustomBaseName()
+    public MyMsgResolver()
     {
-        return "at.gp.web.jsf.extval.bundle.messages";
+        //the var name of the resource-bundle defined in: faces-config.xml
+        setMessageBundleVarName("messages");
     }
+
+    /*
+     * for jsf 1.1 and 1.2
+     */
+    //protected String getCustomBaseName()
+    //{
+    //    return "at.gp.web.jsf.extval.bundle.messages";
+    //}
 }
