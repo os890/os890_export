@@ -18,6 +18,8 @@
  */
 package at.gp.web.jsf.extval.config.annotation;
 
+import org.apache.myfaces.extensions.validator.core.validation.strategy.*;
+
 import static java.lang.annotation.ElementType.TYPE;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -30,5 +32,5 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface MessageResolver
 {
-    public abstract Class[] validationStrategyClass();
+    Class<? extends org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy>[] validationStrategyClass();
 }

@@ -22,6 +22,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
+import java.lang.annotation.Annotation;
 
 /**
  * @author Gerhard Petracek
@@ -30,5 +31,5 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface ValidationStrategy
 {
-    public abstract Class annotationClass();
+    Class<? extends Annotation>[] value();
 }

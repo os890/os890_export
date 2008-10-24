@@ -18,10 +18,14 @@
  */
 package at.gp.web.jsf.extval.config.annotation;
 
+import org.apache.myfaces.extensions.validator.core.validation.message.resolver.*;
+import org.apache.myfaces.extensions.validator.core.metadata.transformer.*;
+
 import static java.lang.annotation.ElementType.TYPE;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
+import java.lang.annotation.Annotation;
 
 /**
  * @author Gerhard Petracek
@@ -30,9 +34,9 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 public @interface AdvancedValidationStrategy
 {
-    Class annotationClass();
+    Class<? extends Annotation>[] value();
 
-    Class metaDataTransformerClass();
+    Class<? extends org.apache.myfaces.extensions.validator.core.metadata.transformer.MetaDataTransformer> metaDataTransformerClass();
 
-    Class messageResolverClass();
+    Class<? extends org.apache.myfaces.extensions.validator.core.validation.message.resolver.MessageResolver> messageResolverClass();
 }
