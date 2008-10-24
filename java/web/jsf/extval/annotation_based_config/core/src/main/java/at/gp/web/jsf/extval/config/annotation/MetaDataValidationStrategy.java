@@ -22,13 +22,14 @@ import static java.lang.annotation.ElementType.TYPE;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
+import java.lang.annotation.Annotation;
 
 /**
  * @author Gerhard Petracek
  */
 @Target({TYPE})
 @Retention(RUNTIME)
-public @interface MetaDataTransformer
+public @interface MetaDataValidationStrategy
 {
-    Class<? extends org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy>[] validationStrategyClasses();
+    String[] value();
 }
