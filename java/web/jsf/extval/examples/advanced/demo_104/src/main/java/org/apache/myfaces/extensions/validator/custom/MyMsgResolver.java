@@ -25,7 +25,7 @@ import org.apache.myfaces.extensions.validator.core.validation.message.resolver.
 /**
  * @author Gerhard Petracek
  */
-@MessageResolver(validationStrategyClass = MyRequiredValidator.class)
+@MessageResolver(validationStrategyClasses = MyRequiredValidator.class)
 public class MyMsgResolver extends DefaultValidationErrorMessageResolver
 {
     protected String getCustomBaseName()
