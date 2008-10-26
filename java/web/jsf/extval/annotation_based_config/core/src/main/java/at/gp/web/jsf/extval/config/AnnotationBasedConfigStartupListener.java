@@ -27,6 +27,7 @@ import at.gp.web.jsf.extval.config.annotation.RendererInterceptor;
 import at.gp.web.jsf.extval.config.annotation.StartupListener;
 import at.gp.web.jsf.extval.config.annotation.ValidationStrategy;
 import at.gp.web.jsf.extval.config.annotation.MetaDataValidationStrategy;
+import at.gp.web.jsf.extval.config.annotation.InformationProviderBean;
 import org.apache.myfaces.extensions.validator.core.CustomInfo;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.core.interceptor.AbstractRendererInterceptor;
@@ -36,6 +37,7 @@ import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListe
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
 import org.scannotation.AnnotationDB;
 
+import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -79,6 +81,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         addComponentInitializers(annotationDB);
         addProcessedInformationRecorders(annotationDB);
         addRendererInterceptors(annotationDB);
+        addInformationProviderBean(annotationDB);
     }
 
     protected AnnotationDB getAnnotationScanner()
@@ -348,6 +351,34 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
             if (rendererInterceptor != null && rendererInterceptor instanceof AbstractRendererInterceptor)
             {
                 ExtValContext.getContext().registerRendererInterceptor((AbstractRendererInterceptor) rendererInterceptor);
+            }
+        }
+    }
+
+    private void addInformationProviderBean(AnnotationDB annotationDB)
+    {
+        Set<String> result = annotationDB.getAnnotationIndex().get(InformationProviderBean.class.getName());
+
+        if(result == null)
+        {
+            return;
+        }
+
+        if(result.size() > 1 && logger.isWarnEnabled())
+        {
+            logger.warn("multiple information provider beans found. the nature of this artifact just allows one provider");
+        }
+
+        Object informationProviderBean;
+        for (String informationProviderBeanName : result)
+        {
+            informationProviderBean = ClassUtils.tryToInstantiateClassForName(informationProviderBeanName);
+
+            if (informationProviderBean != null && informationProviderBean instanceof org.apache.myfaces.extensions.validator.core.InformationProviderBean)
+            {
+                FacesContext.getCurrentInstance().getExternalContext().getApplicationMap()
+                    .put(org.apache.myfaces.extensions.validator.core.InformationProviderBean.BEAN_NAME, informationProviderBean);
+                break;
             }
         }
     }
