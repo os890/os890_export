@@ -35,14 +35,13 @@ public class CustomRequiredValidationErrorMessageResolver implements MessageReso
     //delegates to the default resolver - no result -> use the key as text (= no i18n - it's just an example)
     public String getMessage(String key, Locale locale)
     {
-        String message = null;
+        String message;
 
-        try
+        message = this.defaultMessageResolver.getMessage(key, locale);
+
+        if((message.startsWith("???") && message.endsWith("???")))
         {
-            message = this.defaultMessageResolver.getMessage(key, locale);
-        }
-        catch (Throwable t)
-        {
+            message = null;
         }
 
         return message == null ? key.replace("_details", "").replace("_", " ") : message;
