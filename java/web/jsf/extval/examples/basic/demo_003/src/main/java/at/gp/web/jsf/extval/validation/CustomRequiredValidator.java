@@ -19,7 +19,7 @@
 package at.gp.web.jsf.extval.validation;
 
 import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractValidatorAdapter;
-import org.apache.myfaces.extensions.validator.core.annotation.AnnotationEntry;
+import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -32,7 +32,7 @@ import javax.faces.validator.ValidatorException;
 public class CustomRequiredValidator extends AbstractValidatorAdapter
 {
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent,
-                                     AnnotationEntry annotationEntry, Object convertedObject) throws ValidatorException
+                                     MetaDataEntry metaDataEntry, Object convertedObject) throws ValidatorException
     {
         if("".equals(convertedObject))
         {
