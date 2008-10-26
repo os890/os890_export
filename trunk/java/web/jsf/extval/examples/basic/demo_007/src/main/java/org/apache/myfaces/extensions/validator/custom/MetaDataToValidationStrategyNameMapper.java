@@ -22,7 +22,7 @@ import org.apache.myfaces.extensions.validator.core.mapper.NameMapper;
 
 /**
  * instead of using the convention you can also use the web.xml context-param instead
- * (param-name: org.apache.myfaces.extensions.validator.CUSTOM_ANNOTATION_TO_VALIDATION_STRATEGY_NAME_MAPPER)
+ * (param-name: org.apache.myfaces.extensions.validator.CUSTOM_META_DATA_TO_VALIDATION_STRATEGY_NAME_MAPPER)
  * 
  * @author Gerhard Petracek
  */
