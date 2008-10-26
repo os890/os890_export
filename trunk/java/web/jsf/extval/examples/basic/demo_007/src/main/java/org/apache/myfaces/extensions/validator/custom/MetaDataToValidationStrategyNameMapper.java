@@ -28,10 +28,10 @@ import java.lang.annotation.Annotation;
  * 
  * @author Gerhard Petracek
  */
-public class AnnotationToValidationStrategyNameMapper implements NameMapper<Annotation>
+public class MetaDataToValidationStrategyNameMapper implements NameMapper<String>
 {
-    public String createName(Annotation annotation)
+    public String createName(String metaDataKey)
     {
-        return annotation.annotationType().getName() + "Validator";
+        return metaDataKey + "Validator";
     }
 }
