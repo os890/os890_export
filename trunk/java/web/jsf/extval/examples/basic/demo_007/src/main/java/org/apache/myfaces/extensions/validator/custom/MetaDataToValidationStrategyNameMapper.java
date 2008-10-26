@@ -20,8 +20,6 @@ package org.apache.myfaces.extensions.validator.custom;
 
 import org.apache.myfaces.extensions.validator.core.mapper.NameMapper;
 
-import java.lang.annotation.Annotation;
-
 /**
  * instead of using the convention you can also use the web.xml context-param instead
  * (param-name: org.apache.myfaces.extensions.validator.CUSTOM_ANNOTATION_TO_VALIDATION_STRATEGY_NAME_MAPPER)
