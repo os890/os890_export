@@ -19,7 +19,7 @@
 package at.gp.web.jsf.extval.validation;
 
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
-import org.apache.myfaces.extensions.validator.core.annotation.AnnotationEntry;
+import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -32,7 +32,7 @@ import javax.faces.application.FacesMessage;
 public class CustomRequiredValidationStrategy implements ValidationStrategy
 {
     public void validate(FacesContext facesContext, UIComponent uiComponent,
-                         AnnotationEntry annotationEntry, Object convertedObject)
+                         MetaDataEntry metaDataEntry, Object convertedObject)
     {
         if("".equals(convertedObject))
         {
