@@ -18,8 +18,8 @@
  */
 package at.gp.web.jsf.extval.validation;
 
-import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractValidationStrategy;
-import org.apache.myfaces.extensions.validator.core.annotation.AnnotationEntry;
+import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractAnnotationValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -30,17 +30,17 @@ import java.lang.annotation.Annotation;
 /**
  * @author Gerhard Petracek
  */
-public class CustomRequiredValidationStrategy extends AbstractValidationStrategy
+public class CustomRequiredValidationStrategy extends AbstractAnnotationValidationStrategy
 {
 
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent,
-                                     AnnotationEntry annotationEntry, Object convertedObject) throws ValidatorException
+                                     MetaDataEntry metaDataEntry, Object convertedObject) throws ValidatorException
     {
         if("".equals(convertedObject))
         {
             throw new ValidatorException(new FacesMessage(
-                getErrorMessageSummary(annotationEntry.getAnnotation()),
-                getErrorMessageDetails(annotationEntry.getAnnotation())));
+                getErrorMessageSummary(metaDataEntry.getValue(Annotation.class)),
+                getErrorMessageDetails(metaDataEntry.getValue(Annotation.class))));
         }
     }
 
