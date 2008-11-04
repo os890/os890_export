@@ -37,6 +37,6 @@ public class InformationProviderBean  extends org.apache.myfaces.extensions.vali
     protected void applyCustomValues(Map<CustomInfo, String> map)
     {
         map.put(CustomInfo.BASE_PACKAGE, "at.gp.web.jsf.extval.");
-        map.put(CustomInfo.CONVENTION_FOR_CUSTOM_MESSAGE_BUNDLE, "bundle.messages");
+        map.put(CustomInfo.MESSAGE_BUNDLE_NAME, "bundle.messages");
     }
 }
