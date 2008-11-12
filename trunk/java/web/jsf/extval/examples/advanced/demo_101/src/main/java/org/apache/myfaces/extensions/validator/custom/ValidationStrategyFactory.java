@@ -20,7 +20,7 @@ package org.apache.myfaces.extensions.validator.custom;
 
 import org.apache.myfaces.extensions.validator.core.mapper.ClassMappingFactory;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
-import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractAnnotationValidationStrategy;
 
 import java.lang.annotation.Annotation;
 
@@ -34,14 +34,14 @@ import at.gp.web.jsf.extval.validation.StandardMessageResolver;
  * 
  * @author Gerhard Petracek
  */
-public class ValidationStrategyFactory implements ClassMappingFactory<Annotation, ValidationStrategy>
+public class ValidationStrategyFactory implements ClassMappingFactory<String, ValidationStrategy>
 {
-    public ValidationStrategy create(Annotation annotation)
+    public ValidationStrategy create(String metaDataKey)
     {
-        AbstractValidationStrategy resultStrategy = null;
+        AbstractAnnotationValidationStrategy resultStrategy = null;
 
         //it isn't nice to keep it hardcoded - it's just a demo
-        if(annotation instanceof CustomRequired)
+        if(CustomRequired.class.getName().equals(metaDataKey))
         {
             resultStrategy = new CustomRequiredValidator();
             resultStrategy.setMessageResolver(new StandardMessageResolver());
