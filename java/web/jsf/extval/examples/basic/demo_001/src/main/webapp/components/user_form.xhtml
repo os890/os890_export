@@ -17,11 +17,11 @@
 
     <h:panelGrid columns="3" rendered="#{!readonly}">
         <h:outputLabel for="firstName" value="#{messages.first_name}:"/>
-        <h:inputText id="firstName" value="#{bean.person.firstName}"/>
+        <h:inputText id="firstName" label="First name" value="#{bean.person.firstName}"/>
         <h:message for="firstName" showSummary="true" showDetail="false"/>
 
         <h:outputLabel for="lastName" value="#{messages.last_name}:"/>
-        <h:inputText id="lastName" value="#{bean.person.lastName}"/>
+        <h:inputText id="lastName" label="#{messages.last_name}" value="#{bean.person.lastName}"/>
         <h:message for="lastName" showSummary="true" showDetail="false"/>
     </h:panelGrid>
 
