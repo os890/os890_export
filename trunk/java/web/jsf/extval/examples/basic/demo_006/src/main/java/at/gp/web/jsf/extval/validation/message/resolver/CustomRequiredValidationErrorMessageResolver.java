@@ -44,6 +44,6 @@ public class CustomRequiredValidationErrorMessageResolver implements MessageReso
             message = null;
         }
 
-        return message == null ? key.replace("_details", "").replace("_", " ") : message;
+        return message == null ? key.replace("_detail", "").replace("_", " ") : message;
     }
 }
