@@ -18,19 +18,12 @@
  */
 package at.gp.web.jsf.extval.config;
 
-import at.gp.web.jsf.extval.config.annotation.AdvancedValidationStrategy;
-import at.gp.web.jsf.extval.config.annotation.ComponentInitializer;
-import at.gp.web.jsf.extval.config.annotation.MessageResolver;
-import at.gp.web.jsf.extval.config.annotation.MetaDataTransformer;
-import at.gp.web.jsf.extval.config.annotation.ProcessedInformationRecorder;
+import at.gp.web.jsf.extval.config.annotation.*;
 import at.gp.web.jsf.extval.config.annotation.RendererInterceptor;
-import at.gp.web.jsf.extval.config.annotation.StartupListener;
-import at.gp.web.jsf.extval.config.annotation.ValidationStrategy;
-import at.gp.web.jsf.extval.config.annotation.MetaDataValidationStrategy;
-import at.gp.web.jsf.extval.config.annotation.InformationProviderBean;
+import at.gp.web.jsf.extval.config.annotation.ValidationExceptionInterceptor;
 import org.apache.myfaces.extensions.validator.core.CustomInfo;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import org.apache.myfaces.extensions.validator.core.interceptor.AbstractRendererInterceptor;
+import org.apache.myfaces.extensions.validator.core.interceptor.*;
 import org.apache.myfaces.extensions.validator.core.loader.StaticInMemoryMappingConfig;
 import org.apache.myfaces.extensions.validator.core.loader.StaticMappingConfigLoaderNames;
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
@@ -79,6 +72,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         addMetaDataTransformers(annotationDB);
         addStartupListeners(annotationDB);
         addComponentInitializers(annotationDB);
+        addValidationExceptionInterceptors(annotationDB);
         addProcessedInformationRecorders(annotationDB);
         addRendererInterceptors(annotationDB);
         addInformationProviderBean(annotationDB);
@@ -309,6 +303,27 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
             if (componentInitializer != null && componentInitializer instanceof org.apache.myfaces.extensions.validator.core.initializer.component.ComponentInitializer)
             {
                 ExtValContext.getContext().addComponentInitializer((org.apache.myfaces.extensions.validator.core.initializer.component.ComponentInitializer) componentInitializer);
+            }
+        }
+    }
+
+    private void addValidationExceptionInterceptors(AnnotationDB annotationDB)
+    {
+        Set<String> result = annotationDB.getAnnotationIndex().get(ValidationExceptionInterceptor.class.getName());
+
+        if(result == null)
+        {
+            return;
+        }
+
+        Object validationExceptionInterceptor;
+        for (String validationExceptionInterceptorName : result)
+        {
+            validationExceptionInterceptor = ClassUtils.tryToInstantiateClassForName(validationExceptionInterceptorName);
+
+            if (validationExceptionInterceptor != null && validationExceptionInterceptor instanceof org.apache.myfaces.extensions.validator.core.interceptor.ValidationExceptionInterceptor)
+            {
+                ExtValContext.getContext().addValidationExceptionInterceptor((org.apache.myfaces.extensions.validator.core.interceptor.ValidationExceptionInterceptor) validationExceptionInterceptor);
             }
         }
     }
