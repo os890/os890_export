@@ -20,6 +20,8 @@ package at.gp.web.jsf.extval.validation;
 
 import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractAnnotationValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
+import org.apache.myfaces.extensions.validator.core.el.ValueBindingExpression;
+import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -49,5 +51,24 @@ public class CustomRequiredValidator extends AbstractAnnotationValidationStrateg
     public void setRequiredValidationService(DemoRequiredValidationService requiredValidationService)
     {
         this.requiredValidationService = requiredValidationService;
+    }
+
+    @Override
+    protected String getLabel(FacesContext facesContext, UIComponent uiComponent, MetaDataEntry metaDataEntry)
+    {
+        CustomRequired requiredAnnotation = metaDataEntry.getValue(CustomRequired.class);
+        String label = requiredAnnotation.label();
+
+        if("none".equals(label))
+        {
+            return null;
+        }
+
+        if(ExtValUtils.getELHelper().isELTerm(label))
+        {
+            return (String)ExtValUtils.getELHelper()
+                    .getValueOfExpression(facesContext, new ValueBindingExpression(label));
+        }
+        return label;
     }
 }
