@@ -9,12 +9,12 @@
 
     <h:dataTable var="currentPerson" value="#{personPage.persons}">
         <h:column>
-            <h:outputText value="#{currentPerson.firstName}" rendered="#{readonly}"/>
+            <h:outputLabel for="firstName" value="First name:"/>
             <h:inputText id="firstName" value="#{currentPerson.firstName}" rendered="#{!readonly}"/>
             <h:message for="firstName" showSummary="true" showDetail="false" rendered="#{!readonly}"/>
         </h:column>
         <h:column>
-            <h:outputText value="#{currentPerson.lastName}" rendered="#{readonly}"/>
+            <h:outputLabel for="lastName" value="#{messages.last_name}"/>
             <h:inputText id="lastName" value="#{currentPerson.lastName}" rendered="#{!readonly}"/>
             <h:message for="lastName" showSummary="true" showDetail="false" rendered="#{!readonly}"/>
         </h:column>
