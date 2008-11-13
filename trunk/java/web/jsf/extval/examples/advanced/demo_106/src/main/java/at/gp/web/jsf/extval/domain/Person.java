@@ -31,7 +31,7 @@ public class Person
 {
     private Long id;
 
-    @CustomRequired
+    @CustomRequired(label = "#{messages.first_name_label}")
     private String firstName;
 
     @Column(nullable = false, length = 40)

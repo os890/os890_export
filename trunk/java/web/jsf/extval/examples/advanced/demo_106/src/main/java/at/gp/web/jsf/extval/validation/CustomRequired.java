@@ -34,5 +34,7 @@ import static java.lang.annotation.ElementType.FIELD;
 @Retention(RUNTIME)
 public @interface CustomRequired
 {
+    String label() default "none";
+
     String msgKey() default "required";
 }
