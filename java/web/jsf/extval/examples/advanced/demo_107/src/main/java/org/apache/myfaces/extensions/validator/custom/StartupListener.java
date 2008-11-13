@@ -31,7 +31,7 @@ public class StartupListener extends AbstractStartupListener
 {
     protected void init()
     {
-        ExtValContext.getContext().registerRendererInterceptor(new RendererInterceptor());
+        ExtValContext.getContext().registerRendererInterceptor(new OutputLabelRendererInterceptor());
         ExtValContext.getContext().addValidationExceptionInterceptor(new OutputLabelValidationExceptionInterceptor());
     }
 }

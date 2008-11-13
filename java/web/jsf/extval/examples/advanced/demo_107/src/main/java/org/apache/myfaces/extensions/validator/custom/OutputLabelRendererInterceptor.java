@@ -34,7 +34,7 @@ import java.io.IOException;
  *
  * @author Gerhard Petracek
  */
-public class RendererInterceptor extends AbstractRendererInterceptor
+public class OutputLabelRendererInterceptor extends AbstractRendererInterceptor
 {
     @Override
     public void afterDecode(FacesContext facesContext, UIComponent uiComponent, Renderer wrapped)
