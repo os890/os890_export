@@ -20,8 +20,8 @@ package org.apache.myfaces.extensions.validator.custom;
 
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import org.apache.myfaces.extensions.validator.core.loader.StaticMappingConfigLoaderNames;
-import org.apache.myfaces.extensions.validator.core.loader.StaticInMemoryMappingConfig;
+import org.apache.myfaces.extensions.validator.core.initializer.config.StaticInMemoryConfig;
+import org.apache.myfaces.extensions.validator.core.initializer.config.StaticConfigNames;
 import org.apache.myfaces.extensions.validator.baseval.strategy.JpaValidationStrategy;
 
 /**
@@ -31,8 +31,8 @@ public class StartupListener extends AbstractStartupListener
 {
     protected void init()
     {
-        StaticInMemoryMappingConfig config = new StaticInMemoryMappingConfig();
+        StaticInMemoryConfig config = new StaticInMemoryConfig();
         config.addMapping(JpaValidationStrategy.class.getName(), MyStaticJpaMessageResolver.class.getName());
-        ExtValContext.getContext().addStaticMappingConfigLoader(StaticMappingConfigLoaderNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG_LOADER, config);
+        ExtValContext.getContext().addStaticConfig(StaticConfigNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG, config);
     }
 }
