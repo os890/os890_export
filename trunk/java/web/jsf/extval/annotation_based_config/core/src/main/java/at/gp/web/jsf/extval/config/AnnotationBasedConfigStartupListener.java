@@ -23,8 +23,8 @@ import at.gp.web.jsf.extval.config.annotation.RendererInterceptor;
 import at.gp.web.jsf.extval.config.annotation.ValidationExceptionInterceptor;
 import org.apache.myfaces.extensions.validator.core.CustomInfo;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import org.apache.myfaces.extensions.validator.core.initializer.config.StaticInMemoryConfig;
-import org.apache.myfaces.extensions.validator.core.initializer.config.StaticConfigNames;
+import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticInMemoryConfiguration;
+import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticConfigurationNames;
 import org.apache.myfaces.extensions.validator.core.interceptor.*;
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
@@ -105,7 +105,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         }
 
         AdvancedValidationStrategy currentAnnotation;
-        StaticInMemoryConfig config;
+        StaticInMemoryConfiguration config;
         for (String validationStrategyName : result)
         {
             for (Annotation annotation : ClassUtils.tryToLoadClassForName(validationStrategyName).getDeclaredAnnotations())
@@ -116,18 +116,18 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
                     for (Class targetAnnotation : currentAnnotation.value())
                     {
-                        config = new StaticInMemoryConfig();
+                        config = new StaticInMemoryConfiguration();
                         config.addMapping(targetAnnotation.getName(), validationStrategyName);
-                        ExtValContext.getContext().addStaticConfig(StaticConfigNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, config);
+                        ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, config);
                     }
 
-                    config = new StaticInMemoryConfig();
+                    config = new StaticInMemoryConfiguration();
                     config.addMapping(validationStrategyName, currentAnnotation.messageResolverClass().getName());
-                    ExtValContext.getContext().addStaticConfig(StaticConfigNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG, config);
+                    ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG, config);
 
-                    config = new StaticInMemoryConfig();
+                    config = new StaticInMemoryConfiguration();
                     config.addMapping(validationStrategyName, currentAnnotation.metaDataTransformerClass().getName());
-                    ExtValContext.getContext().addStaticConfig(StaticConfigNames.VALIDATION_STRATEGY_TO_META_DATA_TRANSFORMER_CONFIG, config);
+                    ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.VALIDATION_STRATEGY_TO_META_DATA_TRANSFORMER_CONFIG, config);
                 }
             }
         }
@@ -143,7 +143,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         }
 
         ValidationStrategy currentAnnotation;
-        StaticInMemoryConfig config;
+        StaticInMemoryConfiguration config;
         for (String validationStrategyName : result)
         {
             for (Annotation annotation : ClassUtils.tryToLoadClassForName(validationStrategyName).getDeclaredAnnotations())
@@ -154,9 +154,9 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
                     for (Class targetAnnotation : currentAnnotation.value())
                     {
-                        config = new StaticInMemoryConfig();
+                        config = new StaticInMemoryConfiguration();
                         config.addMapping(targetAnnotation.getName(), validationStrategyName);
-                        ExtValContext.getContext().addStaticConfig(StaticConfigNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, config);
+                        ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, config);
                     }
                 }
             }
@@ -173,7 +173,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         }
 
         MetaDataValidationStrategy currentAnnotation;
-        StaticInMemoryConfig config;
+        StaticInMemoryConfiguration config;
         for (String validationStrategyName : result)
         {
             for (Annotation annotation : ClassUtils.tryToLoadClassForName(validationStrategyName).getDeclaredAnnotations())
@@ -184,9 +184,9 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
                     for (String metaDataKey : currentAnnotation.value())
                     {
-                        config = new StaticInMemoryConfig();
+                        config = new StaticInMemoryConfiguration();
                         config.addMapping(metaDataKey, validationStrategyName);
-                        ExtValContext.getContext().addStaticConfig(StaticConfigNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, config);
+                        ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, config);
                     }
                 }
             }
@@ -203,7 +203,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         }
 
         MessageResolver currentAnnotation;
-        StaticInMemoryConfig config;
+        StaticInMemoryConfiguration config;
         for (String messageResolverName : result)
         {
             for (Annotation annotation : ClassUtils.tryToLoadClassForName(messageResolverName).getDeclaredAnnotations())
@@ -214,9 +214,9 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
                     for (Class validationStrategy : currentAnnotation.validationStrategyClasses())
                     {
-                        config = new StaticInMemoryConfig();
+                        config = new StaticInMemoryConfiguration();
                         config.addMapping(validationStrategy.getName(), messageResolverName);
-                        ExtValContext.getContext().addStaticConfig(StaticConfigNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG, config);
+                        ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG, config);
                     }
                 }
             }
@@ -233,7 +233,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         }
 
         MetaDataTransformer currentAnnotation;
-        StaticInMemoryConfig config;
+        StaticInMemoryConfiguration config;
         for (String metaDataTransformerName : result)
         {
             for (Annotation annotation : ClassUtils.tryToLoadClassForName(metaDataTransformerName).getDeclaredAnnotations())
@@ -244,9 +244,9 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
                     for (Class validationStrategy : currentAnnotation.validationStrategyClasses())
                     {
-                        config = new StaticInMemoryConfig();
+                        config = new StaticInMemoryConfiguration();
                         config.addMapping(validationStrategy.getName(), metaDataTransformerName);
-                        ExtValContext.getContext().addStaticConfig(StaticConfigNames.VALIDATION_STRATEGY_TO_META_DATA_TRANSFORMER_CONFIG, config);
+                        ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.VALIDATION_STRATEGY_TO_META_DATA_TRANSFORMER_CONFIG, config);
                     }
                 }
             }
