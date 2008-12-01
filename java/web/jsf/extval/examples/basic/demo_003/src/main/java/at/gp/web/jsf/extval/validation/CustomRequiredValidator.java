@@ -18,7 +18,7 @@
  */
 package at.gp.web.jsf.extval.validation;
 
-import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractValidatorAdapter;
+import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 
 import javax.faces.context.FacesContext;
@@ -29,7 +29,7 @@ import javax.faces.validator.ValidatorException;
 /**
  * @author Gerhard Petracek
  */
-public class CustomRequiredValidator extends AbstractValidatorAdapter
+public class CustomRequiredValidator extends AbstractValidationStrategy
 {
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent,
                                      MetaDataEntry metaDataEntry, Object convertedObject) throws ValidatorException
