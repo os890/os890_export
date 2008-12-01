@@ -19,6 +19,7 @@
 package org.apache.myfaces.extensions.validator.custom;
 
 import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
+import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 
 import javax.faces.component.UIComponent;
@@ -36,7 +37,7 @@ import java.util.Map;
  */
 public class OutputLabelValidationExceptionInterceptor implements org.apache.myfaces.extensions.validator.core.interceptor.ValidationExceptionInterceptor
 {
-    public boolean afterThrowing(UIComponent uiComponent, MetaDataEntry metaDataEntry, Object convertedObject, ValidatorException validatorException)
+    public boolean afterThrowing(UIComponent uiComponent, MetaDataEntry metaDataEntry, Object convertedObject, ValidatorException validatorException, ValidationStrategy validatorExceptionSource)
     {
         if(uiComponent instanceof HtmlInputText)
         {
