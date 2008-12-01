@@ -21,8 +21,8 @@ package at.gp.web.jsf.extval.config;
 import at.gp.web.jsf.extval.config.annotation.*;
 import at.gp.web.jsf.extval.config.annotation.RendererInterceptor;
 import at.gp.web.jsf.extval.config.annotation.ValidationExceptionInterceptor;
-import org.apache.myfaces.extensions.validator.core.CustomInfo;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
+import org.apache.myfaces.extensions.validator.core.CustomInformation;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticInMemoryConfiguration;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticConfigurationNames;
 import org.apache.myfaces.extensions.validator.core.interceptor.*;
@@ -92,7 +92,7 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
     protected String getBasePackage()
     {
-        return ExtValContext.getContext().getInformationProviderBean().get(CustomInfo.BASE_PACKAGE).replace(".", "/");
+        return ExtValContext.getContext().getInformationProviderBean().get(CustomInformation.BASE_PACKAGE).replace(".", "/");
     }
 
     private void addAdvancedValidationStrategies(AnnotationDB annotationDB)
