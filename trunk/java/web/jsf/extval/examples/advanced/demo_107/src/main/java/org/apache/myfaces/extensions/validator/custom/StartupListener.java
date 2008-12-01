@@ -20,6 +20,11 @@ package org.apache.myfaces.extensions.validator.custom;
 
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
+import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticInMemoryConfiguration;
+import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticConfigurationNames;
+import org.apache.myfaces.extensions.validator.crossval.annotation.NotEquals;
+import org.apache.myfaces.extensions.validator.crossval.message.resolver.DefaultValidationErrorMessageResolver;
+import at.gp.web.jsf.extval.CustomNotEqualsValidation;
 
 /**
  * used for label support
@@ -33,5 +38,11 @@ public class StartupListener extends AbstractStartupListener
     {
         ExtValContext.getContext().registerRendererInterceptor(new OutputLabelRendererInterceptor());
         ExtValContext.getContext().addValidationExceptionInterceptor(new OutputLabelValidationExceptionInterceptor());
+        StaticInMemoryConfiguration configuration = new StaticInMemoryConfiguration();
+        configuration.addMapping(NotEquals.class.getName(), CustomNotEqualsValidation.class.getName());
+        ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, configuration);
+        configuration = new StaticInMemoryConfiguration();
+        configuration.addMapping(CustomNotEqualsValidation.class.getName(), DefaultValidationErrorMessageResolver.class.getName());
+        ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG, configuration);
     }
 }
