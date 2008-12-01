@@ -21,13 +21,10 @@ package at.gp.web.jsf.extval.validation.secure;
 import org.apache.myfaces.extensions.validator.core.interceptor.AbstractRendererInterceptor;
 import org.apache.myfaces.extensions.validator.core.metadata.extractor.MetaDataExtractor;
 import org.apache.myfaces.extensions.validator.core.metadata.CommonMetaDataKeys;
-import org.apache.myfaces.extensions.validator.core.annotation.AnnotationEntry;
-import org.apache.myfaces.extensions.validator.core.annotation.extractor.AnnotationExtractor;
-import org.apache.myfaces.extensions.validator.core.annotation.extractor.AnnotationExtractorFactory;
+import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
+import org.apache.myfaces.extensions.validator.core.metadata.transformer.MetaDataTransformer;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
-import org.apache.myfaces.extensions.validator.core.mapper.ClassMappingFactory;
-import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import org.apache.myfaces.extensions.validator.core.factory.FactoryNames;
+import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
@@ -36,7 +33,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
 import java.util.HashMap;
 import java.util.Map;
-import java.lang.annotation.Annotation;
 
 /**
  * check the required submit of user input.
@@ -72,36 +68,34 @@ public class SecureRendererInterceptor extends AbstractRendererInterceptor
     private boolean isValueOfComponentRequired(FacesContext facesContext, UIComponent uiComponent)
     {
         ValidationStrategy validationStrategy;
-        MetaDataExtractor metaDataExtractor;
+        MetaDataTransformer metaDataTransformer;
 
-        AnnotationExtractor annotationExtractor = ExtValContext.getContext().getFactoryFinder().getFactory(
-            FactoryNames.COMPONENT_ANNOTATION_EXTRACTOR_FACTORY, AnnotationExtractorFactory.class).create();
+        MetaDataExtractor metaDataExtractor = ExtValUtils.getComponentMetaDataExtractor();
 
         Map<String, Object> metaData;
-        for (AnnotationEntry entry : annotationExtractor.extractAnnotations(facesContext, uiComponent))
+        for (MetaDataEntry entry : metaDataExtractor.extract(facesContext, uiComponent).getMetaDataEntries())
         {
-            validationStrategy = ((ClassMappingFactory<Annotation, ValidationStrategy>) ExtValContext.getContext()
-                .getFactoryFinder()
-                .getFactory(FactoryNames.VALIDATION_STRATEGY_FACTORY, ClassMappingFactory.class))
-                .create(entry.getAnnotation());
+            validationStrategy = ExtValUtils.getValidationStrategyForMetaData(entry.getKey());
 
             if (validationStrategy != null)
             {
-                metaDataExtractor = ((ClassMappingFactory<ValidationStrategy, MetaDataExtractor>) ExtValContext
-                    .getContext().getFactoryFinder()
-                    .getFactory(FactoryNames.META_DATA_EXTRACTOR_FACTORY, ClassMappingFactory.class))
-                    .create(validationStrategy);
-                
-                if(metaDataExtractor != null)
+                metaDataTransformer = ExtValUtils.getMetaDataTransformerForValidationStrategy(validationStrategy);
+
+                if(metaDataTransformer != null)
                 {
-                    metaData = metaDataExtractor.extractMetaData(entry.getAnnotation());
+                    if(this.logger.isDebugEnabled())
+                    {
+                        this.logger.debug(metaDataTransformer.getClass().getName() + " instantiated");
+                    }
+
+                    metaData = metaDataTransformer.convertMetaData(entry);
                 }
                 else
                 {
                     metaData = null;
                 }
 
-                if (metaData == null)
+                if(metaData == null)
                 {
                     metaData = new HashMap<String, Object>();
                 }
