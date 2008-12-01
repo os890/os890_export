@@ -18,7 +18,7 @@
  */
 package org.apache.myfaces.extensions.validator.custom;
 
-import org.apache.myfaces.extensions.validator.core.CustomInfo;
+import org.apache.myfaces.extensions.validator.core.CustomInformation;
 
 import java.util.Map;
 
@@ -34,9 +34,9 @@ import java.util.Map;
 public class InformationProviderBean  extends org.apache.myfaces.extensions.validator.core.InformationProviderBean
 {
     @Override
-    protected void applyCustomValues(Map<CustomInfo, String> map)
+    protected void applyCustomValues(Map<CustomInformation, String> map)
     {
-        map.put(CustomInfo.BASE_PACKAGE, "at.gp.web.jsf.extval.");
-        map.put(CustomInfo.MESSAGE_BUNDLE_NAME, "bundle.messages");
+        map.put(CustomInformation.BASE_PACKAGE, "at.gp.web.jsf.extval.");
+        map.put(CustomInformation.MESSAGE_BUNDLE_NAME, "bundle.messages");
     }
 }
