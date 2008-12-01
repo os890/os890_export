@@ -40,7 +40,7 @@ public class CustomRequiredValidator extends AbstractAnnotationValidationStrateg
         {
             throw new ValidatorException(new FacesMessage(
                 getErrorMessageSummary(metaDataEntry.getValue(Annotation.class)),
-                getErrorMessageDetails(metaDataEntry.getValue(Annotation.class))));
+                getErrorMessageDetail(metaDataEntry.getValue(Annotation.class))));
         }
     }
 
