@@ -64,7 +64,7 @@ public class CustomRequiredValidator extends AbstractAnnotationValidationStrateg
             return null;
         }
 
-        if(ExtValUtils.getELHelper().isELTerm(label))
+        if(ExtValUtils.getELHelper().isELTermWellFormed(label))
         {
             return (String)ExtValUtils.getELHelper()
                     .getValueOfExpression(facesContext, new ValueBindingExpression(label));
