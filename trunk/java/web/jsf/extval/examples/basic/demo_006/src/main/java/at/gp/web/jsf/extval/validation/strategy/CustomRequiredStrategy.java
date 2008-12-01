@@ -42,7 +42,7 @@ public class CustomRequiredStrategy extends AbstractAnnotationValidationStrategy
         {
             throw new ValidatorException(new FacesMessage(
                 getErrorMessageSummary(metaDataEntry.getValue(Annotation.class)),
-                getErrorMessageDetails(metaDataEntry.getValue(Annotation.class))));
+                getErrorMessageDetail(metaDataEntry.getValue(Annotation.class))));
         }
     }
 
