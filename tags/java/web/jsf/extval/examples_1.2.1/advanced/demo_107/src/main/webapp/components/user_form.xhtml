@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<body>
+<ui:composition>
+
+    <h:dataTable var="currentPerson" value="#{personPage.persons}">
+        <h:column>
+            <h:outputLabel for="firstName" value="First name:"/>
+            <h:inputText id="firstName" value="#{currentPerson.firstName}" rendered="#{!readonly}"/>
+            <h:outputText id="firstNameOutput" value="#{currentPerson.firstName}" rendered="#{readonly}"/>
+            <h:message for="firstName" showSummary="true" showDetail="false" rendered="#{!readonly}"/>
+        </h:column>
+        <h:column>
+            <h:outputLabel for="lastName" value="#{messages.last_name}:"/>
+            <h:inputText id="lastName" value="#{currentPerson.lastName}" rendered="#{!readonly}"/>
+            <h:outputText id="lastNameOutput" value="#{currentPerson.lastName}" rendered="#{readonly}"/>
+            <h:message for="lastName" showSummary="true" showDetail="false" rendered="#{!readonly}"/>
+        </h:column>
+    </h:dataTable>
+    
+</ui:composition>
+</body>
+</html>
