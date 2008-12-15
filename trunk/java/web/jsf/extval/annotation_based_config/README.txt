@@ -13,20 +13,23 @@ Usage instructions:
 Annotate your classes and place them within (a sub-package of) the base package.
 
 Available annotations:
- - StartupListener
- - ValidationStrategy
- - MessageResolver
+ - AdvancedValidationStrategy
  - ComponentInitializer
+ - InformationProviderBean
+ - MessageResolver
  - MetaDataTransformer
+ - MetaDataValidationStrategy
  - ProcessedInformationRecorder
  - RendererInterceptor
- - AdvancedValidationStrategy
+ - StartupListener
+ - ValidationExceptionInterceptor
+ - ValidationStrategy
 
 StartupListener:
 Annotation for sub-classes of
 org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener
 
-ValidationStrategy:
+ValidationStrategy or MetaDataValidationStrategy:
 Annotation for implementations or sub-classes of implementations of
 org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy
 
@@ -53,3 +56,11 @@ org.apache.myfaces.extensions.validator.core.interceptor.RendererInterceptor
 AdvancedValidationStrategy:
 It's like the ValidationStrategy annotation.
 The difference: It bundles information so you don't need the single MessageResolver and MetaDataTransformer annotations.
+
+InformationProviderBean:
+Annotation for implementations or sub-classes of implementations of
+org.apache.myfaces.extensions.validator.core.InformationProviderBean
+
+ValidationExceptionInterceptor:
+Annotation for implementations or sub-classes of implementations of
+org.apache.myfaces.extensions.validator.core.interceptor.ValidationExceptionInterceptor
