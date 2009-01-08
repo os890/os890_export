@@ -29,8 +29,10 @@ import org.apache.myfaces.extensions.validator.core.interceptor.*;
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
 import org.scannotation.AnnotationDB;
+import org.scannotation.WarUrlFinder;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -38,26 +40,39 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Set;
+import java.util.List;
 
 /**
  * @author Gerhard Petracek
  */
 public class AnnotationBasedConfigStartupListener extends AbstractStartupListener
 {
+    private static final long serialVersionUID = 395947458264828231L;
+
     protected void init()
     {
         AnnotationDB annotationDB = getAnnotationScanner();
 
-        ClassLoader result = getClass().getClassLoader();
-
         try
         {
             String baseResource = getBasePackage();
-            Enumeration<URL> urls = result.getResources(baseResource);
+            List<String> baseResources = getBasePackages();
 
-            while (urls.hasMoreElements())
+            if(baseResource != null)
             {
-                annotationDB.scanArchives(findResourceBase(urls.nextElement(), baseResource));
+                addBaseResource(baseResource, annotationDB);
+            }
+            else if (baseResources != null)
+            {
+                for(String currentBaseResource : baseResources)
+                {
+                    addBaseResource(currentBaseResource, annotationDB);
+                }
+            }
+            else
+            {
+                annotationDB.scanArchives(WarUrlFinder.findWebInfLibClasspaths((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()));
+                annotationDB.scanArchives(WarUrlFinder.findWebInfClassesPath((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()));
             }
         }
         catch (IOException e)
@@ -78,6 +93,17 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         addInformationProviderBean(annotationDB);
     }
 
+    private void addBaseResource(String baseResource, AnnotationDB annotationDB) throws IOException
+    {
+        ClassLoader result = getClass().getClassLoader();
+        Enumeration<URL> urls = result.getResources(baseResource);
+
+        while (urls.hasMoreElements())
+        {
+            annotationDB.scanArchives(findResourceBase(urls.nextElement(), baseResource));
+        }
+    }
+
     protected AnnotationDB getAnnotationScanner()
     {
         AnnotationDB annotationDB = new AnnotationDB();
@@ -93,6 +119,11 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
     protected String getBasePackage()
     {
         return ExtValContext.getContext().getInformationProviderBean().get(CustomInformation.BASE_PACKAGE).replace(".", "/");
+    }
+
+    protected List<String> getBasePackages()
+    {
+        return null;
     }
 
     private void addAdvancedValidationStrategies(AnnotationDB annotationDB)
