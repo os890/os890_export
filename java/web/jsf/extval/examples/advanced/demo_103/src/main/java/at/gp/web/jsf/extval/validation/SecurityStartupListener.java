@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.myfaces.extensions.validator.custom;
+package at.gp.web.jsf.extval.validation;
 
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
@@ -31,7 +31,7 @@ import at.gp.web.jsf.extval.validation.security.SecureRendererInterceptor;
  *
  * @author Gerhard Petracek
  */
-public class StartupListener extends AbstractStartupListener
+public class SecurityStartupListener extends AbstractStartupListener
 {
     protected void init()
     {

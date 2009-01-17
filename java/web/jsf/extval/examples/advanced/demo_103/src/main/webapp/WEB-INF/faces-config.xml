@@ -22,6 +22,10 @@
         <phase-listener>at.gp.web.jsf.extval.LoggingPhaseListener</phase-listener>
     </lifecycle-->
 
+    <lifecycle>
+        <phase-listener>at.gp.web.jsf.extval.validation.SecurityStartupListener</phase-listener>
+    </lifecycle>
+
     <managed-bean>
 		<managed-bean-name>personPage</managed-bean-name>
 		<managed-bean-class>at.gp.web.jsf.extval.PersonPage</managed-bean-class>
