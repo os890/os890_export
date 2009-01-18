@@ -23,8 +23,8 @@ import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticInMemoryConfiguration;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticConfigurationNames;
 import org.apache.myfaces.extensions.validator.crossval.annotation.NotEquals;
-import org.apache.myfaces.extensions.validator.crossval.message.resolver.DefaultValidationErrorMessageResolver;
-import at.gp.web.jsf.extval.CustomNotEqualsValidation;
+import at.gp.web.jsf.extval.validation.CustomNotEqualsValidation;
+import at.gp.web.jsf.extval.validation.CustomMessageResolver;
 
 /**
  * used for label support
@@ -42,7 +42,7 @@ public class StartupListener extends AbstractStartupListener
         configuration.addMapping(NotEquals.class.getName(), CustomNotEqualsValidation.class.getName());
         ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, configuration);
         configuration = new StaticInMemoryConfiguration();
-        configuration.addMapping(CustomNotEqualsValidation.class.getName(), DefaultValidationErrorMessageResolver.class.getName());
+        configuration.addMapping(CustomNotEqualsValidation.class.getName(), CustomMessageResolver.class.getName());
         ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG, configuration);
     }
 }
