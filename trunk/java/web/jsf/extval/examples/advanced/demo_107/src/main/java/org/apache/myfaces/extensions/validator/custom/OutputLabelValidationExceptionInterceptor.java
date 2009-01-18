@@ -59,7 +59,7 @@ public class OutputLabelValidationExceptionInterceptor implements org.apache.myf
                 }
             }
 
-            for(int i = 0; i < 3; i++)
+            for(int i = -1; i < 3; i++)
             {
                 ExtValUtils.tryToPlaceLabel(facesMessage, label, i);
             }

@@ -19,6 +19,8 @@
 package at.gp.web.jsf.extval.domain;
 
 import org.apache.myfaces.extensions.validator.crossval.annotation.NotEquals;
+import org.apache.myfaces.extensions.validator.crossval.annotation.RequiredIf;
+import org.apache.myfaces.extensions.validator.crossval.annotation.RequiredIfType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,10 +36,11 @@ public class Person
     private Long id;
 
     @NotEquals("lastName")
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String firstName;
 
-    @Column(nullable = false, length = 40)
+    @RequiredIf(valueOf = "firstName", is = RequiredIfType.not_empty)
+    @Column(length = 40)
     private String lastName;
 
     public Long getId()
