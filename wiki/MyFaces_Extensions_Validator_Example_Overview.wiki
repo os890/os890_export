@@ -1,4 +1,5 @@
-= Basic Examples =
+#labels MyFacesExtensionsValidator,MyFacesExtVal,ExtVal
+= Basic examples =
 
  * *000* 
    * Minimal Setup
@@ -29,7 +30,7 @@
    * Convention for custom name mappers
    * Custom message resolver via custom name mapper
 
-= Advanced Examples =
+= Advanced examples =
 
  * *101* 
    * Custom validation + usage of the message resolver-, meta-data transformer- and component initializer mechanism (simple cases)
