@@ -1,5 +1,5 @@
 #labels MyFacesExtensionsValidator,MyFacesExtVal,ExtVal
-== very IMPORTANT: Each example shows several features - for most requirements there are more possible solutions!!! The shown features aren't always the simplest approach. However, it's easier to use simple demo-cases to show a feature... Furthermore, not all features are covered by the examples. The project team of MyFaces is able to answer all questions. ==
+== very IMPORTANT: Each example shows several features - for most requirements there are several possible solutions!!! The shown features aren't always the simplest approach. However, it's easier to use simple demo-cases to show a feature... Furthermore, not all features are covered by the examples. The project team of MyFaces is able to answer all questions. ==
 
 = Basic examples =
 
