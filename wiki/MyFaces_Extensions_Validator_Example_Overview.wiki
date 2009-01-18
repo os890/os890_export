@@ -1,5 +1,3 @@
-# MyFaces Extensions Validator Example Overview
-
 = Basic Examples =
 
  * *000* 
