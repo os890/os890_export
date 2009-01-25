@@ -32,6 +32,10 @@
    * Convention for custom name mappers
    * Custom message resolver via custom name mapper
 
+ * *008* 
+   * ExtVal validators as Managed-Bean
+   * Reuse existing ExtVal message resolver via dependency injection
+
 = Advanced examples =
 
  * *101* 
