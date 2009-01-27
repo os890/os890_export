@@ -145,10 +145,10 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
                 {
                     currentAnnotation = (AdvancedValidationStrategy) annotation;
 
-                    for (Class targetAnnotation : currentAnnotation.value())
+                    for (Class targetAnnotationClass : currentAnnotation.annotationClass())
                     {
                         config = new StaticInMemoryConfiguration();
-                        config.addMapping(targetAnnotation.getName(), validationStrategyName);
+                        config.addMapping(targetAnnotationClass.getName(), validationStrategyName);
                         ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.META_DATA_TO_VALIDATION_STRATEGY_CONFIG, config);
                     }
 

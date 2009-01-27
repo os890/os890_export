@@ -34,7 +34,7 @@ import java.lang.annotation.Annotation;
 @Retention(RUNTIME)
 public @interface AdvancedValidationStrategy
 {
-    Class<? extends Annotation>[] value();
+    Class<? extends Annotation>[] annotationClass();
 
     Class<? extends org.apache.myfaces.extensions.validator.core.metadata.transformer.MetaDataTransformer> metaDataTransformerClass();
 
