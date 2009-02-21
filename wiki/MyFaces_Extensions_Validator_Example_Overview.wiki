@@ -43,7 +43,7 @@
    * Convention for custom factories
 
  * *102*
-   * Custom client-side validation for standard components (please *do not use* the shown approach in production code.)
+   * Custom validation + usage of the message resolver-, meta-data transformer- and component initializer mechanism
    * Convention for package structure 
  * *103* 
    * Use ExtVal for other purposes (secure required)
