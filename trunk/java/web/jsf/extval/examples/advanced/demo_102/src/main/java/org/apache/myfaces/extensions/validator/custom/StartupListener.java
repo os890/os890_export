@@ -21,7 +21,6 @@ package org.apache.myfaces.extensions.validator.custom;
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import at.gp.web.jsf.extval.validation.StandardComponentInitializer;
-import at.gp.web.jsf.extval.validation.SimpleDemoRequiredClientSideValidationRendererInterceptor;
 
 /**
  * instead of using the extval java api you can place one central component initializer via convention.
@@ -37,6 +36,5 @@ public class StartupListener extends AbstractStartupListener
     protected void init()
     {
         ExtValContext.getContext().addComponentInitializer(new StandardComponentInitializer());
-        ExtValContext.getContext().registerRendererInterceptor(new SimpleDemoRequiredClientSideValidationRendererInterceptor());
     }
 }

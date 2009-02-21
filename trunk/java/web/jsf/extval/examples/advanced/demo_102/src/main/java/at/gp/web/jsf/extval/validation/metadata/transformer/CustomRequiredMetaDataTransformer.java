@@ -14,7 +14,7 @@ public class CustomRequiredMetaDataTransformer implements MetaDataTransformer
     public Map<String, Object> convertMetaData(MetaDataEntry metaDataEntry)
     {
         Map<String, Object> result = new HashMap<String, Object>();
-        result.put("required", true);
+        result.put("custom_required", true);
         return result;
     }
 }

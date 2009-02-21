@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval.validation;
+package at.gp.web.jsf.extval.validation.message.resolver;
 
 import org.apache.myfaces.extensions.validator.core.validation.message.resolver.AbstractValidationErrorMessageResolver;
 
