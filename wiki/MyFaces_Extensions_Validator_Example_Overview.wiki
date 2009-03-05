@@ -36,6 +36,10 @@
    * ExtVal validators as Managed-Bean
    * Reuse existing ExtVal message resolver via dependency injection
 
+ * *009*
+   * Bypass validation via annotations (ExtVal 1.2.2-SNAPSHOT+ required)
+   * Bypass add-on available at: http://code.google.com/p/os890/source/browse/#svn/trunk/java/web/jsf/extval/bypass_validation
+
 = Advanced examples =
 
  * *101* 
@@ -63,3 +67,5 @@
    * Usage of @RequiredIf
  * *108* 
    * Example for jsf comp client-side validation integration - it's just a demo how to do it - no full implementation
+ * *109 - in progress*
+   * Client-side validation based on annotations
