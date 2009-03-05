@@ -29,8 +29,10 @@ import org.apache.myfaces.extensions.validator.ValidationInterceptorWithSkipVali
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UICommand;
+import javax.faces.component.EditableValueHolder;
 import javax.faces.render.Renderer;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidation;
 import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
@@ -66,12 +68,31 @@ public class ValidationInterceptorWithBypassValidationSupport extends Validation
             }
 
             //check if current command component was fired
-            if (facesContext.getExternalContext().getRequestParameterMap()
-                    .containsKey(uiComponent.getClientId(facesContext)))
+            if (isActivatedCommandComponent(facesContext, uiComponent.getClientId(facesContext)))
             {
                 processBypassValidation(facesContext, valueBindingExpression);
             }
         }
+    }
+
+    private boolean isActivatedCommandComponent(FacesContext facesContext, String clientId)
+    {
+        Map requestParameterMap = facesContext.getExternalContext().getRequestParameterMap();
+
+        boolean result = requestParameterMap.containsKey(clientId);
+
+        if(!result)
+        {
+            for(Object entry : requestParameterMap.entrySet())
+            {
+                if(((Map.Entry)entry).getValue().equals(clientId))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return result;
     }
 
     private void processBypassValidation(FacesContext facesContext, ValueBindingExpression valueBindingExpression)
@@ -132,6 +153,8 @@ public class ValidationInterceptorWithBypassValidationSupport extends Validation
     {
         if (BypassValidationUtils.bypassAllValidationsForRequest())
         {
+            //required is a special case - reset it
+            ((EditableValueHolder)uiComponent).setRequired(false);
             return;
         }
 
