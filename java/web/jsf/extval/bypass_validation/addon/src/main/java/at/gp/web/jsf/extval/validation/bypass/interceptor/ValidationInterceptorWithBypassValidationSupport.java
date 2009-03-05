@@ -18,7 +18,8 @@
  */
 package at.gp.web.jsf.extval.validation.bypass.interceptor;
 
-import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipAfterInterceptorsException;
+import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipBeforeInterceptorsException;
+import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipRendererDelegationException;
 import org.apache.myfaces.extensions.validator.core.el.ValueBindingExpression;
 import org.apache.myfaces.extensions.validator.core.el.ELHelper;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
@@ -30,9 +31,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UICommand;
 import javax.faces.component.EditableValueHolder;
+import javax.faces.component.UIPanel;
 import javax.faces.render.Renderer;
+import javax.faces.event.FacesEvent;
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidation;
 import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
@@ -43,56 +45,63 @@ import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
 public class ValidationInterceptorWithBypassValidationSupport extends ValidationInterceptorWithSkipValidationSupport
 {
     @Override
-    @SuppressWarnings({"deprecation"})
-    public void afterDecode(FacesContext facesContext, UIComponent uiComponent, Renderer wrapped)
-            throws SkipAfterInterceptorsException
+    public void beforeDecode(FacesContext facesContext, UIComponent uiComponent, Renderer wrapped) throws SkipBeforeInterceptorsException, SkipRendererDelegationException
     {
-        super.afterDecode(facesContext, uiComponent, wrapped);
-
         if (uiComponent instanceof UICommand)
         {
-            String actionString = ((UICommand) uiComponent).getAction() != null ?
-                    ((UICommand) uiComponent).getAction().getExpressionString() : "";
+            UIComponent parent = uiComponent.getParent();
+            UIComponent virtualComponent = new UIPanel() {
+                private String clientId = null;
+                @Override
+                public void queueEvent(FacesEvent facesEvent)
+                {
+                    this.clientId = facesEvent.getComponent().getClientId(FacesContext.getCurrentInstance());
+                    super.queueEvent(facesEvent);
+                }
 
-            if (!ExtValUtils.getELHelper().isELTermWellFormed(actionString))
+                @Override
+                public String toString()
+                {
+                    return clientId;
+                }
+            };
+
+            virtualComponent.setParent(parent);
+            uiComponent.setParent(virtualComponent);
+
+            //force decode
+            wrapped.decode(facesContext, uiComponent);
+
+            if(virtualComponent.toString() != null)
             {
-                return;
+                processActivatedCommandComponent(facesContext, uiComponent);
             }
 
-            ValueBindingExpression valueBindingExpression = new ValueBindingExpression(actionString);
-
-            if (!ExtValUtils.getELHelper()
-                    .isELTermValid(facesContext, valueBindingExpression.getBaseExpression().getExpressionString()))
-            {
-                return;
-            }
-
-            //check if current command component was fired
-            if (isActivatedCommandComponent(facesContext, uiComponent.getClientId(facesContext)))
-            {
-                processBypassValidation(facesContext, valueBindingExpression);
-            }
+            uiComponent.setParent(parent);
         }
+        
+        super.beforeDecode(facesContext, uiComponent, wrapped);
     }
 
-    private boolean isActivatedCommandComponent(FacesContext facesContext, String clientId)
+    private void processActivatedCommandComponent(FacesContext facesContext, UIComponent uiComponent)
     {
-        Map requestParameterMap = facesContext.getExternalContext().getRequestParameterMap();
+        String actionString = ((UICommand) uiComponent).getAction() != null ?
+                ((UICommand) uiComponent).getAction().getExpressionString() : "";
 
-        boolean result = requestParameterMap.containsKey(clientId);
-
-        if(!result)
+        if (!ExtValUtils.getELHelper().isELTermWellFormed(actionString))
         {
-            for(Object entry : requestParameterMap.entrySet())
-            {
-                if(((Map.Entry)entry).getValue().equals(clientId))
-                {
-                    return true;
-                }
-            }
+            return;
         }
 
-        return result;
+        ValueBindingExpression valueBindingExpression = new ValueBindingExpression(actionString);
+
+        if (!ExtValUtils.getELHelper()
+                .isELTermValid(facesContext, valueBindingExpression.getBaseExpression().getExpressionString()))
+        {
+            return;
+        }
+
+        processBypassValidation(facesContext, valueBindingExpression);
     }
 
     private void processBypassValidation(FacesContext facesContext, ValueBindingExpression valueBindingExpression)
