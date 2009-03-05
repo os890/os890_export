@@ -7,6 +7,11 @@
 <body>
 <ui:composition>
 
+    <h:selectOneMenu value="#{currentUserRole.roleName}" valueChangeListener="#{bean.changeRole}" immediate="true" rendered="#{!readonly}" onchange="this.form.submit();">
+        <f:selectItem itemValue="admin" itemLabel="#{messages.admin}"/>
+        <f:selectItem itemValue="user" itemLabel="#{messages.user}"/>
+    </h:selectOneMenu>
+
     <h:panelGrid columns="2" rendered="#{readonly}">
         <h:outputLabel for="firstName_ro" value="#{messages.first_name}:"/>
         <h:outputText id="firstName_ro" value="#{bean.person.firstName}"/>

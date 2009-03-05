@@ -18,6 +18,8 @@
  */
 package at.gp.web.jsf.extval.domain;
 
+import org.apache.myfaces.extensions.validator.baseval.annotation.Required;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -31,10 +33,10 @@ public class Person
     @Id
     private Long id;
 
-    @Column(nullable = false, length = 20)
+    @Required
     private String firstName;
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, length = 10)
     private String lastName;
 
     public Long getId()
