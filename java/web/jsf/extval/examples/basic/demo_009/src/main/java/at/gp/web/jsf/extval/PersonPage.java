@@ -19,6 +19,10 @@
 package at.gp.web.jsf.extval;
 
 import at.gp.web.jsf.extval.domain.Person;
+import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidation;
+
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.context.FacesContext;
 
 /**
  * @author Gerhard Petracek
@@ -26,10 +30,35 @@ import at.gp.web.jsf.extval.domain.Person;
 public class PersonPage
 {
     private Person person;
+    private Role role;
 
     public String send()
     {
         return ("success");
+    }
+
+    @BypassValidation
+    public String bypassAll()
+    {
+        return ("success");
+    }
+
+    @BypassValidation(all = false)
+    public String bypassSkipable()
+    {
+        return ("success");
+    }
+
+    @BypassValidation("#{currentUserRole.privileged}")
+    public String bypassConditional()
+    {
+        return ("success");
+    }
+
+    public void changeRole(ValueChangeEvent event)
+    {
+        this.role.setRoleName((String)event.getNewValue());
+        FacesContext.getCurrentInstance().renderResponse();
     }
 
     public Person getPerson()
@@ -40,5 +69,15 @@ public class PersonPage
     public void setPerson(Person person)
     {
         this.person = person;
+    }
+
+    public Role getRole()
+    {
+        return role;
+    }
+
+    public void setRole(Role role)
+    {
+        this.role = role;
     }
 }

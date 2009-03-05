@@ -60,14 +60,14 @@
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.5</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-impl</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.5</version>
             <scope>compile</scope>
         </dependency>
 
@@ -81,19 +81,26 @@
         <dependency>
             <groupId>com.sun.facelets</groupId>
             <artifactId>jsf-facelets</artifactId>
-            <version>1.1.11</version>
+            <version>1.1.14</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.myfaces.extensions.validator</groupId>
             <artifactId>myfaces-extval-core</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.myfaces.extensions.validator.validation-modules</groupId>
             <artifactId>myfaces-extval-property-validation</artifactId>
+            <version>1.2.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>at.gp.web.jsf.extval</groupId>
+            <artifactId>extval-annotation-based-bypass-validation</artifactId>
             <version>1.2.1</version>
             <scope>compile</scope>
         </dependency>

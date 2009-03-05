@@ -30,6 +30,10 @@
             <property-name>person</property-name>
             <value>#{person}</value>
         </managed-property>
+        <managed-property>
+            <property-name>role</property-name>
+            <value>#{currentUserRole}</value>
+        </managed-property>
     </managed-bean>
 
 	<managed-bean>
@@ -38,6 +42,12 @@
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>currentUserRole</managed-bean-name>
+        <managed-bean-class>at.gp.web.jsf.extval.Role</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
 	<navigation-rule>
 		<from-view-id>/pages/new_person.xhtml</from-view-id>
 		<navigation-case>

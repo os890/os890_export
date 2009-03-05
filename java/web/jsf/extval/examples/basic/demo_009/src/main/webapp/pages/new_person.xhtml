@@ -11,7 +11,13 @@
     <ui:define name="body">
         <cc:userForm bean="#{personPage}" readonly="false"/>
 
-        <h:commandButton value="#{messages.next}" action="#{personPage.send}"/>
+        <h:commandButton id="next" value="#{messages.next}" action="#{personPage.send}"/>
+        <p/>
+        <h:commandLink id="next_bypass_all" value="#{messages.next_bypass_all}" action="#{personPage.bypassAll}"/>
+        <p/>
+        <h:commandButton id="next_bypass_skipable" value="#{messages.next_bypass_skipable}" action="#{personPage.bypassSkipable}"/>
+        <p/>
+        <h:commandLink id="next_bypass_conditional" value="#{messages.next_bypass_conditional}" action="#{personPage.bypassConditional}"/>
     </ui:define>
     
 </ui:composition>
