@@ -37,7 +37,7 @@
    * Reuse existing ExtVal message resolver via dependency injection
 
  * *009*
-   * Bypass validation via annotations (ExtVal 1.2.2-SNAPSHOT+ required)
+   * Bypass validation via annotations (ExtVal 1.x.2-SNAPSHOT+ required)
    * Bypass add-on available at: http://code.google.com/p/os890/source/browse/#svn/trunk/java/web/jsf/extval/bypass_validation
 
 = Advanced examples =
