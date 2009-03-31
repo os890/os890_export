@@ -1,4 +1,4 @@
-<!--
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -15,16 +15,31 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
--->
+ */
+package at.gp.web.jsf.extval.validation.bypass.annotation;
 
-<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
-              version="1.2">
+import org.apache.myfaces.extensions.validator.internal.UsageInformation;
+import org.apache.myfaces.extensions.validator.internal.UsageCategory;
 
-    <lifecycle>
-        <phase-listener>at.gp.web.jsf.extval.validation.bypass.startup.BypassValidationStartupListener</phase-listener>
-        <phase-listener>at.gp.web.jsf.extval.validation.bypass.ResetBypassValidationPhaseListener</phase-listener>
-    </lifecycle>
+import java.lang.annotation.Retention;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-</faces-config>
+/**
+ * @author Gerhard Petracek
+ * @since 1.x.2
+ */
+@Retention(RUNTIME)
+@UsageInformation(UsageCategory.API)
+public @interface ViewId
+{
+    String value() default "*";
+
+    String[] condition() default {"#{true}"};
+
+    /**
+     * defines if also validation strategies without @SkipValidationSupport should be skipped
+     *
+     * @return true if everything should be skipped
+     */
+    boolean all() default false;
+}

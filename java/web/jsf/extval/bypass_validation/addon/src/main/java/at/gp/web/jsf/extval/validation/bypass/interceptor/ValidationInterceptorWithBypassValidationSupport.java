@@ -112,6 +112,11 @@ public class ValidationInterceptorWithBypassValidationSupport extends Validation
         Method actionMethod = ReflectionUtils
                 .tryToGetMethod(getClassOf(base), valueBindingExpression.getProperty());
 
+        if(actionMethod == null)
+        {
+            throw new IllegalStateException("method-binding: " + valueBindingExpression.getExpressionString() + " doesn't exist");    
+        }
+
         if (!actionMethod.isAnnotationPresent(BypassValidation.class))
         {
             return;
@@ -120,7 +125,7 @@ public class ValidationInterceptorWithBypassValidationSupport extends Validation
         BypassValidation bypassValidation = actionMethod.getAnnotation(BypassValidation.class);
 
         ValueBindingExpression bypassExpression;
-        for (String currentExpression : bypassValidation.value())
+        for (String currentExpression : bypassValidation.condition())
         {
             bypassExpression = new ValueBindingExpression(currentExpression);
 
@@ -160,10 +165,11 @@ public class ValidationInterceptorWithBypassValidationSupport extends Validation
     @Override
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent, Object convertedObject)
     {
+        //required is a special case - reset it
+        ((EditableValueHolder)uiComponent).setRequired(false);
+
         if (BypassValidationUtils.bypassAllValidationsForRequest())
         {
-            //required is a special case - reset it
-            ((EditableValueHolder)uiComponent).setRequired(false);
             return;
         }
 

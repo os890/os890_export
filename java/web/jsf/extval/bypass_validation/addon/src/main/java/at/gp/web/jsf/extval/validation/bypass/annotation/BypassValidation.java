@@ -35,6 +35,6 @@ import java.lang.annotation.Target;
 @UsageInformation(UsageCategory.API)
 public @interface BypassValidation
 {
-    String[] value() default {"#{true}"};
-    boolean all() default true;
+    String[] condition() default {"#{true}"};
+    boolean all() default false;
 }

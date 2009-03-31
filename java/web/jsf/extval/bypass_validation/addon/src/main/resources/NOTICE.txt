@@ -1,4 +1,4 @@
-Annotation based configuration support for Apache MyFaces Extensions Validator
+Bypass validation support for Apache MyFaces Extensions Validator
 Copyright 2007-2008 Gerhard Petracek
 
 ------------------------------------------------------------------------
