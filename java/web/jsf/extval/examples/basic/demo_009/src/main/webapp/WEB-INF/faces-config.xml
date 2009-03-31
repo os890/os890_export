@@ -36,6 +36,20 @@
         </managed-property>
     </managed-bean>
 
+    <managed-bean>
+		<managed-bean-name>personPage2</managed-bean-name>
+		<managed-bean-class>at.gp.web.jsf.extval.PersonPage2</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>person</property-name>
+            <value>#{person}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>role</property-name>
+            <value>#{currentUserRole}</value>
+        </managed-property>
+    </managed-bean>
+
 	<managed-bean>
 		<managed-bean-name>person</managed-bean-name>
 		<managed-bean-class>at.gp.web.jsf.extval.domain.Person</managed-bean-class>
@@ -47,20 +61,21 @@
         <managed-bean-class>at.gp.web.jsf.extval.Role</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
-    
-	<navigation-rule>
-		<from-view-id>/pages/new_person.xhtml</from-view-id>
+
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>page1</from-outcome>
+            <to-view-id>/pages/new_person1.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>page2</from-outcome>
+            <to-view-id>/pages/new_person2.xhtml</to-view-id>
+        </navigation-case>
 		<navigation-case>
 			<from-outcome>success</from-outcome>
 			<to-view-id>/pages/show_person.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
-	<navigation-rule>
-		<from-view-id>/pages/show_person.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>back</from-outcome>
-			<to-view-id>/pages/new_person.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
 </faces-config>

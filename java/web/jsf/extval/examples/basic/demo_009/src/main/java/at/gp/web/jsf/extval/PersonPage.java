@@ -29,27 +29,30 @@ import javax.faces.context.FacesContext;
  */
 public class PersonPage
 {
-    private Person person;
-    private Role role;
-
     public String send()
     {
         return ("success");
     }
 
-    @BypassValidation
-    public String bypassAll()
+    @BypassValidation(all = true)
+    public String sendWithoutValidation()
     {
         return ("success");
     }
 
-    @BypassValidation(all = false)
+    //...
+
+    private Person person;
+    private Role role;
+
+
+    @BypassValidation
     public String bypassSkipable()
     {
         return ("success");
     }
 
-    @BypassValidation("#{currentUserRole.privileged}")
+    @BypassValidation(condition = "#{currentUserRole.privileged}", all = true)
     public String bypassConditional()
     {
         return ("success");

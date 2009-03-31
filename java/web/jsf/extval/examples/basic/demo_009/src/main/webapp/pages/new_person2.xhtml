@@ -9,13 +9,11 @@
 <ui:composition template="../templates/main.xhtml">
 
     <ui:define name="body">
-        <h2>#{messages.person_summary}</h2>
-        <cc:userForm bean="#{personPage}" readonly="true"/>
+        <cc:userForm bean="#{personPage2}" readonly="false"/>
 
-        <h:commandButton value="#{messages.page1}" action="page1"/><p/>
-        <h:commandButton value="#{messages.page2}" action="page2"/>
+        <h:commandButton id="next" value="#{messages.next}" action="#{personPage2.send}"/>
     </ui:define>
-
+    
 </ui:composition>
 </body>
 </html>
