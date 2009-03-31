@@ -1,4 +1,4 @@
-<!--
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -15,16 +15,31 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
--->
+ */
+package at.gp.web.jsf.extval.validation.bypass;
 
-<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
-              version="1.2">
+import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
 
-    <lifecycle>
-        <phase-listener>at.gp.web.jsf.extval.validation.bypass.startup.BypassValidationStartupListener</phase-listener>
-        <phase-listener>at.gp.web.jsf.extval.validation.bypass.ResetBypassValidationPhaseListener</phase-listener>
-    </lifecycle>
+import javax.faces.event.PhaseListener;
+import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
 
-</faces-config>
+/**
+ * @author Gerhard Petracek
+ */
+public class ResetBypassValidationPhaseListener implements PhaseListener
+{
+    public void afterPhase(PhaseEvent phaseEvent)
+    {
+        BypassValidationUtils.bypassAllSkipableValidationsForRequest();
+    }
+
+    public void beforePhase(PhaseEvent phaseEvent)
+    {
+    }
+
+    public PhaseId getPhaseId()
+    {
+        return PhaseId.PROCESS_VALIDATIONS;
+    }
+}
