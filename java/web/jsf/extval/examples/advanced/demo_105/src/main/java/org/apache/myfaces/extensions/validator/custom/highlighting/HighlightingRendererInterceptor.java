@@ -44,5 +44,7 @@ public class HighlightingRendererInterceptor extends AbstractRendererInterceptor
             //instead of overriding it you can impl. a smarter mechanism
             ((HtmlInputText)uiComponent).setStyleClass("valid_input");
         }
+
+        //add further input components here
     }
 }

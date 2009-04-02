@@ -41,6 +41,9 @@ public class HighlightingInterceptor implements ValidationExceptionInterceptor
             //instead of overriding it you can impl. a smarter mechanism
             ((HtmlInputText)uiComponent).setStyleClass("invalid_input");
         }
+
+        //add further input components here
+        
         return true;
     }
 }
