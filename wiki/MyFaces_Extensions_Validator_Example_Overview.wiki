@@ -57,6 +57,7 @@
    * Replacing existing validation strategies
  * *105* 
    * Custom JPA validation messages via message resolver
+   * demo for highlighting validated fields
  * *106* 
    * Dependency injection (e.g. via Spring) support
    * Label for annotation
