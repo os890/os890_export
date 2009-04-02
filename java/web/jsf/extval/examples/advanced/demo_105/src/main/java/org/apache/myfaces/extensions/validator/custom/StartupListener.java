@@ -23,6 +23,8 @@ import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticInMemoryConfiguration;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticConfigurationNames;
 import org.apache.myfaces.extensions.validator.baseval.strategy.JpaValidationStrategy;
+import org.apache.myfaces.extensions.validator.custom.highlighting.HighlightingRendererInterceptor;
+import org.apache.myfaces.extensions.validator.custom.highlighting.HighlightingInterceptor;
 
 /**
  * @author Gerhard Petracek
@@ -34,5 +36,13 @@ public class StartupListener extends AbstractStartupListener
         StaticInMemoryConfiguration config = new StaticInMemoryConfiguration();
         config.addMapping(JpaValidationStrategy.class.getName(), MyStaticJpaMessageResolver.class.getName());
         ExtValContext.getContext().addStaticConfiguration(StaticConfigurationNames.VALIDATION_STRATEGY_TO_MESSAGE_RESOLVER_CONFIG, config);
+
+        addHighlightingSupport();
+    }
+
+    private void addHighlightingSupport()
+    {
+        ExtValContext.getContext().registerRendererInterceptor(new HighlightingRendererInterceptor());
+        ExtValContext.getContext().addValidationExceptionInterceptor(new HighlightingInterceptor());
     }
 }
