@@ -21,6 +21,7 @@ package at.gp.web.jsf.extval.config;
 import at.gp.web.jsf.extval.config.annotation.*;
 import at.gp.web.jsf.extval.config.annotation.RendererInterceptor;
 import at.gp.web.jsf.extval.config.annotation.ValidationExceptionInterceptor;
+import at.gp.web.jsf.extval.config.annotation.MetaDataExtractionInterceptor;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.core.CustomInformation;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticInMemoryConfiguration;
@@ -91,6 +92,9 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         addProcessedInformationRecorders(annotationDB);
         addRendererInterceptors(annotationDB);
         addInformationProviderBean(annotationDB);
+
+        //since 1.x.2
+        addMetaDataExtractionInterceptors(annotationDB);
     }
 
     private void addBaseResource(String baseResource, AnnotationDB annotationDB) throws IOException
@@ -441,6 +445,28 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         catch (MalformedURLException e)
         {
             throw new RuntimeException(e);
+        }
+    }
+
+
+    private void addMetaDataExtractionInterceptors(AnnotationDB annotationDB)
+    {
+        Set<String> result = annotationDB.getAnnotationIndex().get(MetaDataExtractionInterceptor.class.getName());
+
+        if(result == null)
+        {
+            return;
+        }
+
+        Object metaDataExtractionInterceptor;
+        for (String metaDataExtractionInterceptorName : result)
+        {
+            metaDataExtractionInterceptor = ClassUtils.tryToInstantiateClassForName(metaDataExtractionInterceptorName);
+
+            if (metaDataExtractionInterceptor != null && metaDataExtractionInterceptor instanceof org.apache.myfaces.extensions.validator.core.interceptor.MetaDataExtractionInterceptor)
+            {
+                ExtValContext.getContext().addMetaDataExtractionInterceptor((org.apache.myfaces.extensions.validator.core.interceptor.MetaDataExtractionInterceptor) metaDataExtractionInterceptor);
+            }
         }
     }
 }
