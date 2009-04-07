@@ -1,6 +1,8 @@
 #labels MyFacesExtensionsValidator,MyFacesExtVal,ExtVal
 == very IMPORTANT: Each example shows several features - for most requirements there are several possible solutions!!! The shown features aren't always the simplest approach. However, it's easier to use simple demo-cases to show a feature... Furthermore, not all features are covered by the examples. The MyFaces team is able to answer all questions. ==
 
+== please use primarily the tagged versions. the trunk is always for the unreleased trunk version of myfaces extval! ==
+
 = Basic examples =
 
  * *000* 
