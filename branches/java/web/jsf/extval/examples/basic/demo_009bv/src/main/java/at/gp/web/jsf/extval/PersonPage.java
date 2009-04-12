@@ -19,14 +19,20 @@
 package at.gp.web.jsf.extval;
 
 import at.gp.web.jsf.extval.domain.Person;
-import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidation;
+import at.gp.web.jsf.extval.validation.bypass.annotation.BypassBeanValidation;
+import at.gp.web.jsf.extval.validation.bypass.annotation.BypassType;
+import at.gp.web.jsf.extval.group.User;
+import at.gp.web.jsf.extval.group.RestrictedUser;
 
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.context.FacesContext;
 
+import org.apache.myfaces.extensions.validator.beanval.annotation.BeanValidation;
+
 /**
  * @author Gerhard Petracek
  */
+@BeanValidation(useGroups = User.class)
 public class PersonPage
 {
     public String send()
@@ -34,8 +40,14 @@ public class PersonPage
         return ("success");
     }
 
-    @BypassValidation(all = true)
+    @BypassBeanValidation
     public String sendWithoutValidation()
+    {
+        return ("success");
+    }
+
+    @BeanValidation(useGroups = RestrictedUser.class)
+    public String sendRestrictedValidation()
     {
         return ("success");
     }
@@ -46,13 +58,13 @@ public class PersonPage
     private Role role;
 
 
-    @BypassValidation
-    public String bypassSkipable()
+    @BypassBeanValidation(bypass = BypassType.modelValidations)
+    public String bypassModelValidationOnly()
     {
         return ("success");
     }
 
-    @BypassValidation(conditions = "#{currentUserRole.privileged}", all = true)
+    @BypassBeanValidation(conditions = "#{currentUserRole.privileged}")
     public String bypassConditional()
     {
         return ("success");

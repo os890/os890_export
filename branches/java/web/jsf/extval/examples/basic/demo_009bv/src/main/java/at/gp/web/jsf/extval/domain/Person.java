@@ -18,26 +18,36 @@
  */
 package at.gp.web.jsf.extval.domain;
 
-import org.apache.myfaces.extensions.validator.baseval.annotation.Required;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import at.gp.web.jsf.extval.group.RestrictedUser;
+import at.gp.web.jsf.extval.group.User;
+import at.gp.web.jsf.extval.group.Address;
 
 /**
  * @author Gerhard Petracek
  */
-@Entity
 public class Person
 {
-    @Id
     private Long id;
 
-    @Required
+    @NotNull(groups = User.class)
+    @Size(min = 3, max = 12, groups = User.class)
     private String firstName;
 
-    @Column(nullable = false, length = 10)
+    @NotNull(groups = RestrictedUser.class)
+    @Size.List({
+            @Size(min = 3, max = 12, groups = RestrictedUser.class)
+    })
     private String lastName;
+
+    @NotNull(groups = Address.class, message = "street is required")
+    private String street;
+    @NotNull(groups = Address.class, message = "zip is required")
+    private String zip;
+    @NotNull(groups = Address.class, message = "city is required")
+    private String city;
 
     public Long getId()
     {
@@ -67,5 +77,35 @@ public class Person
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
+    }
+
+    public String getStreet()
+    {
+        return street;
+    }
+
+    public void setStreet(String street)
+    {
+        this.street = street;
+    }
+
+    public String getZip()
+    {
+        return zip;
+    }
+
+    public void setZip(String zip)
+    {
+        this.zip = zip;
+    }
+
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
     }
 }

@@ -19,20 +19,13 @@
 package at.gp.web.jsf.extval;
 
 import at.gp.web.jsf.extval.domain.Person;
-import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidationController;
-import at.gp.web.jsf.extval.validation.bypass.annotation.ViewId;
 
 /**
  * @author Gerhard Petracek
  */
-@BypassValidationController
 public class PersonPage2 extends PersonPage
 {
     @Override
-    @BypassValidationController(
-            @ViewId(value = "/pages/new_person2.xhtml",
-                    conditions = "#{currentUserRole.privileged}",
-                    all = true))
     public Person getPerson()
     {
         return super.getPerson();
