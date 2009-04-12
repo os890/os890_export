@@ -52,7 +52,7 @@ public class PersonPage
         return ("success");
     }
 
-    @BypassValidation(condition = "#{currentUserRole.privileged}", all = true)
+    @BypassValidation(conditions = "#{currentUserRole.privileged}", all = true)
     public String bypassConditional()
     {
         return ("success");
