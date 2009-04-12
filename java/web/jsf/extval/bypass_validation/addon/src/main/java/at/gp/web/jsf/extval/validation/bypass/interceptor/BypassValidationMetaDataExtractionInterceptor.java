@@ -145,7 +145,7 @@ public class BypassValidationMetaDataExtractionInterceptor implements MetaDataEx
     private boolean processViewId(ViewId viewId)
     {
         ValueBindingExpression bypassExpression;
-        for (String currentExpression : viewId.condition())
+        for (String currentExpression : viewId.conditions())
         {
             bypassExpression = new ValueBindingExpression(currentExpression);
 

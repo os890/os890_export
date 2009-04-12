@@ -34,7 +34,7 @@ public @interface ViewId
 {
     String value() default "*";
 
-    String[] condition() default {"#{true}"};
+    String[] conditions() default {"#{true}"};
 
     /**
      * defines if also validation strategies without @SkipValidationSupport should be skipped
