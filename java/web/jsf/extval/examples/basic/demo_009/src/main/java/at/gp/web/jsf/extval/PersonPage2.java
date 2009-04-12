@@ -31,7 +31,7 @@ public class PersonPage2 extends PersonPage
     @Override
     @BypassValidationController(
             @ViewId(value = "/pages/new_person2.xhtml",
-                    condition = "#{currentUserRole.privileged}",
+                    conditions = "#{currentUserRole.privileged}",
                     all = true))
     public Person getPerson()
     {
