@@ -125,7 +125,7 @@ public class ValidationInterceptorWithBypassValidationSupport extends Validation
         BypassValidation bypassValidation = actionMethod.getAnnotation(BypassValidation.class);
 
         ValueBindingExpression bypassExpression;
-        for (String currentExpression : bypassValidation.condition())
+        for (String currentExpression : bypassValidation.conditions())
         {
             bypassExpression = new ValueBindingExpression(currentExpression);
 

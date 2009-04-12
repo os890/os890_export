@@ -31,7 +31,7 @@ public class ResetBypassValidationPhaseListener implements PhaseListener
 {
     public void afterPhase(PhaseEvent phaseEvent)
     {
-        BypassValidationUtils.bypassAllSkipableValidationsForRequest();
+        BypassValidationUtils.resetBypassAllValidationsForRequest();
     }
 
     public void beforePhase(PhaseEvent phaseEvent)
