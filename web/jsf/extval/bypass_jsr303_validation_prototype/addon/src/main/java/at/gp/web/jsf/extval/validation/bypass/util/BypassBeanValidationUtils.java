@@ -26,19 +26,19 @@ import org.apache.myfaces.extensions.validator.core.CustomInformation;
 import javax.faces.context.FacesContext;
 import java.util.Map;
 
-import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidation;
+import at.gp.web.jsf.extval.validation.bypass.annotation.BypassBeanValidation;
 
 /**
  * @author Gerhard Petracek
  */
 @UsageInformation(UsageCategory.INTERNAL)
-public class BypassValidationUtils
+public class BypassBeanValidationUtils
 {
     public static final String BYPASS_VALIDATION_KEY = ExtValContext.getContext().getInformationProviderBean().get(CustomInformation.BASE_PACKAGE) + "BYPASS_VALIDATION_KEY";
 
-    public static void activateBypassAllValidationsForRequest(BypassValidation bypassValidation)
+    public static void activateBypassAllValidationsForRequest(BypassBeanValidation bypassBeanValidation)
     {
-        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(BYPASS_VALIDATION_KEY, bypassValidation);
+        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(BYPASS_VALIDATION_KEY, bypassBeanValidation);
     }
 
     public static void resetBypassAllValidationsForRequest()
@@ -55,12 +55,9 @@ public class BypassValidationUtils
         {
             Object value = requestMap.get(BYPASS_VALIDATION_KEY);
 
-            if(value instanceof BypassValidation)
+            if(value instanceof BypassBeanValidation)
             {
-                if(((BypassValidation)value).all())
-                {
-                    return true;
-                }
+                return true;
             }
         }
 

@@ -25,7 +25,7 @@ import org.apache.myfaces.extensions.validator.core.el.ELHelper;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
-import org.apache.myfaces.extensions.validator.ValidationInterceptorWithSkipValidationSupport;
+import org.apache.myfaces.extensions.validator.beanval.BeanValidationInterceptor;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -36,13 +36,13 @@ import javax.faces.render.Renderer;
 import javax.faces.event.FacesEvent;
 import java.lang.reflect.Method;
 
-import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidation;
-import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
+import at.gp.web.jsf.extval.validation.bypass.annotation.BypassBeanValidation;
+import at.gp.web.jsf.extval.validation.bypass.util.BypassBeanValidationUtils;
 
 /**
  * @author Gerhard Petracek
  */
-public class ValidationInterceptorWithBypassValidationSupport extends ValidationInterceptorWithSkipValidationSupport
+public class ValidationInterceptorWithBypassBeanValidationSupport extends BeanValidationInterceptor
 {
     @Override
     public void beforeDecode(FacesContext facesContext, UIComponent uiComponent, Renderer wrapped) throws SkipBeforeInterceptorsException, SkipRendererDelegationException
@@ -117,21 +117,21 @@ public class ValidationInterceptorWithBypassValidationSupport extends Validation
             throw new IllegalStateException("method-binding: " + valueBindingExpression.getExpressionString() + " doesn't exist");    
         }
 
-        if (!actionMethod.isAnnotationPresent(BypassValidation.class))
+        if (!actionMethod.isAnnotationPresent(BypassBeanValidation.class))
         {
             return;
         }
 
-        BypassValidation bypassValidation = actionMethod.getAnnotation(BypassValidation.class);
+        BypassBeanValidation bypassBeanValidation = actionMethod.getAnnotation(BypassBeanValidation.class);
 
         ValueBindingExpression bypassExpression;
-        for (String currentExpression : bypassValidation.condition())
+        for (String currentExpression : bypassBeanValidation.condition())
         {
             bypassExpression = new ValueBindingExpression(currentExpression);
 
             if (Boolean.TRUE.equals(elHelper.getValueOfExpression(facesContext, bypassExpression)))
             {
-                BypassValidationUtils.activateBypassAllValidationsForRequest(bypassValidation);
+                BypassBeanValidationUtils.activateBypassAllValidationsForRequest(bypassBeanValidation);
                 return;
             }
         }
@@ -168,7 +168,7 @@ public class ValidationInterceptorWithBypassValidationSupport extends Validation
         //required is a special case - reset it
         ((EditableValueHolder)uiComponent).setRequired(false);
 
-        if (BypassValidationUtils.bypassAllValidationsForRequest())
+        if (BypassBeanValidationUtils.bypassAllValidationsForRequest())
         {
             return;
         }
