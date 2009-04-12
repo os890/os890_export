@@ -29,6 +29,7 @@ import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
 import org.apache.myfaces.extensions.validator.beanval.BeanValidationInterceptor;
 import org.apache.myfaces.extensions.validator.beanval.ExtValBeanValidationContext;
+import org.apache.myfaces.extensions.validator.beanval.annotation.BeanValidation;
 import org.apache.myfaces.extensions.validator.beanval.validation.ModelValidationEntry;
 
 import javax.faces.context.FacesContext;
@@ -40,6 +41,7 @@ import javax.faces.render.Renderer;
 import javax.faces.event.FacesEvent;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.ArrayList;
 
 import at.gp.web.jsf.extval.validation.bypass.annotation.BypassBeanValidation;
 import at.gp.web.jsf.extval.validation.bypass.util.BypassBeanValidationUtils;
@@ -106,10 +108,11 @@ public class ValidationInterceptorWithBypassBeanValidationSupport extends BeanVa
             return;
         }
 
-        processBypassValidation(facesContext, valueBindingExpression);
+        processBeanValidationMetaData(facesContext, valueBindingExpression);
     }
 
-    private void processBypassValidation(FacesContext facesContext, ValueBindingExpression valueBindingExpression)
+    protected void processBeanValidationMetaData(
+            FacesContext facesContext, ValueBindingExpression valueBindingExpression)
     {
         ELHelper elHelper = ExtValUtils.getELHelper();
         Object base = elHelper.getValueOfExpression(facesContext, valueBindingExpression.getBaseExpression());
@@ -122,13 +125,30 @@ public class ValidationInterceptorWithBypassBeanValidationSupport extends BeanVa
             throw new IllegalStateException("method-binding: " + valueBindingExpression.getExpressionString() + " doesn't exist");    
         }
 
-        if (!actionMethod.isAnnotationPresent(BypassBeanValidation.class))
+        if (actionMethod.isAnnotationPresent(BypassBeanValidation.class))
         {
+            processBypassBeanValidation(actionMethod.getAnnotation(BypassBeanValidation.class), facesContext, elHelper);
             return;
         }
 
-        BypassBeanValidation bypassBeanValidation = actionMethod.getAnnotation(BypassBeanValidation.class);
+        String key = valueBindingExpression.getExpressionString();
+        key = key.substring(2, key.length() -1);
+        String methodName = valueBindingExpression.getProperty();
+        if(actionMethod.isAnnotationPresent(BeanValidation.class))
+        {
+            processBeanValidation(actionMethod.getAnnotation(BeanValidation.class), key, base, methodName);
+        }
+        else if(actionMethod.isAnnotationPresent(BeanValidation.List.class))
+        {
+            for(BeanValidation beanValidation : actionMethod.getAnnotation(BeanValidation.List.class).value())
+            {
+                processBeanValidation(beanValidation, key, base, methodName);
+            }
+        }
+    }
 
+    private void processBypassBeanValidation(BypassBeanValidation bypassBeanValidation, FacesContext facesContext, ELHelper elHelper)
+    {
         ValueBindingExpression bypassExpression;
         for (String currentExpression : bypassBeanValidation.conditions())
         {
@@ -140,6 +160,37 @@ public class ValidationInterceptorWithBypassBeanValidationSupport extends BeanVa
                 return;
             }
         }
+    }
+
+    private void processBeanValidation(BeanValidation beanValidation, String key, Object objectToInspect, String methodName)
+    {
+        List<Class> foundGroupsForPropertyValidation = new ArrayList<Class>();
+        List<Class> restrictedGroupsForPropertyValidation = new ArrayList<Class>();
+        List<ModelValidationEntry> modelValidationEntryList = new ArrayList<ModelValidationEntry>();
+        List<Class> restrictedGroupsForModelValidation = new ArrayList<Class>();
+
+        processMetaData(beanValidation,
+                        objectToInspect,
+                        foundGroupsForPropertyValidation,
+                        restrictedGroupsForPropertyValidation,
+                        modelValidationEntryList,
+                        restrictedGroupsForModelValidation);
+
+        ExtValBeanValidationContext extValBeanValidationContext = ExtValBeanValidationContext.getCurrentInstance();
+        String currentViewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+
+        processFoundGroups(extValBeanValidationContext, currentViewId, null,
+                foundGroupsForPropertyValidation);
+
+        processRestrictedGroups(extValBeanValidationContext, currentViewId, null,
+                restrictedGroupsForPropertyValidation);
+
+        initModelValidation(extValBeanValidationContext,
+                currentViewId,
+                null,
+                new PropertyDetails(key, objectToInspect, methodName),
+                modelValidationEntryList,
+                restrictedGroupsForModelValidation);
     }
 
     private Class getClassOf(Object base)
