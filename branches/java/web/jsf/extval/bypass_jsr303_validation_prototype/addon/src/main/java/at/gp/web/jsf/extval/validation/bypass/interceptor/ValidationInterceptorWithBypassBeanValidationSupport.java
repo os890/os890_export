@@ -22,10 +22,14 @@ import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipBefo
 import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipRendererDelegationException;
 import org.apache.myfaces.extensions.validator.core.el.ValueBindingExpression;
 import org.apache.myfaces.extensions.validator.core.el.ELHelper;
+import org.apache.myfaces.extensions.validator.core.property.PropertyDetails;
+import org.apache.myfaces.extensions.validator.core.property.PropertyInformation;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
 import org.apache.myfaces.extensions.validator.beanval.BeanValidationInterceptor;
+import org.apache.myfaces.extensions.validator.beanval.ExtValBeanValidationContext;
+import org.apache.myfaces.extensions.validator.beanval.validation.ModelValidationEntry;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -35,6 +39,7 @@ import javax.faces.component.UIPanel;
 import javax.faces.render.Renderer;
 import javax.faces.event.FacesEvent;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import at.gp.web.jsf.extval.validation.bypass.annotation.BypassBeanValidation;
 import at.gp.web.jsf.extval.validation.bypass.util.BypassBeanValidationUtils;
@@ -79,7 +84,7 @@ public class ValidationInterceptorWithBypassBeanValidationSupport extends BeanVa
 
             uiComponent.setParent(parent);
         }
-        
+
         super.beforeDecode(facesContext, uiComponent, wrapped);
     }
 
@@ -125,7 +130,7 @@ public class ValidationInterceptorWithBypassBeanValidationSupport extends BeanVa
         BypassBeanValidation bypassBeanValidation = actionMethod.getAnnotation(BypassBeanValidation.class);
 
         ValueBindingExpression bypassExpression;
-        for (String currentExpression : bypassBeanValidation.condition())
+        for (String currentExpression : bypassBeanValidation.conditions())
         {
             bypassExpression = new ValueBindingExpression(currentExpression);
 
@@ -174,5 +179,23 @@ public class ValidationInterceptorWithBypassBeanValidationSupport extends BeanVa
         }
 
         super.processValidation(facesContext, uiComponent, convertedObject);
+    }
+
+    @Override
+    protected void processFieldValidation(FacesContext facesContext, UIComponent uiComponent, Object convertedObject, PropertyInformation propertyInformation)
+    {
+        if(!BypassBeanValidationUtils.bypassFieldValidationsForRequest())
+        {
+            super.processFieldValidation(facesContext, uiComponent, convertedObject, propertyInformation);
+        }
+    }
+
+    @Override
+    protected void initModelValidation(ExtValBeanValidationContext extValBeanValidationContext, String currentViewId, UIComponent component, PropertyDetails propertyDetails, List<ModelValidationEntry> modelValidationEntryList, List<Class> restrictedGroupsForModelValidation)
+    {
+        if(!BypassBeanValidationUtils.bypassModelValidationsForRequest())
+        {
+            super.initModelValidation(extValBeanValidationContext, currentViewId, component, propertyDetails, modelValidationEntryList, restrictedGroupsForModelValidation);
+        }
     }
 }

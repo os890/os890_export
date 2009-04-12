@@ -23,7 +23,6 @@ import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.internal.ToDo;
 import org.apache.myfaces.extensions.validator.internal.Priority;
 import org.apache.myfaces.extensions.validator.beanval.BeanValidationInterceptor;
-import at.gp.web.jsf.extval.validation.bypass.interceptor.BypassBeanValidationMetaDataExtractionInterceptor;
 import at.gp.web.jsf.extval.validation.bypass.interceptor.ValidationInterceptorWithBypassBeanValidationSupport;
 
 /**
@@ -43,6 +42,5 @@ public class BypassBeanValidationStartupListener extends AbstractStartupListener
 
         ExtValContext.getContext().denyRendererInterceptor(BeanValidationInterceptor.class);
         ExtValContext.getContext().registerRendererInterceptor(new ValidationInterceptorWithBypassBeanValidationSupport());
-        ExtValContext.getContext().addMetaDataExtractionInterceptor(new BypassBeanValidationMetaDataExtractionInterceptor());
     }
 }

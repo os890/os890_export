@@ -34,38 +34,53 @@ import at.gp.web.jsf.extval.validation.bypass.annotation.BypassBeanValidation;
 @UsageInformation(UsageCategory.INTERNAL)
 public class BypassBeanValidationUtils
 {
-    public static final String BYPASS_VALIDATION_KEY = ExtValContext.getContext().getInformationProviderBean().get(CustomInformation.BASE_PACKAGE) + "BYPASS_VALIDATION_KEY";
+    public static final String BYPASS_BEAN_VALIDATION_KEY = ExtValContext.getContext().getInformationProviderBean().get(CustomInformation.BASE_PACKAGE) + "BYPASS_BEAN_VALIDATION_KEY";
 
     public static void activateBypassAllValidationsForRequest(BypassBeanValidation bypassBeanValidation)
     {
-        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(BYPASS_VALIDATION_KEY, bypassBeanValidation);
+        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(BYPASS_BEAN_VALIDATION_KEY, bypassBeanValidation);
     }
 
     public static void resetBypassAllValidationsForRequest()
     {
-        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove(BYPASS_VALIDATION_KEY);
+        FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove(BYPASS_BEAN_VALIDATION_KEY);
     }
 
     public static boolean bypassAllValidationsForRequest()
     {
+        BypassBeanValidation bypassBeanValidation = resolveBypassBeanValidation();
+
+        return bypassBeanValidation != null && BypassBeanValidation.BypassType.allValidations.equals(bypassBeanValidation.bypass());
+    }
+
+    public static boolean bypassFieldValidationsForRequest()
+    {
+        BypassBeanValidation bypassBeanValidation = resolveBypassBeanValidation();
+
+        return bypassBeanValidation != null && BypassBeanValidation.BypassType.fieldValidations.equals(bypassBeanValidation.bypass());
+    }
+
+    public static boolean bypassModelValidationsForRequest()
+    {
+        BypassBeanValidation bypassBeanValidation = resolveBypassBeanValidation();
+
+        return bypassBeanValidation != null && BypassBeanValidation.BypassType.fieldValidations.equals(bypassBeanValidation.bypass());
+    }
+
+    private static BypassBeanValidation resolveBypassBeanValidation()
+    {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         Map requestMap = facesContext.getExternalContext().getRequestMap();
 
-        if(requestMap.containsKey(BYPASS_VALIDATION_KEY))
+        if(requestMap.containsKey(BYPASS_BEAN_VALIDATION_KEY))
         {
-            Object value = requestMap.get(BYPASS_VALIDATION_KEY);
+            Object value = requestMap.get(BYPASS_BEAN_VALIDATION_KEY);
 
             if(value instanceof BypassBeanValidation)
             {
-                return true;
+                return (BypassBeanValidation)value;
             }
         }
-
-        return false;
-    }
-
-    public static boolean bypassAllSkipableValidationsForRequest()
-    {
-        return FacesContext.getCurrentInstance().getExternalContext().getRequestMap().containsKey(BYPASS_VALIDATION_KEY);
+        return null;
     }
 }
