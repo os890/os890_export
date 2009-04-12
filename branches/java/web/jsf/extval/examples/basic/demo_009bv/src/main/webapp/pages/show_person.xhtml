@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:cc="http://g-project.homeunix.net/demo/components">
+<body>
+<ui:composition template="../templates/main.xhtml">
+
+    <ui:define name="body">
+        <h2>#{messages.person_summary}</h2>
+        <cc:userForm bean="#{personPage}" readonly="true"/>
+
+        <h:commandButton value="#{messages.page1}" action="page1"/><p/>
+        <h:commandButton value="#{messages.page2}" action="page2"/>
+    </ui:define>
+
+</ui:composition>
+</body>
+</html>
