@@ -22,14 +22,14 @@ import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListe
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.internal.ToDo;
 import org.apache.myfaces.extensions.validator.internal.Priority;
-import org.apache.myfaces.extensions.validator.ValidationInterceptorWithSkipValidationSupport;
-import at.gp.web.jsf.extval.validation.bypass.interceptor.BypassValidationMetaDataExtractionInterceptor;
-import at.gp.web.jsf.extval.validation.bypass.interceptor.ValidationInterceptorWithBypassValidationSupport;
+import org.apache.myfaces.extensions.validator.beanval.BeanValidationInterceptor;
+import at.gp.web.jsf.extval.validation.bypass.interceptor.BypassBeanValidationMetaDataExtractionInterceptor;
+import at.gp.web.jsf.extval.validation.bypass.interceptor.ValidationInterceptorWithBypassBeanValidationSupport;
 
 /**
  * @author Gerhard Petracek
  */
-public class BypassValidationStartupListener extends AbstractStartupListener
+public class BypassBeanValidationStartupListener extends AbstractStartupListener
 {
     private static final long serialVersionUID = 395947458264828231L;
 
@@ -38,11 +38,11 @@ public class BypassValidationStartupListener extends AbstractStartupListener
     {
         if(logger.isInfoEnabled())
         {
-            logger.info("adding support for @BypassValidation");
+            logger.info("adding support for @BypassBeanValidation");
         }
 
-        ExtValContext.getContext().denyRendererInterceptor(ValidationInterceptorWithSkipValidationSupport.class);
-        ExtValContext.getContext().registerRendererInterceptor(new ValidationInterceptorWithBypassValidationSupport());
-        ExtValContext.getContext().addMetaDataExtractionInterceptor(new BypassValidationMetaDataExtractionInterceptor());
+        ExtValContext.getContext().denyRendererInterceptor(BeanValidationInterceptor.class);
+        ExtValContext.getContext().registerRendererInterceptor(new ValidationInterceptorWithBypassBeanValidationSupport());
+        ExtValContext.getContext().addMetaDataExtractionInterceptor(new BypassBeanValidationMetaDataExtractionInterceptor());
     }
 }

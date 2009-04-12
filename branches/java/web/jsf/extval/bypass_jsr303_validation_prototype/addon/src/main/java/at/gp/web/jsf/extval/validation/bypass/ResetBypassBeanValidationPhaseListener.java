@@ -16,26 +16,30 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval.validation.bypass.annotation;
+package at.gp.web.jsf.extval.validation.bypass;
 
-import org.apache.myfaces.extensions.validator.internal.UsageInformation;
-import org.apache.myfaces.extensions.validator.internal.UsageCategory;
+import at.gp.web.jsf.extval.validation.bypass.util.BypassBeanValidationUtils;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.TYPE;
-import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import java.lang.annotation.Target;
+import javax.faces.event.PhaseListener;
+import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
 
 /**
  * @author Gerhard Petracek
- * @since 1.x.2
  */
-@Target({METHOD, FIELD, TYPE})
-@Retention(RUNTIME)
-@UsageInformation(UsageCategory.API)
-public @interface BypassValidationController
+public class ResetBypassBeanValidationPhaseListener implements PhaseListener
 {
-    ViewId[] value() default @ViewId();
+    public void afterPhase(PhaseEvent phaseEvent)
+    {
+        BypassBeanValidationUtils.bypassAllSkipableValidationsForRequest();
+    }
+
+    public void beforePhase(PhaseEvent phaseEvent)
+    {
+    }
+
+    public PhaseId getPhaseId()
+    {
+        return PhaseId.PROCESS_VALIDATIONS;
+    }
 }

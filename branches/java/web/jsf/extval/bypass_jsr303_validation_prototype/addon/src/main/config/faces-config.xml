@@ -23,8 +23,8 @@
               version="1.2">
 
     <lifecycle>
-        <phase-listener>at.gp.web.jsf.extval.validation.bypass.startup.BypassValidationStartupListener</phase-listener>
-        <phase-listener>at.gp.web.jsf.extval.validation.bypass.ResetBypassValidationPhaseListener</phase-listener>
+        <phase-listener>at.gp.web.jsf.extval.validation.bypass.startup.BypassBeanValidationStartupListener</phase-listener>
+        <phase-listener>at.gp.web.jsf.extval.validation.bypass.ResetBypassBeanValidationPhaseListener</phase-listener>
     </lifecycle>
 
 </faces-config>

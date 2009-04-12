@@ -21,25 +21,19 @@ package at.gp.web.jsf.extval.validation.bypass.annotation;
 import org.apache.myfaces.extensions.validator.internal.UsageInformation;
 import org.apache.myfaces.extensions.validator.internal.UsageCategory;
 
+import static java.lang.annotation.ElementType.METHOD;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import java.lang.annotation.Target;
 
 /**
  * @author Gerhard Petracek
  * @since 1.x.2
  */
+@Target({METHOD})
 @Retention(RUNTIME)
 @UsageInformation(UsageCategory.API)
-public @interface ViewId
+public @interface BypassBeanValidation
 {
-    String value() default "*";
-
     String[] condition() default {"#{true}"};
-
-    /**
-     * defines if also validation strategies without @SkipValidationSupport should be skipped
-     *
-     * @return true if everything should be skipped
-     */
-    boolean all() default false;
 }
