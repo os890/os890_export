@@ -27,6 +27,7 @@ import javax.faces.context.FacesContext;
 import java.util.Map;
 
 import at.gp.web.jsf.extval.validation.bypass.annotation.BypassBeanValidation;
+import at.gp.web.jsf.extval.validation.bypass.annotation.BypassType;
 
 /**
  * @author Gerhard Petracek
@@ -50,21 +51,21 @@ public class BypassBeanValidationUtils
     {
         BypassBeanValidation bypassBeanValidation = resolveBypassBeanValidation();
 
-        return bypassBeanValidation != null && BypassBeanValidation.BypassType.allValidations.equals(bypassBeanValidation.bypass());
+        return bypassBeanValidation != null && BypassType.allValidations.equals(bypassBeanValidation.bypass());
     }
 
     public static boolean bypassFieldValidationsForRequest()
     {
         BypassBeanValidation bypassBeanValidation = resolveBypassBeanValidation();
 
-        return bypassBeanValidation != null && BypassBeanValidation.BypassType.fieldValidations.equals(bypassBeanValidation.bypass());
+        return bypassBeanValidation != null && BypassType.fieldValidations.equals(bypassBeanValidation.bypass());
     }
 
     public static boolean bypassModelValidationsForRequest()
     {
         BypassBeanValidation bypassBeanValidation = resolveBypassBeanValidation();
 
-        return bypassBeanValidation != null && BypassBeanValidation.BypassType.fieldValidations.equals(bypassBeanValidation.bypass());
+        return bypassBeanValidation != null && BypassType.fieldValidations.equals(bypassBeanValidation.bypass());
     }
 
     private static BypassBeanValidation resolveBypassBeanValidation()
