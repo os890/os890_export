@@ -35,5 +35,12 @@ import java.lang.annotation.Target;
 @UsageInformation(UsageCategory.API)
 public @interface BypassBeanValidation
 {
-    String[] condition() default {"#{true}"};
+    String[] conditions() default {"#{true}"};
+
+    BypassType bypass() default BypassType.allValidations;
+
+    public enum BypassType
+    {
+        allValidations, fieldValidations, modelValidations
+    }
 }
