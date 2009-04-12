@@ -15,7 +15,9 @@
         <p/>
         <h:commandLink id="next_bypass_all" value="#{messages.next_bypass_all}" action="#{personPage.sendWithoutValidation}"/>
         <p/>
-        <h:commandButton id="next_bypass_skipable" value="#{messages.next_bypass_skipable}" action="#{personPage.bypassSkipable}"/>
+        <h:commandButton id="next_bypass_skipable" value="#{messages.next_bypass_model_validation}" action="#{personPage.bypassModelValidationOnly}"/>
+        <p/>
+        <h:commandLink id="next_add_partial_validation" value="#{messages.next_add_partial_validation}" action="#{personPage.sendRestrictedValidation}"/>
         <p/>
         <h:commandLink id="next_bypass_conditional" value="#{messages.next_bypass_conditional}" action="#{personPage.bypassConditional}"/>
     </ui:define>
