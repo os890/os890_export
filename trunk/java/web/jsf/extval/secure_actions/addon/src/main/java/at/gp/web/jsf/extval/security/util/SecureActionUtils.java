@@ -114,6 +114,11 @@ public class SecureActionUtils
             return false;
         }
 
+        if(!availableForCurrentView(secureActionAnnotation))
+        {
+            return false;
+        }
+
         ELHelper elHelper = ExtValUtils.getELHelper();
 
         ValueBindingExpression valueBindingExpression;
@@ -210,6 +215,19 @@ public class SecureActionUtils
                     }
                     throw new RuntimeException(e);
                 }
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean availableForCurrentView(SecureAction secureActionAnnotation)
+    {
+        for(String viewId : secureActionAnnotation.viewIds())
+        {
+            if("*".equals(viewId) || viewId.equals(FacesContext.getCurrentInstance().getViewRoot().getViewId()))
+            {
+                return true;
             }
         }
 

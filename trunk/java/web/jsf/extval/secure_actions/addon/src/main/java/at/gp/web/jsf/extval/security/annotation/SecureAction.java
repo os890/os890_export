@@ -38,6 +38,8 @@ public @interface SecureAction
     static final String DEFAULT_OUTCOME = "at.gp.web.jsf.extval.security.DEFAULT_OUTCOME";
     static final String MESSAGE_BUNDLE = "at.gp.web.jsf.extval.security.MESSAGE_BUNDLE";
 
+    String[] viewIds() default "*";
+
     String[] permittedIf();
 
     String secureAction() default "";
