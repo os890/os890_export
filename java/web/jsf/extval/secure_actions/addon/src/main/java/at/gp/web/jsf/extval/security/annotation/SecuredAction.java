@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
 @Target({METHOD})
 @Retention(RUNTIME)
 @UsageInformation(UsageCategory.API)
-public @interface SecureAction
+public @interface SecuredAction
 {
     static final String DEFAULT_OUTCOME = "at.gp.web.jsf.extval.security.DEFAULT_OUTCOME";
     static final String MESSAGE_BUNDLE = "at.gp.web.jsf.extval.security.MESSAGE_BUNDLE";
@@ -57,6 +57,6 @@ public @interface SecureAction
             @interface List
     {
 
-        SecureAction[] value();
+        SecuredAction[] value();
     }
 }
