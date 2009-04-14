@@ -36,7 +36,7 @@ public class SecureActionStartupListener extends AbstractStartupListener
     {
         if (logger.isInfoEnabled())
         {
-            logger.info("adding support for @SecureAction");
+            logger.info("adding support for @SecuredAction");
         }
 
         ExtValContext.getContext().registerRendererInterceptor(new SecureActionInterceptor());

@@ -18,7 +18,7 @@
  */
 package at.gp.web.jsf.extval.security.util;
 
-import at.gp.web.jsf.extval.security.annotation.SecureAction;
+import at.gp.web.jsf.extval.security.annotation.SecuredAction;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
@@ -81,21 +81,21 @@ public class SecureActionUtils
             throw new IllegalStateException("method-binding: " + valueBindingExpression.getExpressionString() + " doesn't exist");
         }
 
-        if (!(actionMethod.isAnnotationPresent(SecureAction.class) || actionMethod.isAnnotationPresent(SecureAction.List.class)))
+        if (!(actionMethod.isAnnotationPresent(SecuredAction.class) || actionMethod.isAnnotationPresent(SecuredAction.List.class)))
         {
             return false;
         }
 
-        if (actionMethod.isAnnotationPresent(SecureAction.class))
+        if (actionMethod.isAnnotationPresent(SecuredAction.class))
         {
-            return processSecureActionAnnotation(facesContext, actionMethod.getAnnotation(SecureAction.class), base, isDecodePhase);
+            return processSecureActionAnnotation(facesContext, actionMethod.getAnnotation(SecuredAction.class), base, isDecodePhase);
         }
 
         boolean result;
 
-        for (SecureAction secureAction : actionMethod.getAnnotation(SecureAction.List.class).value())
+        for (SecuredAction securedAction : actionMethod.getAnnotation(SecuredAction.List.class).value())
         {
-            result = processSecureActionAnnotation(facesContext, secureAction, base, isDecodePhase);
+            result = processSecureActionAnnotation(facesContext, securedAction, base, isDecodePhase);
 
             if (result)
             {
@@ -106,15 +106,15 @@ public class SecureActionUtils
         return false;
     }
 
-    private static boolean processSecureActionAnnotation(FacesContext facesContext, SecureAction secureActionAnnotation, Object actionBase, boolean isDecodePhase)
+    private static boolean processSecureActionAnnotation(FacesContext facesContext, SecuredAction securedActionAnnotation, Object actionBase, boolean isDecodePhase)
     {
-        if (isDecodePhase && secureActionAnnotation.regularLifecycleExecution())
+        if (isDecodePhase && securedActionAnnotation.regularLifecycleExecution())
         {
             //continue lifecycle
             return false;
         }
 
-        if(!availableForCurrentView(secureActionAnnotation))
+        if(!availableForCurrentView(securedActionAnnotation))
         {
             return false;
         }
@@ -122,22 +122,22 @@ public class SecureActionUtils
         ELHelper elHelper = ExtValUtils.getELHelper();
 
         ValueBindingExpression valueBindingExpression;
-        for (String currentCondition : secureActionAnnotation.permittedIf())
+        for (String currentCondition : securedActionAnnotation.permittedIf())
         {
             valueBindingExpression = new ValueBindingExpression(currentCondition);
 
             if (Boolean.FALSE.equals(elHelper.getValueOfExpression(facesContext, valueBindingExpression)))
             {
                 String methodName;
-                if (elHelper.isELTermWellFormed(secureActionAnnotation.secureAction()))
+                if (elHelper.isELTermWellFormed(securedActionAnnotation.secureAction()))
                 {
-                    ValueBindingExpression expression = new ValueBindingExpression(secureActionAnnotation.secureAction());
+                    ValueBindingExpression expression = new ValueBindingExpression(securedActionAnnotation.secureAction());
                     actionBase = elHelper.getValueOfExpression(facesContext, expression.getBaseExpression());
                     methodName = expression.getProperty();
                 }
                 else
                 {
-                    methodName = secureActionAnnotation.secureAction();
+                    methodName = securedActionAnnotation.secureAction();
                 }
 
                 Method actionMethod = ReflectionUtils.tryToGetMethod(getClassOf(actionBase), methodName);
@@ -146,7 +146,7 @@ public class SecureActionUtils
                 {
                     if (LOGGER.isWarnEnabled())
                     {
-                        LOGGER.warn("invalid binding: " + secureActionAnnotation.secureAction());
+                        LOGGER.warn("invalid binding: " + securedActionAnnotation.secureAction());
                     }
                     return true;
                 }
@@ -164,14 +164,14 @@ public class SecureActionUtils
                         outcome = result.toString();
                     }
 
-                    if (!SecureAction.DEFAULT_OUTCOME.equals(secureActionAnnotation.secureOutcome()))
+                    if (!SecuredAction.DEFAULT_OUTCOME.equals(securedActionAnnotation.secureOutcome()))
                     {
-                        outcome = secureActionAnnotation.secureOutcome();
+                        outcome = securedActionAnnotation.secureOutcome();
                     }
 
-                    if (!"".equals(secureActionAnnotation.securityErrorMsgKey()))
+                    if (!"".equals(securedActionAnnotation.securityErrorMsgKey()))
                     {
-                        String bundleBase = (String) ExtValContext.getContext().getGlobalProperty(SecureAction.MESSAGE_BUNDLE);
+                        String bundleBase = (String) ExtValContext.getContext().getGlobalProperty(SecuredAction.MESSAGE_BUNDLE);
 
                         if (bundleBase == null)
                         {
@@ -190,8 +190,8 @@ public class SecureActionUtils
                         }
 
                         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                messageResolver.getMessage(secureActionAnnotation.securityErrorMsgKey(), facesContext.getViewRoot().getLocale()),
-                                messageResolver.getMessage(secureActionAnnotation.securityErrorMsgKey() + "_detail", facesContext.getViewRoot().getLocale())));
+                                messageResolver.getMessage(securedActionAnnotation.securityErrorMsgKey(), facesContext.getViewRoot().getLocale()),
+                                messageResolver.getMessage(securedActionAnnotation.securityErrorMsgKey() + "_detail", facesContext.getViewRoot().getLocale())));
                     }
 
                     facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, null, outcome);
@@ -221,9 +221,9 @@ public class SecureActionUtils
         return false;
     }
 
-    private static boolean availableForCurrentView(SecureAction secureActionAnnotation)
+    private static boolean availableForCurrentView(SecuredAction securedActionAnnotation)
     {
-        for(String viewId : secureActionAnnotation.viewIds())
+        for(String viewId : securedActionAnnotation.viewIds())
         {
             if("*".equals(viewId) || viewId.equals(FacesContext.getCurrentInstance().getViewRoot().getViewId()))
             {
