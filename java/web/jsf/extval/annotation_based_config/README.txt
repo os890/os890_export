@@ -25,6 +25,11 @@ Available annotations:
  - ValidationExceptionInterceptor
  - ValidationStrategy
 
+since extval 1.x.2:
+ - MetaDataExtractionInterceptor
+ - NameMapper
+ - FacesMessageFactory
+
 StartupListener:
 Annotation for sub-classes of
 org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener
@@ -64,3 +69,27 @@ org.apache.myfaces.extensions.validator.core.InformationProviderBean
 ValidationExceptionInterceptor:
 Annotation for implementations or sub-classes of implementations of
 org.apache.myfaces.extensions.validator.core.interceptor.ValidationExceptionInterceptor
+
+MetaDataExtractionInterceptor
+:
+
+Annotation for implementations or sub-classes of implementations of
+org.apache.myfaces.extensions.validator.core.interceptor.MetaDataExtractionInterceptor
+
+NameMapper:
+Annotation for implementations or sub-classes of implementations of
+org.apache.myfaces.extensions.validator.core.mapper.NameMapper
+
+ examples:
+    @NameMapper(from = Annotation.class, to = ValidationStrategy.class)
+    public class MyMetaDataToValidationStrategyNameMapper extends AbstractMetaDataToValidationStrategyNameMapper {...}
+
+    @NameMapper(from = ValidationStrategy.class, to = MessageResolver.class)
+    public class MyValidationStrategyToMessageResolverNameMapper extends AbstractValidationStrategyToMsgResolverNameMapper {...}
+
+    @NameMapper(from = ValidationStrategy.class, to = MetaDataTransformer.class)
+    public class MyValidationStrategyToMetaDataTransformerNameMapper extends AbstractValidationStrategyToMetaDataTransformerNameMapper {...}
+
+FacesMessageFactory:
+Annotation for implementations or sub-classes of implementations of
+org.apache.myfaces.extensions.validator.core.factory.FacesMessageFactory
