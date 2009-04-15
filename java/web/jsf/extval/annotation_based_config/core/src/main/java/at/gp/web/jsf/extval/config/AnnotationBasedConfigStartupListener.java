@@ -22,13 +22,17 @@ import at.gp.web.jsf.extval.config.annotation.*;
 import at.gp.web.jsf.extval.config.annotation.RendererInterceptor;
 import at.gp.web.jsf.extval.config.annotation.ValidationExceptionInterceptor;
 import at.gp.web.jsf.extval.config.annotation.MetaDataExtractionInterceptor;
+import at.gp.web.jsf.extval.config.annotation.MessageResolver;
+import at.gp.web.jsf.extval.config.annotation.MetaDataTransformer;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.core.CustomInformation;
+import org.apache.myfaces.extensions.validator.core.factory.FactoryNames;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticInMemoryConfiguration;
 import org.apache.myfaces.extensions.validator.core.initializer.configuration.StaticConfigurationNames;
 import org.apache.myfaces.extensions.validator.core.interceptor.*;
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
+import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.scannotation.AnnotationDB;
 import org.scannotation.WarUrlFinder;
 
@@ -95,6 +99,8 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
 
         //since 1.x.2
         addMetaDataExtractionInterceptors(annotationDB);
+        addNameMappers(annotationDB);
+        addFacesMessageFactory(annotationDB);
     }
 
     private void addBaseResource(String baseResource, AnnotationDB annotationDB) throws IOException
@@ -467,6 +473,71 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
             {
                 ExtValContext.getContext().addMetaDataExtractionInterceptor((org.apache.myfaces.extensions.validator.core.interceptor.MetaDataExtractionInterceptor) metaDataExtractionInterceptor);
             }
+        }
+    }
+
+    private void addNameMappers(AnnotationDB annotationDB)
+    {
+        Set<String> result = annotationDB.getAnnotationIndex().get(NameMapper.class.getName());
+
+        if(result == null)
+        {
+            return;
+        }
+
+        NameMapper currentAnnotation;
+        Class<? extends org.apache.myfaces.extensions.validator.core.mapper.NameMapper<String>> currentNameMapperClass;
+        org.apache.myfaces.extensions.validator.core.mapper.NameMapper currentNameMapper;
+        for (String currentNameMapperName : result)
+        {
+            currentNameMapperClass = ClassUtils.tryToLoadClassForName(currentNameMapperName);
+
+            for (Annotation annotation : currentNameMapperClass.getDeclaredAnnotations())
+            {
+                if (annotation instanceof NameMapper)
+                {
+                    currentAnnotation = (NameMapper) annotation;
+                    currentNameMapper = (org.apache.myfaces.extensions.validator.core.mapper.NameMapper)ClassUtils.tryToInstantiateClass(currentNameMapperClass);
+
+                    if(currentAnnotation.from().equals(Annotation.class) &&
+                            currentAnnotation.to().equals(org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy.class))
+                    {
+                        ExtValUtils.registerMetaDataToValidationStrategyNameMapper(currentNameMapper);
+                    }
+                    else if(currentAnnotation.from().equals(org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy.class) &&
+                            currentAnnotation.to().equals(org.apache.myfaces.extensions.validator.core.validation.message.resolver.MessageResolver.class))
+                    {
+                        ExtValUtils.registerValidationStrategyToMessageResolverNameMapper(currentNameMapper);
+                    }
+                    else if(currentAnnotation.from().equals(org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy.class) &&
+                            currentAnnotation.to().equals(org.apache.myfaces.extensions.validator.core.metadata.transformer.MetaDataTransformer.class))
+                    {
+                        ExtValUtils.registerValidationStrategyToMetaDataTransformerNameMapper(currentNameMapper);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    private void addFacesMessageFactory(AnnotationDB annotationDB)
+    {
+        Set<String> result = annotationDB.getAnnotationIndex().get(FacesMessageFactory.class.getName());
+
+        if(result == null)
+        {
+            return;
+        }
+
+        Object facesMessageFactory;
+
+        //just one faces message factory is allowed
+        String facesMessageFactoryName = result.iterator().next();
+        facesMessageFactory = ClassUtils.tryToInstantiateClassForName(facesMessageFactoryName);
+
+        if (facesMessageFactory != null && facesMessageFactory instanceof org.apache.myfaces.extensions.validator.core.factory.FacesMessageFactory)
+        {
+            ExtValContext.getContext().addGlobalProperty(FactoryNames.FACES_MESSAGE_FACTORY.name(), facesMessageFactoryName);
         }
     }
 }
