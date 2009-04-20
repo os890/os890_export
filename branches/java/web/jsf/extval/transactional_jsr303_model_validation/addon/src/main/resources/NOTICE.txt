@@ -1,0 +1,6 @@
+Transactional model validation (for jsr 303 based validation) for Apache MyFaces Extensions Validator
+Copyright 2007-2009 Gerhard Petracek
+
+------------------------------------------------------------------------
+See the file LICENSE.txt
+------------------------------------------------------------------------
