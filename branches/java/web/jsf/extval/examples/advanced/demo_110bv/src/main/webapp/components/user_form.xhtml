@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+<body>
+<ui:composition>
+
+    <h:selectOneMenu value="#{currentUserRole.roleName}" valueChangeListener="#{bean.changeRole}" immediate="true" rendered="#{!readonly}" onchange="this.form.submit();">
+        <f:selectItem itemValue="admin" itemLabel="#{messages.admin}"/>
+        <f:selectItem itemValue="user" itemLabel="#{messages.user}"/>
+    </h:selectOneMenu>
+
+    <h:panelGrid columns="2" rendered="#{readonly}">
+        <h:outputLabel for="firstName_ro" value="#{messages.first_name}:"/>
+        <h:outputText id="firstName_ro" value="#{bean.person.firstName}"/>
+
+        <h:outputLabel for="lastName_ro" value="#{messages.last_name}:"/>
+        <h:outputText id="lastName_ro" value="#{bean.person.lastName}"/>
+    </h:panelGrid>
+
+    <h:panelGrid columns="3" rendered="#{!readonly}">
+        <h:outputLabel for="firstName" value="#{messages.first_name}:"/>
+        <h:inputText id="firstName" label="First name" value="#{bean.person.firstName}"/>
+        <h:message for="firstName" showSummary="true" showDetail="false"/>
+
+        <h:outputLabel for="lastName" value="#{messages.last_name}:"/>
+        <h:inputText id="lastName" label="#{messages.last_name}" value="#{bean.person.lastName}"/>
+        <h:message for="lastName" showSummary="true" showDetail="false"/>
+    </h:panelGrid>
+
+</ui:composition>
+</body>
+</html>
