@@ -7,7 +7,7 @@
     <groupId>at.gp.web.jsf.extval</groupId>
     <artifactId>demo_009</artifactId>
     <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2</version>
     <name>Base for MyFaces Extensions Validator Demos</name>
     <url>http://www.myorganization.org</url>
 
