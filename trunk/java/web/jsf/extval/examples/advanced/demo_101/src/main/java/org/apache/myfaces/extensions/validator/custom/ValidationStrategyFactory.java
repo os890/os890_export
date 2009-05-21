@@ -18,11 +18,9 @@
  */
 package org.apache.myfaces.extensions.validator.custom;
 
-import org.apache.myfaces.extensions.validator.core.mapper.ClassMappingFactory;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractAnnotationValidationStrategy;
-
-import java.lang.annotation.Annotation;
+import org.apache.myfaces.extensions.validator.core.validation.strategy.DefaultValidationStrategyFactory;
 
 import at.gp.web.jsf.extval.validation.CustomRequired;
 import at.gp.web.jsf.extval.validation.CustomRequiredValidator;
@@ -34,7 +32,7 @@ import at.gp.web.jsf.extval.validation.StandardMessageResolver;
  * 
  * @author Gerhard Petracek
  */
-public class ValidationStrategyFactory implements ClassMappingFactory<String, ValidationStrategy>
+public class ValidationStrategyFactory extends DefaultValidationStrategyFactory
 {
     public ValidationStrategy create(String metaDataKey)
     {
