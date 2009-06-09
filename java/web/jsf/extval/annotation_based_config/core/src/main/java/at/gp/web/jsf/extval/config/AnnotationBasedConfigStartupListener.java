@@ -454,7 +454,6 @@ public class AnnotationBasedConfigStartupListener extends AbstractStartupListene
         }
     }
 
-
     private void addMetaDataExtractionInterceptors(AnnotationDB annotationDB)
     {
         Set<String> result = annotationDB.getAnnotationIndex().get(MetaDataExtractionInterceptor.class.getName());
