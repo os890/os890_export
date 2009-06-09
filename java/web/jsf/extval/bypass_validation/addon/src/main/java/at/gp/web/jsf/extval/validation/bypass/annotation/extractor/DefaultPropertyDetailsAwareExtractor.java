@@ -27,9 +27,11 @@ import org.apache.myfaces.extensions.validator.core.property.PropertyInformation
 import javax.faces.context.FacesContext;
 
 /**
+ * KEEP IN SYNC with other add-ons
+ *
  * @author Gerhard Petracek
  */
-public class DefaultValidationControllerScanningExtractor extends DefaultComponentMetaDataExtractor
+public class DefaultPropertyDetailsAwareExtractor extends DefaultComponentMetaDataExtractor
 {
     @Override
     public PropertyInformation extract(FacesContext facesContext, Object object)
