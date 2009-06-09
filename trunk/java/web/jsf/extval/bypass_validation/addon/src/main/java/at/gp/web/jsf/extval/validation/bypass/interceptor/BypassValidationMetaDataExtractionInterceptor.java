@@ -30,7 +30,7 @@ import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
 import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidationController;
 import at.gp.web.jsf.extval.validation.bypass.annotation.ViewId;
-import at.gp.web.jsf.extval.validation.bypass.annotation.extractor.DefaultValidationControllerScanningExtractor;
+import at.gp.web.jsf.extval.validation.bypass.annotation.extractor.DefaultPropertyDetailsAwareExtractor;
 
 import javax.faces.context.FacesContext;
 
@@ -110,7 +110,7 @@ public class BypassValidationMetaDataExtractionInterceptor implements MetaDataEx
     private void processFieldsAndProperties(
             String key, Object base, String property, ScanningResult scanningResult)
     {
-        PropertyInformation propertyInformation = new DefaultValidationControllerScanningExtractor()
+        PropertyInformation propertyInformation = new DefaultPropertyDetailsAwareExtractor()
                 .extract(FacesContext.getCurrentInstance(), new PropertyDetails(key, base, property));
 
         for (MetaDataEntry metaDataEntry : propertyInformation.getMetaDataEntries())
