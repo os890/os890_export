@@ -19,8 +19,10 @@
 package at.gp.web.jsf.extval.metadata;
 
 import org.apache.myfaces.extensions.validator.baseval.annotation.Length;
+import org.apache.myfaces.extensions.validator.baseval.annotation.Pattern;
 import org.apache.myfaces.extensions.validator.core.validation.parameter.ViolationSeverity;
 import at.gp.web.jsf.extval.validation.metadata.provider.annotation.MetaDataProvider;
+import at.gp.web.jsf.extval.validation.metadata.priority.ValidationPriority;
 import at.gp.web.jsf.extval.domain.Person;
 
 /**
@@ -35,7 +37,8 @@ import at.gp.web.jsf.extval.domain.Person;
 public class PersonMetaDataProvider extends Person
 {
     @Override
-    @Length(minimum = 3, parameters = ViolationSeverity.Warn.class)
+    @Length(minimum = 3, parameters = {ViolationSeverity.Warn.class, ValidationPriority.Low.class})
+    @Pattern(value = "[A-Z][a-z]+", parameters = {ViolationSeverity.Warn.class, ValidationPriority.High.class})
     public String getLastName()
     {
         throw new UnsupportedOperationException();
