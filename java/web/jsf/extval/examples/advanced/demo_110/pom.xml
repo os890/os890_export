@@ -106,6 +106,13 @@
         </dependency>
 
         <dependency>
+            <groupId>at.gp.web.jsf.extval</groupId>
+            <artifactId>extval-metadata-priority</artifactId>
+            <version>1.2.3-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>net.sf.scannotation</groupId>
             <artifactId>scannotation</artifactId>
             <version>1.0.2</version>
