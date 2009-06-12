@@ -29,6 +29,7 @@ public class AlternativeCustomStartupListener extends AbstractStartupListener
 {
     protected void init()
     {
+        //optional
         ExtValContext.getContext().addGlobalProperty(MetaDataProviderStorage.KEY, PersonPage.class.getPackage().getName());
     }
 }

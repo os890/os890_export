@@ -23,7 +23,10 @@ import org.apache.myfaces.extensions.validator.baseval.annotation.Pattern;
 import org.apache.myfaces.extensions.validator.core.validation.parameter.ViolationSeverity;
 import at.gp.web.jsf.extval.validation.metadata.provider.annotation.MetaDataProvider;
 import at.gp.web.jsf.extval.validation.metadata.priority.ValidationPriority;
+import at.gp.web.jsf.extval.validation.metadata.virtual.annotation.VirtualMetaData;
 import at.gp.web.jsf.extval.domain.Person;
+
+import javax.persistence.Column;
 
 /**
  * via typesafe MetaDataProvider.value and overridden getter method
@@ -39,6 +42,7 @@ public class PersonMetaDataProvider extends Person
     @Override
     @Length(minimum = 3, parameters = {ViolationSeverity.Warn.class, ValidationPriority.Low.class})
     @Pattern(value = "[A-Z][a-z]+", parameters = {ViolationSeverity.Warn.class, ValidationPriority.High.class})
+    @VirtualMetaData(target = Column.class, parameters = {ViolationSeverity.Warn.class, ValidationPriority.Highest.class})
     public String getLastName()
     {
         throw new UnsupportedOperationException();

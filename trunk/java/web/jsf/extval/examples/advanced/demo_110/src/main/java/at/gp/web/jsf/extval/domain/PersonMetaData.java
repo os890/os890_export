@@ -21,6 +21,10 @@ package at.gp.web.jsf.extval.domain;
 import org.apache.myfaces.extensions.validator.baseval.annotation.Length;
 import org.apache.myfaces.extensions.validator.core.validation.parameter.ViolationSeverity;
 import at.gp.web.jsf.extval.validation.metadata.provider.annotation.MetaDataProvider;
+import at.gp.web.jsf.extval.validation.metadata.virtual.annotation.VirtualMetaData;
+import at.gp.web.jsf.extval.validation.metadata.priority.ValidationPriority;
+
+import javax.persistence.Column;
 
 /**
  * via name convention *MetaData
@@ -31,5 +35,6 @@ import at.gp.web.jsf.extval.validation.metadata.provider.annotation.MetaDataProv
 public class PersonMetaData
 {
     @Length(minimum = 2, parameters = ViolationSeverity.Warn.class)
+    @VirtualMetaData(target = Column.class, parameters = {ValidationPriority.Highest.class})
     private String firstName;
 }
