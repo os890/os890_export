@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval.validation.metadata.virtual.annotation;
+package at.gp.web.jsf.extval.validation.metadata.virtual.strategy;
 
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractValidationStrategy;
@@ -31,12 +31,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
+import at.gp.web.jsf.extval.validation.metadata.virtual.annotation.VirtualMetaData;
+
 /**
  * @author Gerhard Petracek
  *
  * @since 1.x.3
  */
-public class VirtualMetaDataValidationStrategy extends AbstractValidationStrategy
+public class VirtualMetaDataStrategy extends AbstractValidationStrategy
 {
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent, final MetaDataEntry metaDataEntry, Object convertedObject) throws ValidatorException
     {
