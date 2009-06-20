@@ -152,7 +152,15 @@ public class MetaDataProviderStorage
             List<Class> result = new ArrayList<Class>();
 
             addBaseResource(sourcePackage.replace(".", "/"));
-            scanResult.addAll(getAnnotationDB().getAnnotationIndex().get(MetaDataProvider.class.getName()));
+            
+            AnnotationDB annotationDB = getAnnotationDB();
+
+            if(annotationDB == null || annotationDB.getAnnotationIndex() == null)
+            {
+                return result;
+            }
+
+            scanResult.addAll(annotationDB.getAnnotationIndex().get(MetaDataProvider.class.getName()));
 
             for(String className : scanResult)
             {
