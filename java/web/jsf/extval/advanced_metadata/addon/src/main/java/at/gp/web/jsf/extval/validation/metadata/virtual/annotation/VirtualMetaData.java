@@ -20,6 +20,8 @@ package at.gp.web.jsf.extval.validation.metadata.virtual.annotation;
 
 import org.apache.myfaces.extensions.validator.internal.UsageInformation;
 import org.apache.myfaces.extensions.validator.internal.UsageCategory;
+import org.apache.myfaces.extensions.validator.internal.ToDo;
+import org.apache.myfaces.extensions.validator.internal.Priority;
 import org.apache.myfaces.extensions.validator.core.validation.parameter.ViolationSeverity;
 import org.apache.myfaces.extensions.validator.core.validation.parameter.ValidationParameter;
 
@@ -37,6 +39,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 @UsageInformation(UsageCategory.API)
+@ToDo(value = Priority.MEDIUM, description = "VirtualMetaData.List")
 public @interface VirtualMetaData
 {
     static final String TARGET = "target_metadata";
