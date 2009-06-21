@@ -72,3 +72,9 @@
    * Example for jsf comp client-side validation integration - it's just a demo how to do it - no full implementation
  * *109 - in progress*
    * Client-side validation based on annotations
+ * *110 (requires ExtVal x.x.3-SNAPSHOT)*
+   * Usage of constraint aspects
+ * *111 (requires ExtVal x.x.3-SNAPSHOT)*
+   * Usage of the model aware and class level validation add-on
+ * *112 (requires ExtVal x.x.3-SNAPSHOT)*
+   * Implementation of custom concepts (in this example: a simple impl. for partial validation)
