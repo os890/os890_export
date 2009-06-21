@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+              version="1.2">
+
+    <validator>
+        <validator-id>extValGroupValidation</validator-id>
+        <validator-class>at.gp.web.jsf.extval.validation.group.ExtValGroupValidation</validator-class>
+        <property>
+            <property-name>value</property-name>
+            <property-class>java.lang.String</property-class>
+        </property>
+    </validator>
+
+    <!-- instead of using the convention -->
+    <lifecycle>
+        <phase-listener>at.gp.web.jsf.extval.validation.group.startup.GroupValidationStartupListener</phase-listener>
+    </lifecycle>
+
+    <application>
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+
+        <resource-bundle>
+            <base-name>at.gp.web.jsf.extval.bundle.messages</base-name>
+            <var>messages</var>
+        </resource-bundle>
+    </application>
+
+    <!--lifecycle>
+        <phase-listener>at.gp.web.jsf.extval.LoggingPhaseListener</phase-listener>
+    </lifecycle-->
+
+    <managed-bean>
+        <managed-bean-name>personPage</managed-bean-name>
+        <managed-bean-class>at.gp.web.jsf.extval.PersonPage</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>person</property-name>
+            <value>#{person}</value>
+        </managed-property>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>person</managed-bean-name>
+        <managed-bean-class>at.gp.web.jsf.extval.domain.Person</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <navigation-rule>
+        <from-view-id>/pages/new_person.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/pages/show_person.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/pages/show_person.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>back</from-outcome>
+            <to-view-id>/pages/new_person.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+</faces-config>
