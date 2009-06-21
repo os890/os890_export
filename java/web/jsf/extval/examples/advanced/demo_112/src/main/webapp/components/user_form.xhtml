@@ -17,62 +17,21 @@
     </h:panelGrid>
 
     <h3>no group:</h3>
-    <h:panelGrid columns="3" rendered="#{!readonly}">
-        <h:outputLabel for="nog_nickName" value="#{messages.nick_name}:"/>
-        <h:inputText id="nog_nickName" label="First name" value="#{bean.person.nickName}"/>
-        <h:message for="nog_nickName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-
-        <h:outputLabel for="nog_firstName" value="#{messages.first_name}:"/>
-        <h:inputText id="nog_firstName" label="First name" value="#{bean.person.firstName}"/>
-        <h:message for="nog_firstName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-
-        <h:outputLabel for="nog_lastName" value="#{messages.last_name}:"/>
-        <h:inputText id="nog_lastName" label="#{messages.last_name}" value="#{bean.person.lastName}"/>
-        <h:message for="nog_lastName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-    </h:panelGrid>
-
-    <h3>minimal group:</h3>
-    <h:panelGrid columns="3" rendered="#{!readonly}">
-        <h:outputLabel for="mg_nickName" value="#{messages.nick_name}:"/>
-        <h:inputText id="mg_nickName" label="First name" value="#{bean.person.nickName}">
-            <c:useGroup value="at.gp.web.jsf.extval.domain.group.MinimalGroup"/>
-        </h:inputText>
-        <h:message for="mg_nickName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-
-        <h:outputLabel for="mg_firstName" value="#{messages.first_name}:"/>
-        <h:inputText id="mg_firstName" label="First name" value="#{bean.person.firstName}">
-            <c:useGroup value="at.gp.web.jsf.extval.domain.group.MinimalGroup"/>
-        </h:inputText>
-        <h:message for="mg_firstName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-
-        <h:outputLabel for="mg_lastName" value="#{messages.last_name}:"/>
-        <h:inputText id="mg_lastName" label="#{messages.last_name}" value="#{bean.person.lastName}">
-            <c:useGroup value="at.gp.web.jsf.extval.domain.group.MinimalGroup"/>
-        </h:inputText>
-        <h:message for="mg_lastName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-    </h:panelGrid>
+    <c:userInput bean="#{bean}" readonly="#{readonly}" id_prefix="nog"/>
 
     <h3>name group:</h3>
-    <h:panelGrid columns="3" rendered="#{!readonly}">
-        <h:outputLabel for="ng_nickName" value="#{messages.nick_name}:"/>
-        <h:inputText id="ng_nickName" label="First name" value="#{bean.person.nickName}">
+    <c:userInput bean="#{bean}" readonly="#{readonly}" id_prefix="ng">
+        <ui:define name="groups">
+            <c:useGroup value="at.gp.web.jsf.extval.domain.group.NameGroup"/>
+        </ui:define>
+    </c:userInput>
+
+    <h3>minimal group:</h3>
+    <c:userInput bean="#{bean}" readonly="#{readonly}" id_prefix="mg">
+        <ui:define name="groups">
             <c:useGroup value="at.gp.web.jsf.extval.domain.group.MinimalGroup"/>
-        </h:inputText>
-        <h:message for="ng_nickName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-
-        <h:outputLabel for="ng_firstName" value="#{messages.first_name}:"/>
-        <h:inputText id="ng_firstName" label="First name" value="#{bean.person.firstName}">
-            <c:useGroup value="at.gp.web.jsf.extval.domain.group.NameGroup"/>
-        </h:inputText>
-        <h:message for="ng_firstName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-
-        <h:outputLabel for="ng_lastName" value="#{messages.last_name}:"/>
-        <h:inputText id="ng_lastName" label="#{messages.last_name}" value="#{bean.person.lastName}">
-            <c:useGroup value="at.gp.web.jsf.extval.domain.group.NameGroup"/>
-        </h:inputText>
-        <h:message for="ng_lastName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
-    </h:panelGrid>
-
+        </ui:define>
+    </c:userInput>
 </ui:composition>
 </body>
 </html>
