@@ -73,8 +73,8 @@
  * *109 - in progress*
    * Client-side validation based on annotations
  * *110 (requires ExtVal x.x.3-SNAPSHOT)*
-   * Usage of constraint aspects
+   * Usage of the advanced meta-data add-on
  * *111 (requires ExtVal x.x.3-SNAPSHOT)*
-   * Usage of the model aware and class level validation add-on
+   * Usage of model aware and class level validation add-on
  * *112 (requires ExtVal x.x.3-SNAPSHOT)*
    * Implementation of custom concepts (in this example: a simple impl. for partial validation)
