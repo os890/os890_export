@@ -13,6 +13,13 @@
     </tag>
 
     <tag>
+        <tag-name>userInput</tag-name>
+        <source>
+            ../components/user_input.xhtml
+        </source>
+    </tag>
+
+    <tag>
         <tag-name>useGroup</tag-name>
         <validator>
             <validator-id>extValGroupValidation</validator-id>

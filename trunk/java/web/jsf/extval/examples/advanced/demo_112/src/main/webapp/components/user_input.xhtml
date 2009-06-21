@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://g-project.homeunix.net/demo/components">
+<body>
+<ui:composition>
+
+    <h:panelGrid columns="3" rendered="#{!readonly}">
+        <h:outputLabel for="#{id_prefix}_nickName" value="#{messages.nick_name}:"/>
+        <h:inputText id="#{id_prefix}_nickName" label="First name" value="#{bean.person.nickName}">
+            <ui:insert name="groups"/>
+        </h:inputText>
+        <h:message for="#{id_prefix}_nickName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
+
+        <h:outputLabel for="#{id_prefix}_firstName" value="#{messages.first_name}:"/>
+        <h:inputText id="#{id_prefix}_firstName" label="First name" value="#{bean.person.firstName}">
+            <ui:insert name="groups"/>
+        </h:inputText>
+        <h:message for="#{id_prefix}_firstName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
+
+        <h:outputLabel for="#{id_prefix}_lastName" value="#{messages.last_name}:"/>
+        <h:inputText id="#{id_prefix}_lastName" label="#{messages.last_name}" value="#{bean.person.lastName}">
+            <ui:insert name="groups"/>
+        </h:inputText>
+        <h:message for="#{id_prefix}_lastName" showSummary="true" showDetail="false" errorStyle="color: red;" warnStyle="color: orange;"/>
+    </h:panelGrid>
+
+</ui:composition>
+</body>
+</html>
