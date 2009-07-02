@@ -37,7 +37,7 @@ public class DevStartupListener extends AbstractStartupListener
             logger.warn("the dev add-on for extval is included in your project");
         }
 
-        ExtValContext.getContext().deregisterRendererInterceptor(ValidationInterceptorWithSkipValidationSupport.class);
+        ExtValContext.getContext().denyRendererInterceptor(ValidationInterceptorWithSkipValidationSupport.class);
         ExtValContext.getContext().registerRendererInterceptor(new DevValidationInterceptor());
     }
 }
