@@ -1,4 +1,4 @@
-Secure action add-on for Apache MyFaces Extensions Validator
+Continue with warnings for Apache MyFaces Extensions Validator
 Copyright 2009 Gerhard Petracek
 
 ------------------------------------------------------------------------
