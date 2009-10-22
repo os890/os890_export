@@ -58,6 +58,7 @@ public class ViolationSeverityRendererInterceptor extends AbstractRendererInterc
                 @Override
                 public void queueEvent(FacesEvent facesEvent)
                 {
+                    super.queueEvent(facesEvent);
                     UIParameter parameter;
                     for (UIComponent child : uiComponent.getChildren())
                     {
