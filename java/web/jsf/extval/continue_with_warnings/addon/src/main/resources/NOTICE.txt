@@ -1,0 +1,6 @@
+Secure action add-on for Apache MyFaces Extensions Validator
+Copyright 2009 Gerhard Petracek
+
+------------------------------------------------------------------------
+See the file LICENSE.txt
+------------------------------------------------------------------------
