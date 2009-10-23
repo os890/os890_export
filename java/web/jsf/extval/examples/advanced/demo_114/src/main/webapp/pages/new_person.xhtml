@@ -9,16 +9,19 @@
 <ui:composition template="../templates/main.xhtml">
 
     <ui:define name="body">
+
         <cc:userForm bean="#{personPage}" readonly="false"/>
 
         <h:commandButton value="#{messages.next}" action="#{personPage.send}"/>
-
+        <h:outputText value="click again to continue with warnings" rendered="#{extValWarnState.continueWithWarnings}"/>
+        <p/>
         <h:commandButton value="strict" action="#{personPage.send}" rendered="#{extValWarnState.continueWithWarnings}">
             <f:param name="extValForceContinueWithWarnings" value="false"/>
         </h:commandButton>
 
         <!-- marker for continue with warnings add-on -->
         <h:inputHidden id="extValWarnState" value="#{extValWarnState.continueWithWarnings}"/>
+
     </ui:define>
 
 </ui:composition>
