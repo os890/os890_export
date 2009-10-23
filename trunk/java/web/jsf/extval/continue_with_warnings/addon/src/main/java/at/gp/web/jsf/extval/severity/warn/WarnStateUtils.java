@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval.severity;
+package at.gp.web.jsf.extval.severity.warn;
 
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 
@@ -34,11 +34,11 @@ public class WarnStateUtils
     private static final String
             EXTVAL_WARN_STATE_BEAN_NAME = "extValWarnState";
     private static final String
-            EXTVAL_FORCE_CONTINUE_WITH_WARNINGS_PARAMETER_NAME = "extValForceContinueWithWarnings";
+            EXTVAL_CONTINUE_WITH_WARNINGS_PARAMETER_NAME = "extValContinueWithWarnings";
 
     public static boolean isForceContinueWithWarningsParameter(String name)
     {
-        return EXTVAL_FORCE_CONTINUE_WITH_WARNINGS_PARAMETER_NAME.equals(name);
+        return EXTVAL_CONTINUE_WITH_WARNINGS_PARAMETER_NAME.equals(name);
     }
 
     public static boolean isWarnStateComponentId(String id)
