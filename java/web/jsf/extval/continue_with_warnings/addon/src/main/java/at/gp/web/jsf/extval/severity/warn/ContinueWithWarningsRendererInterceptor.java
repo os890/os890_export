@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval.severity;
+package at.gp.web.jsf.extval.severity.warn;
 
 import org.apache.myfaces.extensions.validator.core.interceptor.AbstractRendererInterceptor;
 import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipAfterInterceptorsException;
@@ -38,10 +38,10 @@ import java.io.IOException;
  * @author Gerhard Petracek
  * @since x.x.3
  */
-public class ViolationSeverityRendererInterceptor extends AbstractRendererInterceptor
+public class ContinueWithWarningsRendererInterceptor extends AbstractRendererInterceptor
 {
     private static final String
-            EXTVAL_FORCE_CONTINUE_WITH_WARNINGS_PARAMETER_KEY = "extValForceContinueWithWarningsParameter";
+            EXTVAL_CONTINUE_WITH_WARNINGS_PARAMETER_KEY = "extValForceContinueWithWarningsParameter";
 
     @Override
     /*
@@ -69,7 +69,7 @@ public class ViolationSeverityRendererInterceptor extends AbstractRendererInterc
                             if (WarnStateUtils.isForceContinueWithWarningsParameter(parameter.getName()))
                             {
                                 facesContext.getExternalContext().getRequestMap()
-                                        .put(EXTVAL_FORCE_CONTINUE_WITH_WARNINGS_PARAMETER_KEY, parameter.getValue());
+                                        .put(EXTVAL_CONTINUE_WITH_WARNINGS_PARAMETER_KEY, parameter.getValue());
                             }
                         }
                     }
@@ -125,7 +125,7 @@ public class ViolationSeverityRendererInterceptor extends AbstractRendererInterc
     private boolean notRestrictedByButton()
     {
         Object parameter = FacesContext.getCurrentInstance().getExternalContext().getRequestMap()
-                .get(EXTVAL_FORCE_CONTINUE_WITH_WARNINGS_PARAMETER_KEY);
+                .get(EXTVAL_CONTINUE_WITH_WARNINGS_PARAMETER_KEY);
 
         return !Boolean.FALSE.toString().equals(parameter);
     }

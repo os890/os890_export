@@ -16,22 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval.severity;
+package at.gp.web.jsf.extval.severity.warn.startup;
 
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
+import at.gp.web.jsf.extval.severity.warn.ContinueWithWarningsRendererInterceptor;
+import at.gp.web.jsf.extval.severity.warn.ContinueWithWarningViolationSeverityInterpreter;
 
 /**
  * @author Gerhard Petracek
  * @since x.x.3
  */
-public class ViolationSeverityStartupListener extends AbstractStartupListener
+public class ContinueWithWarningsStartupListener extends AbstractStartupListener
 {
     private static final long serialVersionUID = -4552233626352591823L;
 
     protected void init()
     {
         ExtValContext.getContext().setViolationSeverityInterpreter(new ContinueWithWarningViolationSeverityInterpreter());
-        ExtValContext.getContext().registerRendererInterceptor(new ViolationSeverityRendererInterceptor());
+        ExtValContext.getContext().registerRendererInterceptor(new ContinueWithWarningsRendererInterceptor());
     }
 }

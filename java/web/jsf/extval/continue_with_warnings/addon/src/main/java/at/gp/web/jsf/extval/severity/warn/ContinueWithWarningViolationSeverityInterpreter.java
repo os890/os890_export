@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval.severity;
+package at.gp.web.jsf.extval.severity.warn;
 
 import org.apache.myfaces.extensions.validator.core.validation.parameter.ViolationSeverityInterpreter;
 import org.apache.myfaces.extensions.validator.internal.Priority;

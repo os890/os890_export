@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package at.gp.web.jsf.extval.severity;
+package at.gp.web.jsf.extval.severity.warn;
 
 import javax.faces.event.PhaseListener;
 import javax.faces.event.PhaseEvent;
@@ -26,7 +26,7 @@ import javax.faces.event.PhaseId;
  * @author Gerhard Petracek
  * @since x.x.3
  */
-public class ViolationSeverityPhaseListener implements PhaseListener
+public class ContinueWithWarningsPhaseListener implements PhaseListener
 {
     private static final long serialVersionUID = -3750556189842345645L;
 
