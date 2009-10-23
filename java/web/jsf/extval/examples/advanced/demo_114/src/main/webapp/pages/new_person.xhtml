@@ -16,7 +16,7 @@
         <h:outputText value="click again to continue with warnings" rendered="#{extValWarnState.continueWithWarnings}"/>
         <p/>
         <h:commandButton value="strict" action="#{personPage.send}" rendered="#{extValWarnState.continueWithWarnings}">
-            <f:param name="extValForceContinueWithWarnings" value="false"/>
+            <f:param name="extValContinueWithWarnings" value="false"/>
         </h:commandButton>
 
         <!-- marker for continue with warnings add-on -->
