@@ -20,8 +20,6 @@ package at.gp.web.jsf.extval.validation.group.startup;
 
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import org.apache.myfaces.extensions.validator.ValidationInterceptorWithSkipValidationSupport;
-import at.gp.web.jsf.extval.validation.group.interceptor.ExtValGroupAwareValidationInterceptor;
 import at.gp.web.jsf.extval.validation.group.interceptor.GroupValidationInterceptor;
 
 public class GroupValidationStartupListener extends AbstractStartupListener
@@ -30,8 +28,6 @@ public class GroupValidationStartupListener extends AbstractStartupListener
 
     protected void init()
     {
-        ExtValContext.getContext().deregisterRendererInterceptor(ValidationInterceptorWithSkipValidationSupport.class);
-        ExtValContext.getContext().registerRendererInterceptor(new ExtValGroupAwareValidationInterceptor());
         ExtValContext.getContext().addPropertyValidationInterceptor(new GroupValidationInterceptor());
     }
 }
