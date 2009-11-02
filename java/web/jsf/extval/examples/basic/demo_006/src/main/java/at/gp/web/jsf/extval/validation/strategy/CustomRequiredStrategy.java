@@ -32,7 +32,7 @@ import at.gp.web.jsf.extval.validation.annotation.CustomRequired;
 /**
  * @author Gerhard Petracek
  */
-public class CustomRequiredStrategy extends AbstractAnnotationValidationStrategy
+public class CustomRequiredStrategy extends AbstractAnnotationValidationStrategy<CustomRequired>
 {
 
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent,
@@ -40,14 +40,14 @@ public class CustomRequiredStrategy extends AbstractAnnotationValidationStrategy
     {
         if("".equals(convertedObject))
         {
-            throw new ValidatorException(new FacesMessage(
-                getErrorMessageSummary(metaDataEntry.getValue(Annotation.class)),
-                getErrorMessageDetail(metaDataEntry.getValue(Annotation.class))));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                getErrorMessageSummary(metaDataEntry.getValue(CustomRequired.class)),
+                getErrorMessageDetail(metaDataEntry.getValue(CustomRequired.class))));
         }
     }
 
-    protected String getValidationErrorMsgKey(Annotation annotation)
+    protected String getValidationErrorMsgKey(CustomRequired annotation)
     {
-        return ((CustomRequired)annotation).message();
+        return annotation.message();
     }
 }
