@@ -21,25 +21,23 @@ package at.gp.web.jsf.extval.validation;
 import org.apache.myfaces.extensions.validator.crossval.strategy.AbstractCompareStrategy;
 import org.apache.myfaces.extensions.validator.crossval.annotation.NotEquals;
 
-import java.lang.annotation.Annotation;
-
 /**
  * @author Gerhard Petracek
  */
-public class CustomNotEqualsValidation extends AbstractCompareStrategy
+public class CustomNotEqualsValidation extends AbstractCompareStrategy<NotEquals>
 {
-    protected String getValidationErrorMsgKey(Annotation annotation, boolean b)
+    protected String getValidationErrorMsgKey(NotEquals annotation, boolean isTargetComponent)
     {
-        return ((NotEquals) annotation).validationErrorMsgKey();
+        return annotation.validationErrorMsgKey();
     }
 
-    public boolean isViolation(Object object1, Object object2, Annotation annotation)
+    public boolean isViolation(Object object1, Object object2, NotEquals annotation)
     {
         return object1 != null && object1.equals(object2);
     }
 
-    public String[] getValidationTargets(Annotation annotation)
+    public String[] getValidationTargets(NotEquals annotation)
     {
-        return ((NotEquals) annotation).value();
+        return annotation.value();
     }
 }
