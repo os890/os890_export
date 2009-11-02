@@ -26,12 +26,11 @@ import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.validator.ValidatorException;
-import java.lang.annotation.Annotation;
 
 /**
  * @author Gerhard Petracek
  */
-public class CustomRequiredValidator extends AbstractAnnotationValidationStrategy
+public class CustomRequiredValidator extends AbstractAnnotationValidationStrategy<CustomRequired>
 {
     private DemoRequiredValidationService requiredValidationService;
 
@@ -39,13 +38,13 @@ public class CustomRequiredValidator extends AbstractAnnotationValidationStrateg
     {
         if(!this.requiredValidationService.isValid(convertedObject))
         {
-            throw new ValidatorException(getValidationErrorFacesMassage(metaDataEntry.getValue(Annotation.class)));
+            throw new ValidatorException(getValidationErrorFacesMessage(metaDataEntry.getValue(CustomRequired.class)));
         }
     }
 
-    protected String getValidationErrorMsgKey(Annotation annotation)
+    protected String getValidationErrorMsgKey(CustomRequired annotation)
     {
-        return ((CustomRequired)annotation).msgKey();
+        return (annotation).msgKey();
     }
 
     public void setRequiredValidationService(DemoRequiredValidationService requiredValidationService)
