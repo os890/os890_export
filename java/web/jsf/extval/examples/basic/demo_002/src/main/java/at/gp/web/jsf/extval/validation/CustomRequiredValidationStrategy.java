@@ -36,6 +36,7 @@ public class CustomRequiredValidationStrategy implements ValidationStrategy
     {
         if("".equals(convertedObject))
         {
+            //see demo003 how to use a ValidatorException
             throw new ConverterException(new FacesMessage("custom required message"));
         }
     }
