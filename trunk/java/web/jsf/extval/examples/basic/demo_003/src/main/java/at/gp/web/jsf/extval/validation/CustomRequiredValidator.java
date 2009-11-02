@@ -36,7 +36,12 @@ public class CustomRequiredValidator extends AbstractValidationStrategy
     {
         if("".equals(convertedObject))
         {
-            throw new ValidatorException(new FacesMessage("custom required message"));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, getErrorMessage(), getErrorMessage()));
         }
+    }
+
+    private String getErrorMessage()
+    {
+        return "custom required message";
     }
 }
