@@ -26,7 +26,6 @@ import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.validator.ValidatorException;
-import java.lang.annotation.Annotation;
 
 /**
  * @author Gerhard Petracek
