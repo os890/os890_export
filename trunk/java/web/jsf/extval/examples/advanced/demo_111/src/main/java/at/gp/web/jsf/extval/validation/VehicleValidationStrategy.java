@@ -30,7 +30,7 @@ public class VehicleValidationStrategy extends AbstractAnnotationModelValidation
     {
         if(!(modelObject instanceof at.gp.web.jsf.extval.domain.Vehicle && isValid((at.gp.web.jsf.extval.domain.Vehicle)modelObject)))
         {
-            throw new ValidatorException(getValidationErrorFacesMassage(metaDataEntry.getValue(Annotation.class)));
+            throw new ValidatorException(getValidationErrorFacesMessage(metaDataEntry.getValue(Annotation.class)));
         }
     }
 
