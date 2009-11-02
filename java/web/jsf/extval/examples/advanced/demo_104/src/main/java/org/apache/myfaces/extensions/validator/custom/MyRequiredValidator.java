@@ -32,19 +32,19 @@ import java.lang.annotation.Annotation;
  * @author Gerhard Petracek
  */
 @ValidationStrategy(Required.class)
-public class MyRequiredValidator extends AbstractAnnotationValidationStrategy
+public class MyRequiredValidator extends AbstractAnnotationValidationStrategy<Required>
 {
     public void processValidation(FacesContext facesContext, UIComponent uiComponent, MetaDataEntry metaDataEntry,
                                   Object convertedObject) throws ValidatorException
     {
         if (convertedObject == null || convertedObject.equals(""))
         {
-            throw new ValidatorException(getValidationErrorFacesMassage(metaDataEntry.getValue(Annotation.class)));
+            throw new ValidatorException(getValidationErrorFacesMessage(metaDataEntry.getValue(Required.class)));
         }
     }
 
-    protected String getValidationErrorMsgKey(Annotation annotation)
+    protected String getValidationErrorMsgKey(Required annotation)
     {
-        return ((Required) annotation).validationErrorMsgKey();
+        return (annotation).validationErrorMsgKey();
     }
 }
