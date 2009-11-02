@@ -4,11 +4,8 @@ import org.apache.myfaces.extensions.validator.core.initializer.component.Compon
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
-import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIInput;
 import java.util.Map;
-import java.util.HashMap;
-import java.lang.annotation.Annotation;
 
 /**
  * @author Gerhard Petracek
