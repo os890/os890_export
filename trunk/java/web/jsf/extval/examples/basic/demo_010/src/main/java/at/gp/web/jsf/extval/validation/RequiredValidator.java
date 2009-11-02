@@ -25,12 +25,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.application.FacesMessage;
 import javax.faces.validator.ValidatorException;
-import java.lang.annotation.Annotation;
 
 /**
  * @author Gerhard Petracek
  */
-public class RequiredValidator extends AbstractAnnotationValidationStrategy
+public class RequiredValidator extends AbstractAnnotationValidationStrategy<RequiredValidation>
 {
 
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent,
@@ -38,14 +37,14 @@ public class RequiredValidator extends AbstractAnnotationValidationStrategy
     {
         if("".equals(convertedObject))
         {
-            throw new ValidatorException(new FacesMessage(
-                getErrorMessageSummary(metaDataEntry.getValue(Annotation.class)),
-                getErrorMessageDetail(metaDataEntry.getValue(Annotation.class))));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                getErrorMessageSummary(metaDataEntry.getValue(RequiredValidation.class)),
+                getErrorMessageDetail(metaDataEntry.getValue(RequiredValidation.class))));
         }
     }
 
-    protected String getValidationErrorMsgKey(Annotation annotation)
+    protected String getValidationErrorMsgKey(RequiredValidation annotation)
     {
-        return ((RequiredValidation)annotation).message();
+        return annotation.message();
     }
 }
