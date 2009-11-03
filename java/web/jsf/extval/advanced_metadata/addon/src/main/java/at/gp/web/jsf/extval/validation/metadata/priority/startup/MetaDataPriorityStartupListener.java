@@ -20,7 +20,12 @@ package at.gp.web.jsf.extval.validation.metadata.priority.startup;
 
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
+import org.apache.myfaces.extensions.validator.core.factory.FactoryNames;
+import org.apache.myfaces.extensions.validator.core.factory.NameMapperAwareFactory;
+import org.apache.myfaces.extensions.validator.core.storage.StorageManagerHolder;
+import org.apache.myfaces.extensions.validator.core.storage.FacesMessageStorage;
 import at.gp.web.jsf.extval.validation.metadata.priority.interceptor.MetaDataPriorityInterceptor;
+import at.gp.web.jsf.extval.validation.metadata.priority.PriorityFacesMessageStorageNameMapper;
 
 /**
  * @author Gerhard Petracek
@@ -37,5 +42,19 @@ public class MetaDataPriorityStartupListener extends AbstractStartupListener
         }
 
         ExtValContext.getContext().addPropertyValidationInterceptor(new MetaDataPriorityInterceptor());
+
+        customizeFacesMessageStorage();
+    }
+
+    @SuppressWarnings({"unchecked"})
+    private void customizeFacesMessageStorage()
+    {
+        StorageManagerHolder storageManagerHolder =
+                (ExtValContext.getContext()
+                .getFactoryFinder()
+                .getFactory(FactoryNames.STORAGE_MANAGER_FACTORY, StorageManagerHolder.class));
+
+        ((NameMapperAwareFactory)storageManagerHolder.getStorageManager(FacesMessageStorage.class))
+                .register(new PriorityFacesMessageStorageNameMapper());
     }
 }
