@@ -39,6 +39,11 @@
 
     <repositories>
         <repository>
+            <id>googlecode.com</id>
+            <url>http://os890-m2-repository.googlecode.com/svn/tags/os890</url>
+        </repository>
+
+        <repository>
             <releases>
                 <enabled>false</enabled>
             </releases>
