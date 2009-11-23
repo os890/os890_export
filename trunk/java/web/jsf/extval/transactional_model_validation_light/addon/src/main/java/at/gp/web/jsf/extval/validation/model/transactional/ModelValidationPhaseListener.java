@@ -21,7 +21,9 @@ package at.gp.web.jsf.extval.validation.model.transactional;
 import org.apache.myfaces.extensions.validator.core.property.PropertyInformation;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
 import org.apache.myfaces.extensions.validator.crossval.strategy.CrossValidationStrategy;
+import org.apache.myfaces.extensions.validator.crossval.storage.CrossValidationStorageEntry;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
+import org.apache.myfaces.extensions.validator.PropertyValidationModuleKey;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
@@ -57,6 +59,17 @@ public class ModelValidationPhaseListener implements PhaseListener
             ValidationStrategy validationStrategy = null;
             for (ModelValidationEntry entry : TransactionalModelValidationContext.getContext().getModelValidationEntries())
             {
+                if(!ExtValUtils.executeGlobalBeforeValidationInterceptors(
+                        FacesContext.getCurrentInstance(),
+                        entry.getComponent(),
+                        ((EditableValueHolder) entry.getComponent()).getValue(),
+                        CrossValidationStorageEntry.class.getName(),
+                        entry,
+                        PropertyValidationModuleKey.class))
+                {
+                    continue;
+                }
+
                 try
                 {
                     //before interceptors were executed by the extval core -> don't re-call them
@@ -142,7 +155,8 @@ public class ModelValidationPhaseListener implements PhaseListener
                                 entry.getComponent(),
                                 ((EditableValueHolder) entry.getComponent()).getValue(),
                                 PropertyInformation.class.getName(),
-                                entry.getProperties().get(PropertyInformation.class.getName()));
+                                entry.getProperties().get(PropertyInformation.class.getName()),
+                                PropertyValidationModuleKey.class);
                     }
                 }
             }
