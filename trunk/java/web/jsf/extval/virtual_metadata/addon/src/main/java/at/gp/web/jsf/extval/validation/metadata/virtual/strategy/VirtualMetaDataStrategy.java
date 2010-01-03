@@ -20,11 +20,13 @@ package at.gp.web.jsf.extval.validation.metadata.virtual.strategy;
 
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractValidationStrategy;
-import org.apache.myfaces.extensions.validator.core.validation.NullValueAwareValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.validation.EmptyValueAwareValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.NullValueAwareValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
+import org.apache.myfaces.extensions.validator.internal.ToDo;
+import org.apache.myfaces.extensions.validator.internal.Priority;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -50,7 +52,7 @@ public class VirtualMetaDataStrategy extends AbstractValidationStrategy
         {
             final ValidationStrategy validationStrategy = ExtValUtils.getValidationStrategyForMetaData(metaDataEntry.getProperty(VirtualMetaData.TARGET, MetaDataEntry.class).getKey());
 
-            if(validationStrategy != null)
+            if(validationStrategy != null && isValidationStrategyCompatibleWithValue(validationStrategy,  convertedObject))
             {
                 if(validationStrategy instanceof AbstractValidationStrategy)
                 {
@@ -74,6 +76,18 @@ public class VirtualMetaDataStrategy extends AbstractValidationStrategy
                 }
             }
         }
+    }
+
+    @ToDo(value = Priority.LOW, description = "it's implemented in ValidationInterceptor - move it to an util class")
+    private boolean isValidationStrategyCompatibleWithValue(ValidationStrategy validationStrategy, Object value)
+    {
+        if(value == null)
+        {
+            return validationStrategy.getClass().isAnnotationPresent(NullValueAwareValidationStrategy.class);
+        }
+
+        return !"".equals(value) || validationStrategy.getClass()
+                .isAnnotationPresent(EmptyValueAwareValidationStrategy.class);
     }
 
     private boolean invokeMethod(AbstractValidationStrategy abstractValidationStrategy, String methodName, FacesContext facesContext, UIComponent uiComponent, MetaDataEntry metaDataEntry, Object convertedObject, ValidatorException validatorException)
