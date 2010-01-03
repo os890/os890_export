@@ -20,6 +20,8 @@ package at.gp.web.jsf.extval.validation.metadata.virtual.strategy;
 
 import org.apache.myfaces.extensions.validator.core.validation.strategy.ValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.NullValueAwareValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.EmptyValueAwareValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
@@ -38,6 +40,8 @@ import at.gp.web.jsf.extval.validation.metadata.virtual.annotation.VirtualMetaDa
  *
  * @since 1.x.3
  */
+@NullValueAwareValidationStrategy
+@EmptyValueAwareValidationStrategy
 public class VirtualMetaDataStrategy extends AbstractValidationStrategy
 {
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent, final MetaDataEntry metaDataEntry, Object convertedObject) throws ValidatorException
