@@ -62,7 +62,7 @@ public class HtmlJSScriptBuilder implements ScriptBuilder
     {
         String functionName = createUniqueMethodName();
 
-        ValidationStrategy validationStrategy = ExtValUtils.getValidationStrategyForMetaDataEntry(metaDataEntry);
+        ValidationStrategy validationStrategy = ExtValUtils.getValidationStrategyForMetaData(metaDataEntry.getKey());
         MetaDataTransformer transformer = ExtValUtils.getMetaDataTransformerForValidationStrategy(validationStrategy);
 
         String validationScript = "";
