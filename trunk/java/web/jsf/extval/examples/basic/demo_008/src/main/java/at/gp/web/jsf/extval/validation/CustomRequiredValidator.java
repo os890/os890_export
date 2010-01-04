@@ -19,6 +19,8 @@
 package at.gp.web.jsf.extval.validation;
 
 import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractAnnotationValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.EmptyValueAwareValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.NullValueAwareValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 
 import javax.faces.context.FacesContext;
@@ -32,6 +34,8 @@ import at.gp.web.jsf.extval.service.ValidationService;
 /**
  * @author Gerhard Petracek
  */
+@NullValueAwareValidationStrategy
+@EmptyValueAwareValidationStrategy
 public class CustomRequiredValidator extends AbstractAnnotationValidationStrategy<CustomRequired>
 {
     private ValidationService validationService;
