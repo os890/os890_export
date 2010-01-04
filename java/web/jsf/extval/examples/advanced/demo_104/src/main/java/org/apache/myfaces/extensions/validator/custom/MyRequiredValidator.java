@@ -21,29 +21,34 @@ package org.apache.myfaces.extensions.validator.custom;
 import at.gp.web.jsf.extval.config.annotation.ValidationStrategy;
 import org.apache.myfaces.extensions.validator.baseval.annotation.Required;
 import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractAnnotationValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.NullValueAwareValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.EmptyValueAwareValidationStrategy;
 import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.validator.ValidatorException;
+import java.lang.annotation.Annotation;
 
 /**
  * @author Gerhard Petracek
  */
 @ValidationStrategy(Required.class)
-public class MyRequiredValidator extends AbstractAnnotationValidationStrategy<Required>
+@NullValueAwareValidationStrategy
+@EmptyValueAwareValidationStrategy
+public class MyRequiredValidator extends AbstractAnnotationValidationStrategy
 {
     public void processValidation(FacesContext facesContext, UIComponent uiComponent, MetaDataEntry metaDataEntry,
                                   Object convertedObject) throws ValidatorException
     {
         if (convertedObject == null || convertedObject.equals(""))
         {
-            throw new ValidatorException(getValidationErrorFacesMessage(metaDataEntry.getValue(Required.class)));
+            throw new ValidatorException(getValidationErrorFacesMessage(metaDataEntry.getValue(Annotation.class)));
         }
     }
 
-    protected String getValidationErrorMsgKey(Required annotation)
+    protected String getValidationErrorMsgKey(Annotation annotation)
     {
-        return (annotation).validationErrorMsgKey();
+        return ((Required) annotation).validationErrorMsgKey();
     }
 }
