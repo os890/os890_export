@@ -33,6 +33,8 @@ import at.gp.web.jsf.extval.validation.security.SecureRendererInterceptor;
  */
 public class SecurityStartupListener extends AbstractStartupListener
 {
+    private static final long serialVersionUID = 2883115841928179725L;
+
     protected void init()
     {
         ExtValContext.getContext().registerRendererInterceptor(new SecureRendererInterceptor());
