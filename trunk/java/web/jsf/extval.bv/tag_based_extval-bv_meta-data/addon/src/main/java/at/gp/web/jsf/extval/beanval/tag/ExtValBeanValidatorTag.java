@@ -47,8 +47,8 @@ public class ExtValBeanValidatorTag implements Validator
     private String conditionResults = "true";
 
     private String displayInline = "false";
-    private String message = ModelValidation.DEFAULT_MESSAGE;
-    private String validationTargets = ModelValidation.DEFAULT_TARGET;
+    private String message = ModelValidation.DEFAULT;
+    private String validationTargets = ModelValidation.DEFAULT;
 
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException
     {
@@ -111,7 +111,7 @@ public class ExtValBeanValidatorTag implements Validator
 
     private void tryToSetCustomMessage(ModelValidationEntry modelValidationEntry)
     {
-        if(!ModelValidation.DEFAULT_MESSAGE.equals(this.message))
+        if(!ModelValidation.DEFAULT.equals(this.message))
         {
             modelValidationEntry.setCustomMessage(this.message);
         }
@@ -157,7 +157,7 @@ public class ExtValBeanValidatorTag implements Validator
         ValueBindingExpression valueBindingExpression;
         for(String target : targets)
         {
-            if("".equals(target) ||  ModelValidation.DEFAULT_TARGET.equals(target))
+            if("".equals(target) ||  ModelValidation.DEFAULT.equals(target))
             {
                 continue;
             }
