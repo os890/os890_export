@@ -30,7 +30,7 @@ public class Person
     @CustomRequired
     private String firstName;
 
-    @CustomRequired
+    @CustomRequired(message = "Last name is required")
     private String lastName;
 
     public Long getId()
