@@ -22,7 +22,7 @@ import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListe
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.internal.ToDo;
 import org.apache.myfaces.extensions.validator.internal.Priority;
-import org.apache.myfaces.extensions.validator.ValidationInterceptorWithSkipValidationSupport;
+import org.apache.myfaces.extensions.validator.PropertyValidationInterceptor;
 import at.gp.web.jsf.extval.validation.bypass.interceptor.BypassValidationMetaDataExtractionInterceptor;
 import at.gp.web.jsf.extval.validation.bypass.interceptor.ValidationInterceptorWithBypassValidationSupport;
 
@@ -41,7 +41,7 @@ public class BypassValidationStartupListener extends AbstractStartupListener
             logger.info("adding support for @BypassValidation");
         }
 
-        ExtValContext.getContext().denyRendererInterceptor(ValidationInterceptorWithSkipValidationSupport.class);
+        ExtValContext.getContext().denyRendererInterceptor(PropertyValidationInterceptor.class);
         ExtValContext.getContext().registerRendererInterceptor(new ValidationInterceptorWithBypassValidationSupport());
         ExtValContext.getContext().addMetaDataExtractionInterceptor(new BypassValidationMetaDataExtractionInterceptor());
     }
