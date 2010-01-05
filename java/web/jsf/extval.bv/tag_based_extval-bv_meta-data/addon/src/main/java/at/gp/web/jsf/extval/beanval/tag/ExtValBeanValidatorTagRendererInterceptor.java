@@ -19,17 +19,25 @@
 package at.gp.web.jsf.extval.beanval.tag;
 
 import org.apache.myfaces.extensions.validator.core.interceptor.AbstractValidationInterceptor;
+import org.apache.myfaces.extensions.validator.core.metadata.extractor.MetaDataExtractor;
+import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.validator.Validator;
+import java.util.Map;
 
 public class ExtValBeanValidatorTagRendererInterceptor extends AbstractValidationInterceptor
 {
     protected void initComponent(FacesContext facesContext, UIComponent uiComponent)
     {
         tryToAddExtValBeanValidationMetaData(facesContext, uiComponent, false);
+    }
+
+    protected MetaDataExtractor getComponentMetaDataExtractor(Map<String, Object> properties)
+    {
+        return ExtValUtils.getComponentMetaDataExtractorWith(properties);
     }
 
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent, Object convertedObject)
