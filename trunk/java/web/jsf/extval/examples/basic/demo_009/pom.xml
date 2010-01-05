@@ -106,7 +106,7 @@
         <dependency>
             <groupId>at.gp.web.jsf.extval</groupId>
             <artifactId>extval-annotation-based-bypass-validation</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
             <scope>compile</scope>
         </dependency>
 
