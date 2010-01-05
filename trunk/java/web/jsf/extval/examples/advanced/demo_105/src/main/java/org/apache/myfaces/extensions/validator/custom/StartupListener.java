@@ -31,6 +31,8 @@ import org.apache.myfaces.extensions.validator.custom.highlighting.HighlightingI
  */
 public class StartupListener extends AbstractStartupListener
 {
+    private static final long serialVersionUID = 7389962365994910151L;
+
     protected void init()
     {
         StaticInMemoryConfiguration config = new StaticInMemoryConfiguration();
