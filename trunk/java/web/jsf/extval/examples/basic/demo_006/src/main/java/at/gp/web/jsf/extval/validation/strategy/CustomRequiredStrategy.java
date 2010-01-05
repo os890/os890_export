@@ -18,18 +18,15 @@
  */
 package at.gp.web.jsf.extval.validation.strategy;
 
-import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractAnnotationValidationStrategy;
-import org.apache.myfaces.extensions.validator.core.validation.NullValueAwareValidationStrategy;
-import org.apache.myfaces.extensions.validator.core.validation.EmptyValueAwareValidationStrategy;
-import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
-
-import javax.faces.context.FacesContext;
-import javax.faces.component.UIComponent;
-import javax.faces.application.FacesMessage;
-import javax.faces.validator.ValidatorException;
-import java.lang.annotation.Annotation;
-
 import at.gp.web.jsf.extval.validation.annotation.CustomRequired;
+import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
+import org.apache.myfaces.extensions.validator.core.validation.EmptyValueAwareValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.NullValueAwareValidationStrategy;
+import org.apache.myfaces.extensions.validator.core.validation.strategy.AbstractAnnotationValidationStrategy;
+
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 /**
  * @author Gerhard Petracek
@@ -42,11 +39,9 @@ public class CustomRequiredStrategy extends AbstractAnnotationValidationStrategy
     protected void processValidation(FacesContext facesContext, UIComponent uiComponent,
                                      MetaDataEntry metaDataEntry, Object convertedObject) throws ValidatorException
     {
-        if("".equals(convertedObject))
+        if ("".equals(convertedObject))
         {
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                getErrorMessageSummary(metaDataEntry.getValue(CustomRequired.class)),
-                getErrorMessageDetail(metaDataEntry.getValue(CustomRequired.class))));
+            throw new ValidatorException(getValidationErrorFacesMessage(metaDataEntry.getValue(CustomRequired.class)));
         }
     }
 
