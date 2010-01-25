@@ -18,8 +18,12 @@
  */
 package at.gp.web.jsf.extval.validation.model.transactional;
 
-import javax.faces.component.EditableValueHolder;
 import at.gp.web.jsf.extval.validation.model.transactional.util.ModelValidationUtils;
+
+import javax.faces.component.EditableValueHolder;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 
 /**
  * @author Gerhard Petracek
@@ -47,8 +51,16 @@ public class RevertableProperty
         //to the following manually to support complex components...
         ModelValidationUtils.invokeSetter(this.baseObject, this.propertyName, this.oldValue);
 
-        //TODO
-        this.component.setSubmittedValue(this.newValue);
+        this.component.setSubmittedValue(getConvertedNewValue());
         this.component.setValid(false);
     }
-}
+
+    private Object getConvertedNewValue()
+    {
+        Converter converter = this.component.getConverter();
+        if (converter != null)
+        {
+            return converter.getAsString(FacesContext.getCurrentInstance(), (UIComponent) this.component, this.newValue);
+        }
+        return this.newValue.toString();
+    }
