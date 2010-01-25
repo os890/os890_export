@@ -64,3 +64,4 @@ public class RevertableProperty
         }
         return this.newValue.toString();
     }
+}
