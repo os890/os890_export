@@ -22,6 +22,7 @@ import at.gp.web.jsf.extval.validation.group.ExtValGroupValidation;
 import at.gp.web.jsf.extval.validation.group.Group;
 import org.apache.myfaces.extensions.validator.core.interceptor.PropertyValidationInterceptor;
 import org.apache.myfaces.extensions.validator.core.storage.GroupStorage;
+import org.apache.myfaces.extensions.validator.core.InvocationOrder;
 import org.apache.myfaces.extensions.validator.internal.UsageCategory;
 import org.apache.myfaces.extensions.validator.internal.UsageInformation;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@InvocationOrder(70)
 @UsageInformation(UsageCategory.INTERNAL)
 public class SimpleGroupValidationInterceptor implements PropertyValidationInterceptor
 {
