@@ -20,9 +20,6 @@ package at.gp.web.jsf.extval;
 
 import at.gp.web.jsf.extval.domain.Person;
 
-/**
- * @author Gerhard Petracek
- */
 public class PersonPage
 {
     private Person person;

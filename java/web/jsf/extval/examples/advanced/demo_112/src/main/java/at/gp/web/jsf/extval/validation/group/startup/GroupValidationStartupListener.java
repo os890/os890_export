@@ -18,9 +18,18 @@
  */
 package at.gp.web.jsf.extval.validation.group.startup;
 
-import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
+import at.gp.web.jsf.extval.validation.group.Group;
+import at.gp.web.jsf.extval.validation.group.interceptor.SimpleGroupValidationInterceptor;
+import at.gp.web.jsf.extval.validation.group.interceptor.SimpleGroupValidationMetaDataExtractionInterceptor;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import at.gp.web.jsf.extval.validation.group.interceptor.GroupValidationInterceptor;
+import org.apache.myfaces.extensions.validator.core.factory.AbstractNameMapperAwareFactory;
+import org.apache.myfaces.extensions.validator.core.factory.FactoryNames;
+import org.apache.myfaces.extensions.validator.core.mapper.NameMapper;
+import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
+import org.apache.myfaces.extensions.validator.core.storage.DefaultGroupStorage;
+import org.apache.myfaces.extensions.validator.core.storage.GroupStorage;
+import org.apache.myfaces.extensions.validator.core.storage.StorageManager;
+import org.apache.myfaces.extensions.validator.core.storage.StorageManagerHolder;
 
 public class GroupValidationStartupListener extends AbstractStartupListener
 {
@@ -28,6 +37,34 @@ public class GroupValidationStartupListener extends AbstractStartupListener
 
     protected void init()
     {
-        ExtValContext.getContext().addPropertyValidationInterceptor(new GroupValidationInterceptor());
+        ExtValContext.getContext().addPropertyValidationInterceptor(new SimpleGroupValidationInterceptor());
+        ExtValContext.getContext().addMetaDataExtractionInterceptor(new SimpleGroupValidationMetaDataExtractionInterceptor());
+
+        setupNamedGroupStorage();
+    }
+
+    @SuppressWarnings({"unchecked"})
+    private void setupNamedGroupStorage()
+    {
+        StorageManagerHolder storageManagerHolder =
+                (ExtValContext.getContext()
+                        .getFactoryFinder()
+                        .getFactory(FactoryNames.STORAGE_MANAGER_FACTORY, StorageManagerHolder.class));
+
+        StorageManager storageManager = storageManagerHolder.getStorageManager(GroupStorage.class);
+
+        if (storageManager instanceof AbstractNameMapperAwareFactory)
+        {
+            ((AbstractNameMapperAwareFactory<String>) storageManager)
+                    .register(new NameMapper<String>()
+                    {
+
+                        public String createName(String source)
+                        {
+                            return (Group.class.getName().equals(source)) ?
+                                    DefaultGroupStorage.class.getName() : null;
+                        }
+                    });
+        }
     }
 }

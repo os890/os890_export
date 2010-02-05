@@ -19,21 +19,19 @@
 package at.gp.web.jsf.extval.domain;
 
 import org.apache.myfaces.extensions.validator.baseval.annotation.Length;
+import org.apache.myfaces.extensions.validator.baseval.annotation.Required;
 import at.gp.web.jsf.extval.domain.group.MinimalGroup;
 import at.gp.web.jsf.extval.domain.group.NameGroup;
 
-/**
- * @author Gerhard Petracek
- */
 public class Person
 {
-    @Length(minimum = 3, maximum = 30)
+    @Required
     private String nickName;
 
-    @Length(minimum = 3, maximum = 20, parameters = NameGroup.class)
+    @Required(parameters = NameGroup.class)
     private String firstName;
 
-    @Length(minimum = 3, maximum = 30, parameters = {NameGroup.class, MinimalGroup.class})
+    @Required(parameters = {NameGroup.class, MinimalGroup.class})
     private String lastName;
 
     public String getFirstName()
