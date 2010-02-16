@@ -25,7 +25,7 @@ import org.apache.myfaces.extensions.validator.core.el.ELHelper;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
-import org.apache.myfaces.extensions.validator.PropertyValidationInterceptor;
+import org.apache.myfaces.extensions.validator.PropertyValidationModuleValidationInterceptor;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -42,7 +42,7 @@ import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
 /**
  * @author Gerhard Petracek
  */
-public class ValidationInterceptorWithBypassValidationSupport extends PropertyValidationInterceptor
+public class ValidationInterceptorWithBypassValidationSupport extends PropertyValidationModuleValidationInterceptor
 {
     @Override
     public void beforeDecode(FacesContext facesContext, UIComponent uiComponent, Renderer wrapped) throws SkipBeforeInterceptorsException, SkipRendererDelegationException
