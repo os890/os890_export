@@ -22,10 +22,13 @@ import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipBefo
 import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipRendererDelegationException;
 import org.apache.myfaces.extensions.validator.core.el.ValueBindingExpression;
 import org.apache.myfaces.extensions.validator.core.el.ELHelper;
+import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
 import org.apache.myfaces.extensions.validator.PropertyValidationModuleValidationInterceptor;
+import org.apache.myfaces.extensions.validator.internal.ToDo;
+import org.apache.myfaces.extensions.validator.internal.Priority;
 
 import javax.faces.context.FacesContext;
 import javax.faces.component.UIComponent;
@@ -56,7 +59,10 @@ public class ValidationInterceptorWithBypassValidationSupport extends PropertyVa
                 public void queueEvent(FacesEvent facesEvent)
                 {
                     this.clientId = facesEvent.getComponent().getClientId(FacesContext.getCurrentInstance());
-                    super.queueEvent(facesEvent);
+                    if(isCompatible())
+                    {
+                        super.queueEvent(facesEvent);
+                    }
                 }
 
                 @Override
@@ -81,6 +87,12 @@ public class ValidationInterceptorWithBypassValidationSupport extends PropertyVa
         }
         
         super.beforeDecode(facesContext, uiComponent, wrapped);
+    }
+
+    @ToDo(value = Priority.HIGH, description = "this add-on is only compatible with the property validation module - in stand alone mode")
+    private boolean isCompatible()
+    {
+        return ExtValContext.getContext().getRendererInterceptors().size() == 1;
     }
 
     private void processActivatedCommandComponent(FacesContext facesContext, UIComponent uiComponent)
