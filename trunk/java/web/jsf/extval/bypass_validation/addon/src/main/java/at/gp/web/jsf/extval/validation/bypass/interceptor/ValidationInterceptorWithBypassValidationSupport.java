@@ -23,6 +23,7 @@ import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipRend
 import org.apache.myfaces.extensions.validator.core.el.ValueBindingExpression;
 import org.apache.myfaces.extensions.validator.core.el.ELHelper;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
+import org.apache.myfaces.extensions.validator.core.ProjectStage;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
@@ -116,10 +117,17 @@ public class ValidationInterceptorWithBypassValidationSupport extends PropertyVa
         processBypassValidation(facesContext, valueBindingExpression);
     }
 
+    @ToDo(Priority.MEDIUM)
     private void processBypassValidation(FacesContext facesContext, ValueBindingExpression valueBindingExpression)
     {
         ELHelper elHelper = ExtValUtils.getELHelper();
         Object base = elHelper.getValueOfExpression(facesContext, valueBindingExpression.getBaseExpression());
+
+        if(base == null) //in case of c:set
+        {
+            //TODO this add-on isn't compatible with "virtual expressions" e.g. #{page.myAction} page is created via c:set
+            return;
+        }
 
         Method actionMethod = ReflectionUtils
                 .tryToGetMethod(getClassOf(base), valueBindingExpression.getProperty());
