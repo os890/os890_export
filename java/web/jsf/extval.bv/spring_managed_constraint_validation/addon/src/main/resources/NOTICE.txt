@@ -1,0 +1,6 @@
+Tag based ExtVal-BV Meta-data for Apache MyFaces Extensions Validator
+Copyright 2007-2008 Gerhard Petracek
+
+------------------------------------------------------------------------
+See the file LICENSE.txt
+------------------------------------------------------------------------
