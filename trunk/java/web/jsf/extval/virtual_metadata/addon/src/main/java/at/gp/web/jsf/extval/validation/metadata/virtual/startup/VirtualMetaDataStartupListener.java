@@ -21,6 +21,7 @@ package at.gp.web.jsf.extval.validation.metadata.virtual.startup;
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import at.gp.web.jsf.extval.validation.metadata.virtual.interceptor.VirtualMetaDataInterceptor;
+import at.gp.web.jsf.extval.validation.metadata.virtual.interceptor.VirtualPropertyValidationModuleValidationInterceptor;
 
 /**
  * @author Gerhard Petracek
@@ -31,11 +32,9 @@ public class VirtualMetaDataStartupListener extends AbstractStartupListener
 
     protected void init()
     {
-        if(logger.isInfoEnabled())
-        {
-            logger.info("adding support for @VirtualMetaData");
-        }
+        logger.info("adding support for @VirtualMetaData");
 
         ExtValContext.getContext().addMetaDataExtractionInterceptor(new VirtualMetaDataInterceptor());
+        ExtValContext.getContext().registerRendererInterceptor(new VirtualPropertyValidationModuleValidationInterceptor());
     }
 }
