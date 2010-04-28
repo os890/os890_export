@@ -1,0 +1,6 @@
+Required Label add-on for Apache MyFaces Extensions Validator
+Copyright 2010 Gerhard Petracek and Rudy De Busscher
+
+------------------------------------------------------------------------
+See the file LICENSE.txt
+------------------------------------------------------------------------
