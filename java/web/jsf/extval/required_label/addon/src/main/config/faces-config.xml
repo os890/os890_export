@@ -23,7 +23,7 @@
               version="1.2">
 
     <lifecycle>
-        <phase-listener>at.gp.web.jsf.extval.label.interceptor.PropertyValidationAwareLabelRendererInterceptor</phase-listener>
+        <phase-listener>at.gp.web.jsf.extval.label.startup.LabelAwareInitializationStartupListener</phase-listener>
     </lifecycle>
 
 </faces-config>
