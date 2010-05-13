@@ -47,7 +47,6 @@ public class MetaDataProviderStorage
     private static Object annotationDB;
     private static MetaDataProviderStorage instance;
     private Map<Class, List<Class>> metaDataProviderStorage = new HashMap<Class, List<Class>>();
-    private Map<Class, List<Class>> customMetaDataProviderStorage = new HashMap<Class, List<Class>>();
 
     private MetaDataProviderStorage()
     {
@@ -67,7 +66,7 @@ public class MetaDataProviderStorage
                     if(currentClass.isAnnotationPresent(MetaDataProvider.class))
                     {
                         metaDataProvider = (MetaDataProvider)currentClass.getAnnotation(MetaDataProvider.class);
-                        addMetaDataProvider(metaDataProvider.value(), currentClass, this.customMetaDataProviderStorage);
+                        addMetaDataProvider(metaDataProvider.value(), currentClass, this.metaDataProviderStorage);
                     }
                 }
             }
@@ -115,21 +114,6 @@ public class MetaDataProviderStorage
             {
                 addMetaDataProvider(sourceClass, foundProvider, this.metaDataProviderStorage);
             }
-
-            List<Class> result = new ArrayList<Class>();
-            if(this.customMetaDataProviderStorage.containsKey(sourceClass))
-            {
-                if(this.metaDataProviderStorage.containsKey(sourceClass))
-                {
-                    result = this.metaDataProviderStorage.get(sourceClass);
-                }
-                else
-                {
-                    this.metaDataProviderStorage.put(sourceClass, result);
-                }
-
-                result.addAll(this.customMetaDataProviderStorage.get(sourceClass));
-            }
         }
         catch(Throwable t)
         {
@@ -152,7 +136,15 @@ public class MetaDataProviderStorage
             List<Class> result = new ArrayList<Class>();
 
             addBaseResource(sourcePackage.replace(".", "/"));
-            scanResult.addAll(getAnnotationDB().getAnnotationIndex().get(MetaDataProvider.class.getName()));
+
+            AnnotationDB annotationDB = getAnnotationDB();
+
+            if(annotationDB == null || annotationDB.getAnnotationIndex() == null)
+            {
+                return result;
+            }
+
+            scanResult.addAll(annotationDB.getAnnotationIndex().get(MetaDataProvider.class.getName()));
 
             for(String className : scanResult)
             {
