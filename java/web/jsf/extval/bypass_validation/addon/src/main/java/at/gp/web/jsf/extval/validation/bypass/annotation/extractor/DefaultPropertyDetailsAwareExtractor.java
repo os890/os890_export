@@ -19,10 +19,13 @@
 package at.gp.web.jsf.extval.validation.bypass.annotation.extractor;
 
 import org.apache.myfaces.extensions.validator.core.metadata.extractor.DefaultComponentMetaDataExtractor;
+import org.apache.myfaces.extensions.validator.core.metadata.MetaDataEntry;
 import org.apache.myfaces.extensions.validator.core.property.PropertyInformation;
 import org.apache.myfaces.extensions.validator.core.property.PropertyDetails;
 import org.apache.myfaces.extensions.validator.core.property.DefaultPropertyInformation;
 import org.apache.myfaces.extensions.validator.core.property.PropertyInformationKeys;
+import org.apache.myfaces.extensions.validator.util.ExtValAnnotationUtils;
+import org.apache.myfaces.extensions.validator.util.ProxyUtils;
 
 import javax.faces.context.FacesContext;
 
@@ -43,18 +46,30 @@ public class DefaultPropertyDetailsAwareExtractor extends DefaultComponentMetaDa
 
         PropertyDetails propertyDetails = (PropertyDetails)object;
 
-        Class entityClass = propertyDetails.getBaseObject().getClass();
+        Class entityClass = ProxyUtils.getUnproxiedClass(propertyDetails.getBaseObject().getClass());
 
         PropertyInformation propertyInformation = new DefaultPropertyInformation();
 
         propertyInformation.setInformation(
                 PropertyInformationKeys.PROPERTY_DETAILS , propertyDetails);
 
-        /*
-         * find and add annotations
-         */
-        addPropertyAccessAnnotations(entityClass, propertyDetails.getProperty(), propertyInformation);
-        addFieldAccessAnnotations(entityClass, propertyDetails.getProperty(), propertyInformation);
+        if (isCached(entityClass, propertyDetails.getProperty()))
+        {
+            //create
+            propertyInformation.setInformation(PropertyInformationKeys.PROPERTY_DETAILS, propertyDetails);
+
+            for (MetaDataEntry metaDataEntry : getCachedMetaData(entityClass, propertyDetails.getProperty()))
+            {
+                propertyInformation.addMetaDataEntry(metaDataEntry);
+            }
+        }
+        else
+        {
+            propertyInformation = ExtValAnnotationUtils.extractAnnotations(entityClass, propertyDetails);
+            cacheMetaData(propertyInformation);
+        }
+
+        logger.finest("extract finished");
 
         return propertyInformation;
     }

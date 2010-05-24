@@ -36,10 +36,7 @@ public class BypassValidationStartupListener extends AbstractStartupListener
     @ToDo(value = Priority.MEDIUM, description = "web.xml parameter to deactivate it")
     protected void init()
     {
-        if(logger.isInfoEnabled())
-        {
-            logger.info("adding support for @BypassValidation");
-        }
+        this.logger.info("adding support for @BypassValidation");
 
         ExtValContext.getContext().denyRendererInterceptor(PropertyValidationModuleValidationInterceptor.class);
         ExtValContext.getContext().registerRendererInterceptor(new ValidationInterceptorWithBypassValidationSupport());
