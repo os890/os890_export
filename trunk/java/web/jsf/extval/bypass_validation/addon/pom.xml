@@ -25,7 +25,7 @@
     <groupId>at.gp.web.jsf.extval</groupId>
     <artifactId>extval-annotation-based-bypass-validation</artifactId>
     <name>Annotation based bypass validation for MyFaces Extensions-Validator 1.x.3+</name>
-    <version>1.2.3</version>
+    <version>1.2.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -62,15 +62,15 @@
         <dependency>
             <groupId>org.apache.myfaces.extensions.validator</groupId>
             <artifactId>myfaces-extval-core</artifactId>
-            <version>1.2.3-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>1.2.4-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.myfaces.extensions.validator.validation-modules</groupId>
             <artifactId>myfaces-extval-property-validation</artifactId>
-            <version>1.2.3-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>1.2.4-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -125,6 +125,20 @@
                 </configuration>
             </plugin>
         </plugins>
+        <!--extensions>
+            <extension>
+                <groupId>org.jvnet.wagon-svn</groupId>
+                <artifactId>wagon-svn</artifactId>
+                <version>1.8</version>
+            </extension>
+        </extensions-->
     </build>
 
+    <!--distributionManagement>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>googlecode</id>
+            <url>svn:https://os890-m2-repository.googlecode.com/svn/trunk/os890</url>
+        </repository>
+    </distributionManagement-->
 </project>

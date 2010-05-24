@@ -23,11 +23,12 @@ import org.apache.myfaces.extensions.validator.core.renderkit.exception.SkipRend
 import org.apache.myfaces.extensions.validator.core.el.ValueBindingExpression;
 import org.apache.myfaces.extensions.validator.core.el.ELHelper;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import org.apache.myfaces.extensions.validator.core.ProjectStage;
+import org.apache.myfaces.extensions.validator.core.interceptor.RendererInterceptor;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
 import org.apache.myfaces.extensions.validator.util.ReflectionUtils;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
 import org.apache.myfaces.extensions.validator.PropertyValidationModuleValidationInterceptor;
+import org.apache.myfaces.extensions.validator.MappedConstraintSourcePropertyValidationModuleValidationInterceptor;
 import org.apache.myfaces.extensions.validator.internal.ToDo;
 import org.apache.myfaces.extensions.validator.internal.Priority;
 
@@ -39,6 +40,7 @@ import javax.faces.component.UIPanel;
 import javax.faces.render.Renderer;
 import javax.faces.event.FacesEvent;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
 
 import at.gp.web.jsf.extval.validation.bypass.annotation.BypassValidation;
 import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
@@ -48,6 +50,8 @@ import at.gp.web.jsf.extval.validation.bypass.util.BypassValidationUtils;
  */
 public class ValidationInterceptorWithBypassValidationSupport extends PropertyValidationModuleValidationInterceptor
 {
+    private Boolean mappedConstraintSourceValidation;
+
     @Override
     public void beforeDecode(FacesContext facesContext, UIComponent uiComponent, Renderer wrapped) throws SkipBeforeInterceptorsException, SkipRendererDelegationException
     {
@@ -93,9 +97,12 @@ public class ValidationInterceptorWithBypassValidationSupport extends PropertyVa
     @ToDo(value = Priority.HIGH, description = "this add-on is only compatible with the property validation module - in stand alone mode")
     private boolean isCompatible()
     {
+        lazyMappedConstraintSourceCheck();
+
         return ExtValContext.getContext().getRendererInterceptors().size() == 1;
     }
 
+    @SuppressWarnings({"deprecation"})
     private void processActivatedCommandComponent(FacesContext facesContext, UIComponent uiComponent)
     {
         String actionString = ((UICommand) uiComponent).getAction() != null ?
@@ -172,9 +179,9 @@ public class ValidationInterceptorWithBypassValidationSupport extends PropertyVa
             targetClass = ClassUtils.tryToLoadClassForName(className);
         }
 
-        if (targetClass == null && this.logger.isWarnEnabled())
+        if (targetClass == null)
         {
-            this.logger.warn("couldn't get class of " +
+            this.logger.log(Level.WARNING, "couldn't get class of " +
                     base.getClass().getName() +
                     " maybe there is a proxy. if it is an issue, please report it!");
         }
@@ -193,6 +200,54 @@ public class ValidationInterceptorWithBypassValidationSupport extends PropertyVa
             return;
         }
 
-        super.processValidation(facesContext, uiComponent, convertedObject);
+        lazyMappedConstraintSourceCheck();
+
+        new PropertyValidationModuleValidationInterceptor(){
+            @Override
+            public void processValidation(FacesContext facesContext, UIComponent uiComponent, Object convertedObject)
+            {
+                super.processValidation(facesContext, uiComponent, convertedObject);
+            }
+        }.processValidation(facesContext, uiComponent, convertedObject);
+
+        if(this.mappedConstraintSourceValidation)
+        {
+            new MappedConstraintSourcePropertyValidationModuleValidationInterceptor() {
+                @Override
+                public void processValidation(FacesContext facesContext, UIComponent uiComponent, Object convertedObject)
+                {
+                    super.processValidation(facesContext, uiComponent, convertedObject);
+                }
+            }.processValidation(facesContext, uiComponent, convertedObject);
+        }
+    }
+
+    private void lazyMappedConstraintSourceCheck()
+    {
+        if(this.mappedConstraintSourceValidation == null)
+        {
+            if(isMappedConstraintSourceValidationActive())
+            {
+                ExtValContext.getContext().deregisterRendererInterceptor(MappedConstraintSourcePropertyValidationModuleValidationInterceptor.class);
+
+                this.mappedConstraintSourceValidation = Boolean.TRUE;
+            }
+            else
+            {
+                this.mappedConstraintSourceValidation = Boolean.FALSE;
+            }
+        }
+    }
+
+    private boolean isMappedConstraintSourceValidationActive()
+    {
+        for(RendererInterceptor rendererInterceptor : ExtValContext.getContext().getRendererInterceptors())
+        {
+            if(rendererInterceptor instanceof MappedConstraintSourcePropertyValidationModuleValidationInterceptor)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
