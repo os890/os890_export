@@ -99,6 +99,12 @@
         </dependency>
 
         <dependency>
+            <groupId>at.gp.web.jsf.extval.bv</groupId>
+            <artifactId>extval-required-labels</artifactId>
+            <version>1.2.4-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>4.0.0.GA</version>
