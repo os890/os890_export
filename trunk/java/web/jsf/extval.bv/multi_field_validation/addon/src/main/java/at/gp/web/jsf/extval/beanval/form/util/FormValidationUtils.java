@@ -56,7 +56,15 @@ public class FormValidationUtils
     {
         for (String viewId : formValidator.viewIds())
         {
-            if (formValidator.formValidationBeanClass().equals(FormBean.class))
+            processFormBeans(formBeanClassStorage, viewId, beanClass, formValidator);
+        }
+    }
+
+    private static void processFormBeans(FormBeanClassStorage formBeanClassStorage, String viewId, Class beanClass, FormValidator formValidator)
+    {
+        for(Class<? extends FormBean> currentFormBean : formValidator.formValidationBeanClass())
+        {
+            if (currentFormBean.equals(FormBean.class))
             {
                 if (beanClass.isAssignableFrom(FormBean.class))
                 {
@@ -70,7 +78,7 @@ public class FormValidationUtils
             }
             else
             {
-                formBeanClassStorage.add(beanClass, formValidator.formValidationBeanClass(), viewId, formValidator.conditions(), formValidator.groups());
+                formBeanClassStorage.add(beanClass, currentFormBean, viewId, formValidator.conditions(), formValidator.groups());
             }
         }
     }
