@@ -55,6 +55,7 @@ public class FormValidationPhaseListener implements PhaseListener
 
     private boolean isInitialized = false;
 
+    @ToDo(value = Priority.LOW, description = "if there is an exception, add a faces-message with the exception and call fc.renderResponse()")
     public void afterPhase(PhaseEvent phaseEvent)
     {
         @Deprecated
@@ -224,14 +225,19 @@ public class FormValidationPhaseListener implements PhaseListener
             if (method == null)
             {
                 Field field = formBeanDescriptor.getField(propertyName);
-                field.setAccessible(true);
-                try
+
+                //if the field is null: there are multiple form-beans for one form (for more specialized validation)
+                if(field != null)
                 {
-                    field.set(formBackingBean, value);
-                }
-                catch (IllegalAccessException e)
-                {
-                    e.printStackTrace();
+                    field.setAccessible(true);
+                    try
+                    {
+                        field.set(formBackingBean, value);
+                    }
+                    catch (IllegalAccessException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

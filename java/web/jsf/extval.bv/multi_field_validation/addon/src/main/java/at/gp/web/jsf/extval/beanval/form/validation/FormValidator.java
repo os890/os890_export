@@ -18,6 +18,9 @@
  */
 package at.gp.web.jsf.extval.beanval.form.validation;
 
+import org.apache.myfaces.extensions.validator.internal.ToDo;
+import org.apache.myfaces.extensions.validator.internal.Priority;
+
 import javax.validation.groups.Default;
 import java.lang.annotation.Documented;
 import static java.lang.annotation.ElementType.TYPE;
@@ -33,7 +36,8 @@ import java.lang.annotation.Target;
 @Documented
 public @interface FormValidator
 {
-    Class<? extends FormBean> formValidationBeanClass() default FormBean.class;
+    @ToDo(value = Priority.LOW, description = "rename to formValidationBeanClasses and update documentation")
+    Class<? extends FormBean>[] formValidationBeanClass() default FormBean.class;
 
     String[] viewIds() default "*";
 
