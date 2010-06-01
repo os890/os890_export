@@ -30,6 +30,7 @@ import org.apache.myfaces.extensions.validator.internal.Priority;
 import org.apache.myfaces.extensions.validator.internal.ToDo;
 import org.apache.myfaces.extensions.validator.util.ClassUtils;
 import org.apache.myfaces.extensions.validator.util.ExtValUtils;
+import org.apache.myfaces.extensions.validator.util.JsfUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.event.PhaseEvent;
@@ -52,7 +53,7 @@ public class FormValidationPhaseListener implements PhaseListener
 {
     private static final long serialVersionUID = 5114256514092459482L;
 
-    //private boolean isInitialized = false;
+    private boolean isInitialized = false;
 
     public void afterPhase(PhaseEvent phaseEvent)
     {
@@ -238,11 +239,10 @@ public class FormValidationPhaseListener implements PhaseListener
 
     public void beforePhase(PhaseEvent phaseEvent)
     {
-        /*
         if (!isInitialized)
         {
-            if (WebXmlParameter.DEACTIVATE_CROSSVALIDATION != null
-                    && WebXmlParameter.DEACTIVATE_CROSSVALIDATION.equalsIgnoreCase("true"))
+            if (WebXmlParameter.DEACTIVATE_FORMVALIDATION != null
+                    && WebXmlParameter.DEACTIVATE_FORMVALIDATION.equalsIgnoreCase("true"))
             {
                 JsfUtils.deregisterPhaseListener(this);
             }
@@ -251,7 +251,6 @@ public class FormValidationPhaseListener implements PhaseListener
                 isInitialized = true;
             }
         }
-        */
     }
 
     public PhaseId getPhaseId()
