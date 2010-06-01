@@ -48,7 +48,6 @@ import java.util.Set;
 /**
  * @author Gerhard Petracek
  */
-@ToDo(value = Priority.BLOCKING, description = "use processedInformationStorageEntry#getFurtherEntries to support e.g. tables")
 public class FormValidationPhaseListener implements PhaseListener
 {
     private static final long serialVersionUID = 5114256514092459482L;
