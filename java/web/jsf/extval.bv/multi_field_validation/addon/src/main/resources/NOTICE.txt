@@ -1,0 +1,6 @@
+Multi-Field Form Validation add-on for Apache MyFaces Extensions Validator
+Copyright 2010 Gerhard Petracek
+
+------------------------------------------------------------------------
+See the file LICENSE.txt
+------------------------------------------------------------------------
