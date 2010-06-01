@@ -24,6 +24,7 @@
 
     <lifecycle>
         <phase-listener>at.gp.web.jsf.extval.beanval.form.startup.FormValidationStartupListener</phase-listener>
+        <phase-listener>at.gp.web.jsf.extval.beanval.form.FormValidationPhaseListener</phase-listener>
     </lifecycle>
 
 </faces-config>
