@@ -1,0 +1,45 @@
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>MyFaces CODI Demo</title>
+    </h:head>
+    <h:body>
+        <ui:insert name="header"><h1>CODI Conversations</h1></ui:insert>
+
+        <h:form prependId="false">
+            <h:commandLink value="start grouped conversation" action="/pages/conversations/grouped/start.xhtml?faces-redirect=true"/>
+            <br/>
+            <h:commandLink value="start view-access conversation" action="/pages/conversations/viewAccess/start.xhtml?faces-redirect=true"/>
+        </h:form>
+
+        <h:form id="mainForm" prependId="false">
+            <ui:insert name="content">no content available</ui:insert>
+        </h:form>
+        <h:messages globalOnly="true" errorStyle="color: red;" warnStyle="color:orange;" infoStyle="color:dodgerblue;"/>
+    </h:body>
+</html>
