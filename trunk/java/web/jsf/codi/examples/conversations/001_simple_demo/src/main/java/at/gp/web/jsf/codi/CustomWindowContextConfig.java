@@ -19,9 +19,10 @@
 package at.gp.web.jsf.codi;
 
 import org.apache.myfaces.extensions.cdi.javaee.jsf.impl.scope.conversation.spi.RedirectHandler;
-import static org.apache.myfaces.extensions.cdi.javaee.jsf.impl.util.ConversationUtils.UUID_ID_KEY;
+import org.apache.myfaces.extensions.cdi.javaee.jsf.impl.util.ConversationUtils;
 import org.apache.myfaces.extensions.cdi.javaee.jsf2.impl.scope.conversation.DefaultWindowContextConfig;
 import static org.apache.myfaces.extensions.cdi.core.api.util.ClassUtils.tryToLoadClassForName;
+import static org.apache.myfaces.extensions.cdi.core.impl.scope.conversation.spi.WindowContextManager.WINDOW_CONTEXT_ID_PARAMETER_KEY;
 
 import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpServletResponse;
@@ -56,9 +57,9 @@ public class CustomWindowContextConfig extends DefaultWindowContextConfig
         {
             private static final long serialVersionUID = 1053101351702872549L;
 
-            public void sendRedirect(ExternalContext externalContext, String url, String requestIdKey) throws IOException
+            public void sendRedirect(ExternalContext externalContext, String url, Long windowId) throws IOException
             {
-                Cookie cookie = new Cookie(UUID_ID_KEY, requestIdKey);
+                Cookie cookie = new Cookie(WINDOW_CONTEXT_ID_PARAMETER_KEY, windowId.toString());
                 cookie.setMaxAge(-1);
                 cookie.setPath("/");
 
@@ -68,11 +69,11 @@ public class CustomWindowContextConfig extends DefaultWindowContextConfig
                 externalContext.redirect(url);
             }
 
-            public String restoreRequestIdKey(ExternalContext externalContext)
+            public Long restoreWindowId(ExternalContext externalContext)
             {
-                Cookie result = (Cookie) externalContext.getRequestCookieMap().get(UUID_ID_KEY);
+                Cookie result = (Cookie) externalContext.getRequestCookieMap().get(WINDOW_CONTEXT_ID_PARAMETER_KEY);
 
-                return result != null ? result.getValue() : null;
+                return result != null ? ConversationUtils.parseWindowId(result.getValue()) : null;
             }
         };
     }
