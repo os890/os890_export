@@ -27,12 +27,16 @@ import java.util.Map;
 /**
  * @author Gerhard Petracek
  */
-@SessionScoped
+@SessionScoped //just for demo cases!!!
 public class MockUserService implements UserService
 {
     private static final long serialVersionUID = 4514721166574684170L;
 
     private Map<String, User> registeredUsers = new HashMap<String, User>();
+
+    protected MockUserService()
+    {
+    }
 
     public void registerUser(String userName, String password)
     {
