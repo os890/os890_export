@@ -56,6 +56,57 @@
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
+		
+		<dependency>
+			<groupId>org.apache.myfaces.extensions.validator.test-modules</groupId>
+			<artifactId>myfaces-extval-base-test-infrastructure</artifactId>
+			<version>1.2.4-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.2</version>
+			<scope>test</scope>
+		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shale</groupId>
+            <artifactId>shale-test</artifactId>
+            <version>1.0.4</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.myfaces</groupId>
+                    <artifactId>myfaces-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.myfaces</groupId>
+                    <artifactId>myfaces-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>myfaces</groupId>
+                    <artifactId>myfaces-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>myfaces</groupId>
+                    <artifactId>myfaces-impl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+		<!-- Required for the extended HtmlLabelRenderer -->
+        <dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-impl</artifactId>
+			<version>1.2.8</version>
+			<scope>provided</scope>
+		</dependency>		
     </dependencies>
 
     <build>
