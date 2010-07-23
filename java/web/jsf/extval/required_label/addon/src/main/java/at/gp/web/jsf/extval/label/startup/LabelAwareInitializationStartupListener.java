@@ -18,12 +18,18 @@
  */
 package at.gp.web.jsf.extval.label.startup;
 
-import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
-import org.apache.myfaces.extensions.validator.core.ExtValContext;
-import org.apache.myfaces.extensions.validator.PropertyValidationModuleValidationInterceptor;
+import at.gp.web.jsf.extval.label.RequiredLabelAddonConfiguration;
+import at.gp.web.jsf.extval.label.DefaultRequiredLabelAddonConfiguration;
 import at.gp.web.jsf.extval.label.interceptor.PropertyValidationAwareLabelRendererInterceptor;
+import org.apache.myfaces.extensions.validator.PropertyValidationModuleValidationInterceptor;
+import org.apache.myfaces.extensions.validator.core.DefaultExtValCoreConfiguration;
+import org.apache.myfaces.extensions.validator.core.ExtValContext;
+import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 
 /**
+ * Does the initialization of the add-on by installing an adjusted PropertyValidationModuleValidationInterceptor interceptor and overrule some core 
+ * configuration parameters so that UIComponent required attribute is set by ExtVal.
+ * 
  * @author Gerhard Petracek
  * @author Rudy De Busscher
  */
@@ -31,6 +37,13 @@ public class LabelAwareInitializationStartupListener extends AbstractStartupList
 {
     private static final long serialVersionUID = 7048249946891862447L;
 
+    @Override
+    protected void initModuleConfig()
+    {
+        RequiredLabelAddonConfiguration.use(new DefaultRequiredLabelAddonConfiguration(), false);
+    }
+
+    @Override
     protected void init()
     {
         ExtValContext extValContext = ExtValContext.getContext();
@@ -38,24 +51,19 @@ public class LabelAwareInitializationStartupListener extends AbstractStartupList
         deregisterDefaultImplementations(extValContext);
         registerLabelAwareImplementations(extValContext);
 
-        activateRequiredInitializationSupport(extValContext);
     }
 
     private void deregisterDefaultImplementations(ExtValContext extValContext)
     {
         extValContext.denyRendererInterceptor(PropertyValidationModuleValidationInterceptor.class);
+
     }
 
     private void registerLabelAwareImplementations(ExtValContext extValContext)
     {
         extValContext.registerRendererInterceptor(new PropertyValidationAwareLabelRendererInterceptor());
+        DefaultExtValCoreConfiguration.overruleActivateRequiredInitialization(Boolean.TRUE, true);
+        DefaultExtValCoreConfiguration.overruleDeactivateRequiredAttributeSupport(Boolean.TRUE, true);
     }
 
-    private void activateRequiredInitializationSupport(ExtValContext extValContext)
-    {
-        extValContext.addGlobalProperty("mode:init:required", Boolean.TRUE, true);
-        // needed for some add-ons
-        // attention: you loose the compatibility with the "good old" required attribute in your pages
-        extValContext.addGlobalProperty("mode:reset:required", Boolean.TRUE, true);
-    }
 }
