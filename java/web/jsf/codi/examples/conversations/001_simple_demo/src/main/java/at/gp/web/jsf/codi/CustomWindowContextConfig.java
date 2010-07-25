@@ -59,22 +59,46 @@ public class CustomWindowContextConfig extends DefaultWindowContextConfig
 
             public void sendRedirect(ExternalContext externalContext, String url, Long windowId) throws IOException
             {
-                Cookie cookie = new Cookie(WINDOW_CONTEXT_ID_PARAMETER_KEY, windowId.toString());
-                cookie.setMaxAge(-1);
-                cookie.setPath("/");
-
-                HttpServletResponse servletResponse = (HttpServletResponse) externalContext.getResponse();
-                servletResponse.addCookie(cookie);
+                createCookie(externalContext, windowId);
 
                 externalContext.redirect(url);
             }
 
             public Long restoreWindowId(ExternalContext externalContext)
             {
-                Cookie result = (Cookie) externalContext.getRequestCookieMap().get(WINDOW_CONTEXT_ID_PARAMETER_KEY);
+                Cookie cookie = (Cookie) externalContext.getRequestCookieMap().get(WINDOW_CONTEXT_ID_PARAMETER_KEY);
 
-                return result != null ? ConversationUtils.parseWindowId(result.getValue()) : null;
+                Long windowId = null;
+
+                if(cookie != null)
+                {
+                    windowId = ConversationUtils.parseWindowId(cookie.getValue());
+
+                    resetCookie(externalContext, cookie);
+                }
+
+                return windowId;
             }
         };
+    }
+
+    private void createCookie(ExternalContext externalContext, Long windowId)
+    {
+        Cookie cookie = new Cookie(WINDOW_CONTEXT_ID_PARAMETER_KEY, windowId.toString());
+        cookie.setMaxAge(-1);
+        cookie.setPath("/");
+
+        HttpServletResponse servletResponse = (HttpServletResponse) externalContext.getResponse();
+        servletResponse.addCookie(cookie);
+    }
+
+    private void resetCookie(ExternalContext externalContext, Cookie cookie)
+    {
+        cookie.setMaxAge(0);
+        cookie.setValue(null);
+        cookie.setPath("/");
+
+        HttpServletResponse servletResponse = (HttpServletResponse) externalContext.getResponse();
+        servletResponse.addCookie(cookie);
     }
 }
