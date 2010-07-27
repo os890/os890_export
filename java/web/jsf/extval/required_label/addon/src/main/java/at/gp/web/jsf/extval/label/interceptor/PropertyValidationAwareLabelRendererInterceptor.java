@@ -18,22 +18,31 @@
  */
 package at.gp.web.jsf.extval.label.interceptor;
 
-import org.apache.myfaces.extensions.validator.PropertyValidationModuleValidationInterceptor;
-
-import javax.faces.component.UIComponent;
 import javax.faces.component.EditableValueHolder;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
-import javax.el.ValueExpression;
+
+import org.apache.myfaces.extensions.validator.PropertyValidationModuleValidationInterceptor;
+
+import at.gp.web.jsf.extval.label.RequiredLabelAddonConfiguration;
+import at.gp.web.jsf.extval.label.initializer.RequiredLabelInitializer;
 
 /**
+ * PropertyValidationModuleValidationInterceptor subclass that adds the functionality of adding a required marker to the label attached to a required field.
+ *
  * @author Gerhard Petracek
  * @author Rudy De Busscher
  */
 public class PropertyValidationAwareLabelRendererInterceptor extends PropertyValidationModuleValidationInterceptor
 {
-    private static final String REQUIRED_MARKER = "* ";
+    private RequiredLabelInitializer requiredLabelInitializer;
+
+    private void init()
+    {
+        requiredLabelInitializer = RequiredLabelAddonConfiguration.get().getRequiredLabelInitializer();
+    }
 
     @Override
     protected boolean processComponent(UIComponent uiComponent)
@@ -44,52 +53,46 @@ public class PropertyValidationAwareLabelRendererInterceptor extends PropertyVal
     @Override
     protected void initComponent(FacesContext facesContext, UIComponent uiComponent)
     {
+        // Do the standard functionality as defined in the parent class.
         if (uiComponent instanceof EditableValueHolder)
         {
             super.initComponent(facesContext, uiComponent);
         }
         else
         {
+            // We have a HtmlOutputLabel so maybe we have to set the required marker.
             UIComponent targetComponent = findLabeledEditableComponent(facesContext, uiComponent);
 
             if (targetComponent != null)
             {
+                // Process the UIInpiut first so we can 'see' it is required or not. 
                 super.initComponent(facesContext, targetComponent);
 
                 if (((EditableValueHolder) targetComponent).isRequired())
                 {
-                    applyRequiredMarker(facesContext, (UIOutput) uiComponent);
+                    getRequiredLabelInitializer().configureLabel(facesContext, (UIOutput) uiComponent);
                 }
             }
         }
     }
 
-    private static void applyRequiredMarker(FacesContext facesContext, UIOutput uiComponent)
+    private RequiredLabelInitializer getRequiredLabelInitializer()
     {
-        ValueExpression expression = uiComponent.getValueExpression("value");
-
-        if (expression != null)
+        if(this.requiredLabelInitializer == null)
         {
-            String expressionString = expression.getExpressionString();
-            if (!expressionString.startsWith(REQUIRED_MARKER))
-            {
-                uiComponent.setValueExpression("value",
-                        facesContext.getApplication().getExpressionFactory()
-                                .createValueExpression(
-                                facesContext.getELContext(), REQUIRED_MARKER + expressionString, String.class));
-            }
+            init();
         }
-        else
-        {
-            String value = (String) uiComponent.getValue();
-            if (!value.startsWith(REQUIRED_MARKER))
-            {
-                uiComponent.setValue(REQUIRED_MARKER + value);
-            }
-        }
-
+        return this.requiredLabelInitializer;
     }
 
+    /**
+     * Find the editable value holder the label is pointing to with his for attribute.  If no for attribute specified,
+     * component can't be found or isn't an editable valueHolder, the method returns null.
+     *
+     * @param facesContext the faces context
+     * @param outputLabel  the output label
+     * @return the uI component
+     */
     public UIComponent findLabeledEditableComponent(FacesContext facesContext, UIComponent outputLabel)
     {
         String target = ((HtmlOutputLabel) outputLabel).getFor();
