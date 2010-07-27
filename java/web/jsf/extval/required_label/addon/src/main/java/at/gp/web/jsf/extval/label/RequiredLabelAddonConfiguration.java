@@ -30,21 +30,34 @@ import at.gp.web.jsf.extval.label.initializer.RequiredLabelInitializer;
  */
 public abstract class RequiredLabelAddonConfiguration implements ExtValModuleConfiguration
 {
-    private static ExtValContext extValContext = ExtValContext.getContext();
+    private static ExtValContext extValContext = null;
 
     protected RequiredLabelAddonConfiguration()
     {
     }
 
+    /**
+     * Don't access ExtValContext during initialization of the class.  OpenWebBeans initializes all classes during
+     * startup of the WebContainer.  extValContext constructor tries to access Web.xml parameters through FacesContext
+     * which isn't available yet.
+     * @return
+     */
+    private static  ExtValContext getExtValContext() {
+        if (extValContext == null) {
+            extValContext = ExtValContext.getContext();
+        }
+        return extValContext;
+    }
+    
     public static RequiredLabelAddonConfiguration get()
     {
-        return extValContext.getModuleConfiguration(RequiredLabelAddonConfiguration.class);
+        return getExtValContext().getModuleConfiguration(RequiredLabelAddonConfiguration.class);
     }
 
     @UsageInformation(UsageCategory.INTERNAL)
     public static boolean use(RequiredLabelAddonConfiguration config, boolean forceOverride)
     {
-        return extValContext.addModuleConfiguration(RequiredLabelAddonConfiguration.class, config, forceOverride);
+        return getExtValContext().addModuleConfiguration(RequiredLabelAddonConfiguration.class, config, forceOverride);
     }
 
     /*
