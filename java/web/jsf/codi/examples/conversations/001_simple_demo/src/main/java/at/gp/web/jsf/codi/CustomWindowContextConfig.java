@@ -18,8 +18,8 @@
  */
 package at.gp.web.jsf.codi;
 
-import org.apache.myfaces.extensions.cdi.javaee.jsf.impl.scope.conversation.spi.RedirectHandler;
-import org.apache.myfaces.extensions.cdi.javaee.jsf.impl.util.ConversationUtils;
+import org.apache.myfaces.extensions.cdi.javaee.jsf.impl.scope.conversation.DefaultWindowHandler;
+import org.apache.myfaces.extensions.cdi.javaee.jsf.impl.scope.conversation.spi.WindowHandler;
 import org.apache.myfaces.extensions.cdi.javaee.jsf2.impl.scope.conversation.DefaultWindowContextConfig;
 import static org.apache.myfaces.extensions.cdi.core.api.util.ClassUtils.tryToLoadClassForName;
 import static org.apache.myfaces.extensions.cdi.core.impl.scope.conversation.spi.WindowContextManager.WINDOW_CONTEXT_ID_PARAMETER_KEY;
@@ -46,33 +46,41 @@ public class CustomWindowContextConfig extends DefaultWindowContextConfig
     }
 
     @Override
-    public RedirectHandler getRedirectHandler()
+    public boolean isUrlParameterSupported()
+    {
+        return false;
+    }
+
+    @Override
+    public WindowHandler getWindowHandler()
     {
         if(this.useFallback)
         {
-            return super.getRedirectHandler();
+            return super.getWindowHandler();
         }
 
-        return new RedirectHandler()
+        return new DefaultWindowHandler(isUrlParameterSupported())
         {
             private static final long serialVersionUID = 1053101351702872549L;
 
-            public void sendRedirect(ExternalContext externalContext, String url, Long windowId) throws IOException
+            @Override
+            public void sendRedirect(ExternalContext externalContext, String url) throws IOException
             {
-                createCookie(externalContext, windowId);
+                createCookie(externalContext, getCurrentWindowId());
 
                 externalContext.redirect(url);
             }
 
-            public Long restoreWindowId(ExternalContext externalContext)
+            @Override
+            public String restoreWindowId(ExternalContext externalContext)
             {
                 Cookie cookie = (Cookie) externalContext.getRequestCookieMap().get(WINDOW_CONTEXT_ID_PARAMETER_KEY);
 
-                Long windowId = null;
+                String windowId = null;
 
                 if(cookie != null)
                 {
-                    windowId = ConversationUtils.parseWindowId(cookie.getValue());
+                    windowId = cookie.getValue();
 
                     resetCookie(externalContext, cookie);
                 }
@@ -82,9 +90,9 @@ public class CustomWindowContextConfig extends DefaultWindowContextConfig
         };
     }
 
-    private void createCookie(ExternalContext externalContext, Long windowId)
+    private void createCookie(ExternalContext externalContext, String windowId)
     {
-        Cookie cookie = new Cookie(WINDOW_CONTEXT_ID_PARAMETER_KEY, windowId.toString());
+        Cookie cookie = new Cookie(WINDOW_CONTEXT_ID_PARAMETER_KEY, windowId);
         cookie.setMaxAge(-1);
         cookie.setPath("/");
 
