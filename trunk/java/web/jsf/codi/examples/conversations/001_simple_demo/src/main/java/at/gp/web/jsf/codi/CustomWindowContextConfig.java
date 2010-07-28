@@ -20,7 +20,7 @@ package at.gp.web.jsf.codi;
 
 import org.apache.myfaces.extensions.cdi.javaee.jsf.impl.scope.conversation.DefaultWindowHandler;
 import org.apache.myfaces.extensions.cdi.javaee.jsf.impl.scope.conversation.spi.WindowHandler;
-import org.apache.myfaces.extensions.cdi.javaee.jsf2.impl.scope.conversation.DefaultWindowContextConfig;
+import org.apache.myfaces.extensions.cdi.javaee.jsf2.impl.config.DefaultWindowContextConfig;
 import static org.apache.myfaces.extensions.cdi.core.api.util.ClassUtils.tryToLoadClassForName;
 import static org.apache.myfaces.extensions.cdi.core.impl.scope.conversation.spi.WindowContextManager.WINDOW_CONTEXT_ID_PARAMETER_KEY;
 
