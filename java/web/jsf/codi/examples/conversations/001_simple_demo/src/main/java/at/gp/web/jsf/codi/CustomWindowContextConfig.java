@@ -64,9 +64,14 @@ public class CustomWindowContextConfig extends DefaultWindowContextConfig
             private static final long serialVersionUID = 1053101351702872549L;
 
             @Override
-            public void sendRedirect(ExternalContext externalContext, String url) throws IOException
+            public void sendRedirect(ExternalContext externalContext, String url, boolean addRequestParameter) throws IOException
             {
                 createCookie(externalContext, getCurrentWindowId());
+
+                if(addRequestParameter)
+                {
+                    url = addRequestParameter(externalContext, url);
+                }
 
                 externalContext.redirect(url);
             }
