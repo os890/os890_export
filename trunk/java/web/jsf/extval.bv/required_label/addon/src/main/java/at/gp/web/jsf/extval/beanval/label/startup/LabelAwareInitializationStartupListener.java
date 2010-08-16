@@ -18,10 +18,13 @@
  */
 package at.gp.web.jsf.extval.beanval.label.startup;
 
+import at.gp.web.jsf.extval.beanval.label.DefaultRequiredLabelAddonConfiguration;
+import at.gp.web.jsf.extval.beanval.label.RequiredLabelAddonConfiguration;
 import at.gp.web.jsf.extval.beanval.label.interceptor.BeanValidationAwareLabelRendererInterceptor;
 import at.gp.web.jsf.extval.beanval.label.interceptor.MappedConstraintSourceBeanValidationAwareLabelRendererInterceptor;
 import org.apache.myfaces.extensions.validator.beanval.BeanValidationModuleValidationInterceptor;
 import org.apache.myfaces.extensions.validator.beanval.MappedConstraintSourceBeanValidationModuleValidationInterceptor;
+import org.apache.myfaces.extensions.validator.core.DefaultExtValCoreConfiguration;
 import org.apache.myfaces.extensions.validator.core.ExtValContext;
 import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListener;
 
@@ -31,8 +34,13 @@ import org.apache.myfaces.extensions.validator.core.startup.AbstractStartupListe
  */
 public class LabelAwareInitializationStartupListener extends AbstractStartupListener
 {
-    private static final long serialVersionUID = 7048249946891862447L;
 
+        @Override
+    protected void initModuleConfig()
+    {
+        RequiredLabelAddonConfiguration.use(new DefaultRequiredLabelAddonConfiguration(), false);
+    }
+    
     protected void init()
     {
         ExtValContext extValContext = ExtValContext.getContext();
@@ -57,9 +65,8 @@ public class LabelAwareInitializationStartupListener extends AbstractStartupList
 
     private void activateRequiredInitializationSupport(ExtValContext extValContext)
     {
-        extValContext.addGlobalProperty("mode:init:required", Boolean.TRUE, true);
-        // needed for some add-ons
-        // attention: you loose the compatibility with the "good old" required attribute in your pages
-        extValContext.addGlobalProperty("mode:reset:required", Boolean.TRUE, true);
+        DefaultExtValCoreConfiguration.overruleActivateRequiredInitialization(Boolean.TRUE, true);
+        DefaultExtValCoreConfiguration.overruleDeactivateRequiredAttributeSupport(Boolean.TRUE, true);
+
     }
 }
