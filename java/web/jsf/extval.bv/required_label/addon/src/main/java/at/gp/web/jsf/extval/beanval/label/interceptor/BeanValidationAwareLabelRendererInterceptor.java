@@ -18,6 +18,8 @@
  */
 package at.gp.web.jsf.extval.beanval.label.interceptor;
 
+import at.gp.web.jsf.extval.beanval.label.RequiredLabelAddonConfiguration;
+import at.gp.web.jsf.extval.beanval.label.initializer.RequiredLabelInitializer;
 import org.apache.myfaces.extensions.validator.beanval.BeanValidationModuleValidationInterceptor;
 
 import javax.faces.component.UIComponent;
@@ -25,7 +27,6 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIOutput;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
-import javax.el.ValueExpression;
 
 /**
  * @author Gerhard Petracek
@@ -33,8 +34,13 @@ import javax.el.ValueExpression;
  */
 public class BeanValidationAwareLabelRendererInterceptor extends BeanValidationModuleValidationInterceptor
 {
-    private static final String REQUIRED_MARKER = "* ";
+    private RequiredLabelInitializer requiredLabelInitializer;
 
+    private void init()
+    {
+        requiredLabelInitializer = RequiredLabelAddonConfiguration.get().getRequiredLabelInitializer();
+    }
+    
     @Override
     protected boolean processComponent(UIComponent uiComponent)
     {
@@ -58,38 +64,30 @@ public class BeanValidationAwareLabelRendererInterceptor extends BeanValidationM
 
                 if (((EditableValueHolder) targetComponent).isRequired())
                 {
-                    applyRequiredMarker(facesContext, (UIOutput) uiComponent);
+                    getRequiredLabelInitializer().configureLabel(facesContext, (UIOutput) uiComponent);
                 }
 
             }
         }
     }
 
-    private static void applyRequiredMarker(FacesContext facesContext, UIOutput uiComponent)
+    private RequiredLabelInitializer getRequiredLabelInitializer()
     {
-        ValueExpression expression = uiComponent.getValueExpression("value");
-
-        if (expression != null)
+        if(this.requiredLabelInitializer == null)
         {
-            String expressionString = expression.getExpressionString();
-            if (!expressionString.startsWith(REQUIRED_MARKER))
-            {
-                uiComponent.setValueExpression("value",
-                        facesContext.getApplication().getExpressionFactory()
-                                .createValueExpression(
-                                facesContext.getELContext(), REQUIRED_MARKER + expressionString, String.class));
-            }
+            init();
         }
-        else
-        {
-            String value = (String) uiComponent.getValue();
-            if (!value.startsWith(REQUIRED_MARKER))
-            {
-                uiComponent.setValue(REQUIRED_MARKER + value);
-            }
-        }
+        return this.requiredLabelInitializer;
     }
 
+    /**
+     * Find the editable value holder the label is pointing to with his for attribute.  If no for attribute specified,
+     * component can't be found or isn't an editable valueHolder, the method returns null.
+     *
+     * @param facesContext the faces context
+     * @param outputLabel  the output label
+     * @return the uI component
+     */
     public UIComponent findLabeledEditableComponent(FacesContext facesContext, UIComponent outputLabel)
     {
         String target = ((HtmlOutputLabel) outputLabel).getFor();
