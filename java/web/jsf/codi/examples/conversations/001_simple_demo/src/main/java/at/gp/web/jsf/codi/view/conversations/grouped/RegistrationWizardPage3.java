@@ -27,7 +27,7 @@ import static at.gp.web.jsf.codi.view.ViewIdEnum.LOGIN;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ConversationGroup;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ConversationScoped;
-import org.apache.myfaces.extensions.cdi.javaee.jsf.api.qualifier.Jsf;
+import org.apache.myfaces.extensions.cdi.jsf.api.Jsf;
 import org.apache.myfaces.extensions.cdi.message.api.MessageContext;
 import static org.apache.myfaces.extensions.cdi.message.api.payload.MessageSeverity.ERROR;
 
