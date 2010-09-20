@@ -63,7 +63,7 @@ public class LoginPage extends AbstractPage
         {
             this.loginManager.setLoggedInUser(this.userToLogIn);
 
-            this.conversation.end(); //cleanup manually - we don't wait for the time-out
+            this.conversation.close(); //cleanup manually - we don't wait for the time-out
             return navigateTo(OVERVIEW);
         }
 

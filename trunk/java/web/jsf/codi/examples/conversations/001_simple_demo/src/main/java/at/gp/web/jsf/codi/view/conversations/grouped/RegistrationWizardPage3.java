@@ -91,7 +91,7 @@ public class RegistrationWizardPage3 extends AbstractPage
         }
 
         //this call ends the whole conversation (-> all 3 page-beans get destroyed)
-        this.wizardConversation.end();
+        this.wizardConversation.close();
         return navigateTo(LOGIN);
     }
 
