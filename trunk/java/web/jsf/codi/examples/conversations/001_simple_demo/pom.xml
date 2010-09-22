@@ -99,8 +99,36 @@
 
         <!-- MyFaces CODI EXTERNAL Milestones (all-in-one version) -->
         <dependency>
-            <groupId>org.apache.myfaces.extensions.cdi</groupId>
-            <artifactId>myfaces-extcdi-dist-jsf20</artifactId>
+            <groupId>org.apache.myfaces.extensions.cdi.core</groupId>
+            <artifactId>myfaces-extcdi-core-api</artifactId>
+            <version>alpha1-m1-EXTERNAL</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.core</groupId>
+            <artifactId>myfaces-extcdi-core-impl</artifactId>
+            <version>alpha1-m1-EXTERNAL</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.modules</groupId>
+            <artifactId>myfaces-extcdi-jsf20-module-api</artifactId>
+            <version>alpha1-m1-EXTERNAL</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.modules</groupId>
+            <artifactId>myfaces-extcdi-jsf20-module-impl</artifactId>
+            <version>alpha1-m1-EXTERNAL</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.myfaces.extensions.cdi.core</groupId>
+            <artifactId>myfaces-extcdi-core-impl</artifactId>
             <version>alpha1-m1-EXTERNAL</version>
             <scope>compile</scope>
         </dependency>
