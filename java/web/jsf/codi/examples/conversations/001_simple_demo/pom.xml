@@ -12,6 +12,7 @@
 
     <properties>
         <owb.version>1.0.0-alpha-2</owb.version>
+        <myfaces.codi.version>alpha1-m1-EXTERNAL</myfaces.codi.version>
         <myfaces.version>2.0.1</myfaces.version>
         <mojarra.version>2.0.2-FCS</mojarra.version>
         <maven.jetty.plugin.version>7.1.5.v20100705</maven.jetty.plugin.version>
@@ -45,40 +46,6 @@
             <layout>default</layout>
         </repository>
 
-        <!--repository>
-            <id>java.net</id>
-            <url>http://download.java.net/maven/1</url>
-            <layout>legacy</layout>
-        </repository>
-        <repository>
-            <id>prime-repo</id>
-            <name>Prime Technology Maven Repository</name>
-            <url>http://repository.prime.com.tr/</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>os890-stable.googlecode.com</id>
-            <url>http://os890-m2-repository.googlecode.com/svn/tags/os890</url>
-        </repository>
-        <repository>
-            <id>os890-snapshots.googlecode.com</id>
-            <url>http://os890-m2-repository.googlecode.com/svn/trunk/os890</url>
-        </repository>
-        <repository>
-            <id>sandbox890-snapshots.googlecode.com</id>
-            <url>http://os890-m2-repository.googlecode.com/svn/trunk/sandbox890</url>
-        </repository>
-        <repository>
-            <id>com.springsource.repository.maven.release</id>
-            <url>http://maven.springframework.org/release/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository-->
-        <!--repository>
-            <id>glassfish</id>
-            <url>http://download.java.net/maven/glassfish</url>
-        </repository-->
     </repositories>
 
     <dependencies>
@@ -101,35 +68,28 @@
         <dependency>
             <groupId>org.apache.myfaces.extensions.cdi.core</groupId>
             <artifactId>myfaces-extcdi-core-api</artifactId>
-            <version>alpha1-m1-EXTERNAL</version>
+            <version>${myfaces.codi.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.myfaces.extensions.cdi.core</groupId>
             <artifactId>myfaces-extcdi-core-impl</artifactId>
-            <version>alpha1-m1-EXTERNAL</version>
+            <version>${myfaces.codi.version}</version>
             <scope>compile</scope>
         </dependency>
-
+       
         <dependency>
             <groupId>org.apache.myfaces.extensions.cdi.modules</groupId>
             <artifactId>myfaces-extcdi-jsf20-module-api</artifactId>
-            <version>alpha1-m1-EXTERNAL</version>
+            <version>${myfaces.codi.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.myfaces.extensions.cdi.modules</groupId>
             <artifactId>myfaces-extcdi-jsf20-module-impl</artifactId>
-            <version>alpha1-m1-EXTERNAL</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.myfaces.extensions.cdi.core</groupId>
-            <artifactId>myfaces-extcdi-core-impl</artifactId>
-            <version>alpha1-m1-EXTERNAL</version>
+            <version>${myfaces.codi.version}</version>
             <scope>compile</scope>
         </dependency>
 
