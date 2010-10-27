@@ -116,7 +116,11 @@ public class DefaultRequiredLabelInitializer implements RequiredLabelInitializer
         }
         else
         {
-            applyRequiredMarkerUsingValue(facesContext, uiOutput, (String) uiOutput.getValue());
+            String value = (String) uiOutput.getValue();
+            if (value != null)
+            {
+                applyRequiredMarkerUsingValue(facesContext, uiOutput, value);
+            }
         }
         if (setEscapeToFalse)
         {
