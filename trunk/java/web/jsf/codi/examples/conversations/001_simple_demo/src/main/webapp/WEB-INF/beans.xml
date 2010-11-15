@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
 
     <alternatives>
-        <class>at.gp.web.jsf.codi.CustomWindowHandler</class>
+        <class>at.gp.web.jsf.codi.ServerSideWindowHandler</class>
         <class>at.gp.web.jsf.codi.CodiConfig</class>
     </alternatives>
 </beans>
