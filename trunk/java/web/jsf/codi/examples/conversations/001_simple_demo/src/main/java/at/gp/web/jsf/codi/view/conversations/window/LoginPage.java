@@ -22,6 +22,9 @@ import at.gp.web.jsf.codi.domain.User;
 import at.gp.web.jsf.codi.service.UserService;
 import at.gp.web.jsf.codi.view.AbstractPage;
 import static at.gp.web.jsf.codi.view.ViewIdEnum.*;
+
+import at.gp.web.jsf.codi.view.config.Pages;
+import org.apache.myfaces.extensions.cdi.core.api.config.view.ViewConfig;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ConversationScoped;
 import org.apache.myfaces.extensions.cdi.jsf.api.Jsf;
@@ -73,9 +76,9 @@ public class LoginPage extends AbstractPage
         return navigateTo(LOGIN);
     }
 
-    public String newRegistrationGroupedConversation()
+    public Class<? extends ViewConfig> newRegistrationGroupedConversation()
     {
-        return navigateTo(GROUPED_CONVERSATION_STEP1);
+        return Pages.Conversations.Grouped.Registration_step01.class;
     }
 
     public String newRegistrationViewAccessConversation()

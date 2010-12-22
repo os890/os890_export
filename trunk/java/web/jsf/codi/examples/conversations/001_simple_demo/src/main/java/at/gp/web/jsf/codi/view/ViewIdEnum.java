@@ -25,7 +25,6 @@ public enum ViewIdEnum
 {
     LOGIN("login"),
     OVERVIEW("overview"),
-    GROUPED_CONVERSATION_STEP1("conversations/grouped/registration_step01"),
     GROUPED_CONVERSATION_STEP2("conversations/grouped/registration_step02"),
     GROUPED_CONVERSATION_STEP3("conversations/grouped/registration_step03"),
 

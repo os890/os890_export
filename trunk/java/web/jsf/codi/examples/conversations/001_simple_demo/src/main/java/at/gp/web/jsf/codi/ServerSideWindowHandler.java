@@ -18,8 +18,9 @@
  */
 package at.gp.web.jsf.codi;
 
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.config.WindowContextConfig;
 import org.apache.myfaces.extensions.cdi.jsf.impl.scope.conversation.DefaultWindowHandler;
-import org.apache.myfaces.extensions.cdi.jsf.impl.scope.conversation.spi.JsfModuleConfig;
+import org.apache.myfaces.extensions.cdi.jsf.impl.util.JsfUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
@@ -45,7 +46,7 @@ public class ServerSideWindowHandler extends DefaultWindowHandler
     }
 
     @Inject
-    protected ServerSideWindowHandler(JsfModuleConfig config)
+    protected ServerSideWindowHandler(WindowContextConfig config)
     {
         super(config);
     }
@@ -57,7 +58,7 @@ public class ServerSideWindowHandler extends DefaultWindowHandler
 
         if(addRequestParameter)
         {
-            url = addRequestParameter(externalContext, url);
+            url = JsfUtils.addRequestParameter(externalContext, url);
         }
 
         externalContext.redirect(url);

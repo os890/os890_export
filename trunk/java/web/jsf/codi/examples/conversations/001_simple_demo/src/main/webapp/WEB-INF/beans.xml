@@ -5,6 +5,5 @@
 
     <alternatives>
         <class>at.gp.web.jsf.codi.ServerSideWindowHandler</class>
-        <class>at.gp.web.jsf.codi.CodiConfig</class>
     </alternatives>
 </beans>
