@@ -22,8 +22,10 @@ import at.gp.web.jsf.codi.domain.User;
 import at.gp.web.jsf.codi.service.ExistingUserNameException;
 import at.gp.web.jsf.codi.service.UserService;
 import at.gp.web.jsf.codi.view.AbstractPage;
-import static at.gp.web.jsf.codi.view.ViewIdEnum.GROUPED_CONVERSATION_STEP1;
 import static at.gp.web.jsf.codi.view.ViewIdEnum.LOGIN;
+
+import at.gp.web.jsf.codi.view.config.Pages;
+import org.apache.myfaces.extensions.cdi.core.api.config.view.ViewConfig;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.Conversation;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ConversationGroup;
 import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.ConversationScoped;
@@ -71,7 +73,7 @@ public class RegistrationWizardPage3 extends AbstractPage
         this.registrationWizardPage2 = registrationWizardPage2;
     }
 
-    public String register()
+    public Class<? extends ViewConfig> register()
     {
         //Just as demo-case!
 
@@ -87,12 +89,13 @@ public class RegistrationWizardPage3 extends AbstractPage
                     .payload(ERROR)
                     .add();
             this.wizardConversation.restart();
-            return navigateTo(GROUPED_CONVERSATION_STEP1);
+
+            return Pages.Conversations.Grouped.Registration_step01.class;
         }
 
         //this call ends the whole conversation (-> all 3 page-beans get destroyed)
         this.wizardConversation.close();
-        return navigateTo(LOGIN);
+        return Pages.Login.class;
     }
 
     public User getNewUser()

@@ -18,17 +18,17 @@
  */
 package at.gp.web.jsf.codi;
 
-import org.apache.myfaces.extensions.cdi.jsf.impl.config.DefaultWindowContextConfig;
+import org.apache.myfaces.extensions.cdi.core.api.scope.conversation.config.WindowContextConfig;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Alternative;
+import javax.enterprise.inject.Specializes;
 
 /**
  * @author Gerhard Petracek
  */
 @ApplicationScoped
-@Alternative
-public class CodiConfig extends DefaultWindowContextConfig
+@Specializes
+public class CodiConfig extends WindowContextConfig
 {
     private static final long serialVersionUID = 759957049564249196L;
 
